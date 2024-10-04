@@ -39,3 +39,15 @@ input[type="text"] {
     padding: 10px;
     border-radius: 5px;
 }
+
+/* URL GENERATOR */
+#url-generator {
+    display: flex;
+    justify-content: start;
+    gap: 40px;
+}
+
+#url-generator > div:not(.output) {
+    max-width: 30%;
+    width: 100%;
+}
