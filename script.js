@@ -1,8 +1,58 @@
 (function() {
-    console.log('Hi');
     
 })();
 
+let brands = [{
+    brand: 'aire-serve',
+    conceptID: 3,
+    prod: 'https://www.aireserv.com/',
+    stage: 'https://dig-www-nei-asv-stage.nblytest.com/'
+},{
+    brand: 'five-star-painting',
+    conceptID: 4,
+    prod: 'https://www.fivestarpainting.com/',
+    stage: 'https://dig-www-nei-fsp-stage.nblytest.com/'
+},{
+    brand: 'grounds-guys',
+    conceptID: 6,
+    prod: 'https://www.groundsguys.com/',
+    stage: 'https://dig-www-nei-guy-stage.nblytest.com/'
+},{
+    brand: 'glass-doctor',
+    conceptID: 5,
+    prod: 'https://www.glassdoctor-us.com/',
+    stage: 'https://develop-dwyr-mdg.pantheonsite.io/'
+},{
+    brand: 'molly-maid',
+    conceptID: 1,
+    prod: 'https://www.mollymaid.com/',
+    stage: 'https://dig-www-nei-mly-stage.nblytest.com/'
+},{
+    brand: 'mr-appliance',
+    conceptID: 8,
+    prod: 'https://www.mrappliance.com/',
+    stage: 'https://dig-www-nei-mra-stage.nblytest.com/'
+},{
+    brand: 'mr-electric',
+    conceptID: 9,
+    prod: 'https://mrelectric.com/',
+    stage: 'https://dig-www-nei-mre2.nblyprod.com/'
+},{
+    brand: 'mr-handyman',
+    conceptID: 2,
+    prod: 'https://www.mrhandyman.com/',
+    stage: 'https://dig-www-nei-mrh-stage.nblytest.com/'
+},{
+    brand: 'mr-rooter',
+    conceptID: 10,
+    prod: 'https://www.mrrooter.com/',
+    stage: 'https://dig-www-nei-mrr-stage.nblytest.com/'
+},{
+    brand: 'window-genie',
+    conceptID: 16,
+    prod: 'https://www.windowgenie.com/',
+    stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/'
+}];
 
 let variationCount = 1;
 function addVariationInput() {
@@ -56,9 +106,13 @@ function generateUrls() {
             // Append the utm_medium parameter with the QA value
             urlObj.searchParams.set('utm_medium', `${qaParam}_QA`);
 
-            // Clean up _conv_eforce param if it starts with ?
+            // Clean up _conv_eforce param
             if (convParam.startsWith('?')) {
+                // If it starts with '?', replace it with '&'
                 convParam = convParam.replace('?', '&');
+            } else if (!convParam.startsWith('&')) {
+                // If it doesn't start with '?' or '&', prepend an '&'
+                convParam = '&' + convParam;
             }
 
             // Append the _conv_eforce param manually to avoid URL object escaping it
@@ -94,6 +148,44 @@ function generateUrls() {
     const outputDiv = document.getElementById('output');
     outputDiv.innerHTML = outputHtml;
 }
+
+// Generate buttons for each brand
+function generateBrandButtons() {
+    const brandButtonsDiv = document.getElementById('brand-buttons');
+    
+    brands.forEach(brand => {
+        const button = document.createElement('button');
+        button.textContent = brand.brand;
+        button.onclick = () => fillUrls(brand.prod, brand.stage);
+        brandButtonsDiv.appendChild(button);
+    });
+}
+
+// Function to fill Prod and Staging URLs
+function fillUrls(prodUrl, stageUrl) {
+    document.getElementById('prod-url').value = prodUrl;
+    document.getElementById('staging-url').value = stageUrl;
+}
+
+// Generate the brand buttons on page load
+generateBrandButtons();
+
+// Function to clear form inputs and output
+function clearFormAndOutput() {
+    document.getElementById('prod-url').value = '';
+    document.getElementById('staging-url').value = '';
+    document.getElementById('qa-param').value = '';
+    document.getElementById('output').innerHTML = ''; // Assuming you output the results in this div
+
+    // Clear all variation inputs
+    const variationInputs = document.querySelectorAll('input[id^="variation-live-qa-"]');
+    variationInputs.forEach(input => {
+        input.value = '';
+    });
+}
+
+// Attach event listener to the Clear button
+document.getElementById('clear-button').addEventListener('click', clearFormAndOutput);
 
 
 /*

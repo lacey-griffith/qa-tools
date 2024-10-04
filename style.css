@@ -41,13 +41,22 @@ input[type="text"] {
 }
 
 /* URL GENERATOR */
-#url-generator {
+#url-generator .url-generator-inner {
     display: flex;
     justify-content: start;
     gap: 40px;
 }
 
-#url-generator > div:not(.output) {
+#url-generator .url-generator-inner > div:not(.output) {
     max-width: 30%;
     width: 100%;
+}
+
+#brand-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 30%;
+    gap: 10px;
+    margin-bottom: 40px;
 }

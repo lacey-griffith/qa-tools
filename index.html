@@ -14,34 +14,38 @@
     </section>
 
     <section id="url-generator">
-        <div>
-            <h4>QA URL Form</h4>
+        <h4>QA URL Form</h4>
+        <div id="brand-buttons"></div>
 
-            <div class="form-group">
-                <label for="prod-url">Prod URL:</label>
-                <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
-            </div>
-
-            <div class="form-group">
-                <label for="staging-url">Staging URL:</label>
-                <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
-            </div>
-
-            <div class="form-group">
-                <label for="qa-param">QA Parameter:</label>
-                <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
-            </div>
-
-            <div id="variation-group-container">
-                <div class="variation-group">
-                    <label for="variation-live-qa-1">Variation Live QA Link 1:</label>
-                    <input type="text" id="variation-live-qa-1" name="variation-live-qa[]"
-                        placeholder="Enter Variation Live QA Link">
+        <div class="url-generator-inner">
+            <div>
+                <div class="form-group">
+                    <label for="prod-url">Prod URL:</label>
+                    <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
                 </div>
+    
+                <div class="form-group">
+                    <label for="staging-url">Staging URL:</label>
+                    <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
+                </div>
+    
+                <div class="form-group">
+                    <label for="qa-param">QA Parameter:</label>
+                    <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
+                </div>
+    
+                <div id="variation-group-container">
+                    <div class="variation-group">
+                        <label for="variation-live-qa-1">Variation Live QA Link 1:</label>
+                        <input type="text" id="variation-live-qa-1" name="variation-live-qa[]"
+                            placeholder="Enter Variation Live QA Link">
+                    </div>
+                </div>
+    
+                <button class="btn" type="button" onclick="addVariationInput()">Add Variations</button>
+                <button class="btn" type="button" onclick="generateUrls()">Generate</button>
+                <button class="btn" id="clear-button">Clear</button>
             </div>
-
-            <button class="btn" type="button" onclick="addVariationInput()">Add Variations</button>
-            <button class="btn" type="button" onclick="generateUrls()">Generate</button>
         </div>
 
         <div class="output" id="output"></div>
