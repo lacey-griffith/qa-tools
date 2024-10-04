@@ -4,8 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <section>
+        <h1>Tools for QA</h1>
+    </section>
+
+    <section id="url-generator">
+        <h4>QA URL Form</h4>
+
+        <div class="form-group">
+            <label for="prod-url">Prod URL:</label>
+            <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
+        </div>
     
+        <div class="form-group">
+            <label for="staging-url">Staging URL:</label>
+            <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
+        </div>
+    
+        <div class="form-group">
+            <label for="qa-param">QA Parameter:</label>
+            <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
+        </div>
+    
+        <div id="variation-group-container">
+            <div class="variation-group">
+                <label for="variation-live-qa-1">Variation Live QA Link 1:</label>
+                <input type="text" id="variation-live-qa-1" name="variation-live-qa[]" placeholder="Enter Variation Live QA Link">
+            </div>
+        </div>
+    
+        <button class="btn" type="button" onclick="addVariationInput()">Add Variations</button>
+        <button class="btn" type="button" onclick="generateUrls()">Generate</button>
+    
+        <div class="output" id="output"></div>
+    </section>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src='script.js'></script>
 </body>
 </html>
