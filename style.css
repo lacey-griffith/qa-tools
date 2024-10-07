@@ -36,28 +36,19 @@ input[type="text"] {
     margin-bottom: 10px;
 }
 
-/* tool sections */
-section.tool {
-    border-radius: 4px;
-}
-
-section.tool h4 {
-    font-size: 30px;
-    text-align: center;
-    margin: 0;
-}
-
-section .tool-inner {
-    padding: 20px;
-    width: 100%;
-}
-
 /* URL GENERATOR */
 section#url-generator {
     background-color: var(--dark-purple);
     color:#fff;
     padding: 20px;
     margin: 0 20px 30px 20px;
+    border-radius: 4px;
+}
+
+section#url-generator h4 {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 0 20px 0;
 }
 
 #url-generator .tool-inner {
@@ -201,6 +192,33 @@ button.btn.add-var:hover {
     }
 }
 
-@media only scree and (min-width: 1200px){
+@media only screen and (min-width: 1200px){
+    .tool-inner {
+        flex-direction: row;
+    }
 
+    #brand-buttons {
+        flex: 25%;
+        flex-direction: column;
+        max-height: 350px;
+        margin: 0 10px 0 0;
+        max-width: 350px;
+    }
+    .url-generator-inner {
+        flex: 75%;
+        margin-right: 30px;
+    }
+
+    body.url-generator-active .url-generator-inner {
+        flex: 35%;
+    }
+
+    body.url-generator-active .output {
+        flex: 36%;
+    }
+
+    section#url-generator {
+        max-width: 1400px;
+        margin: auto auto 30px auto;
+    }
 }
