@@ -3,52 +3,62 @@
 })();
 
 let brands = [{
-    brand: 'aire-serve',
+    brand_handle: 'aire-serve',
+    brand : 'ASV',
     conceptID: 3,
     prod: 'https://www.aireserv.com/',
     stage: 'https://dig-www-nei-asv-stage.nblytest.com/'
 },{
-    brand: 'five-star-painting',
+    brand_handle: 'five-star-painting',
+    brand : 'FSP',
     conceptID: 4,
     prod: 'https://www.fivestarpainting.com/',
     stage: 'https://dig-www-nei-fsp-stage.nblytest.com/'
 },{
-    brand: 'grounds-guys',
+    brand_handle: 'grounds-guys',
+    brand : 'GUY',
     conceptID: 6,
     prod: 'https://www.groundsguys.com/',
     stage: 'https://dig-www-nei-guy-stage.nblytest.com/'
 },{
-    brand: 'glass-doctor',
+    brand_handle: 'glass-doctor',
+    brand : 'MDG',
     conceptID: 5,
     prod: 'https://www.glassdoctor-us.com/',
     stage: 'https://develop-dwyr-mdg.pantheonsite.io/'
 },{
-    brand: 'molly-maid',
+    brand_handle: 'molly-maid',
+    brand : 'MOL',
     conceptID: 1,
     prod: 'https://www.mollymaid.com/',
     stage: 'https://dig-www-nei-mly-stage.nblytest.com/'
 },{
-    brand: 'mr-appliance',
+    brand_handle: 'mr-appliance',
+    brand : 'MRA',
     conceptID: 8,
     prod: 'https://www.mrappliance.com/',
     stage: 'https://dig-www-nei-mra-stage.nblytest.com/'
 },{
-    brand: 'mr-electric',
+    brand_handle: 'mr-electric',
+    brand : 'MRE',
     conceptID: 9,
     prod: 'https://mrelectric.com/',
     stage: 'https://dig-www-nei-mre2.nblyprod.com/'
 },{
-    brand: 'mr-handyman',
+    brand_handle: 'mr-handyman',
+    brand : 'MRH',
     conceptID: 2,
     prod: 'https://www.mrhandyman.com/',
     stage: 'https://dig-www-nei-mrh-stage.nblytest.com/'
 },{
-    brand: 'mr-rooter',
+    brand_handle: 'mr-rooter',
+    brand : 'MRR',
     conceptID: 10,
     prod: 'https://www.mrrooter.com/',
     stage: 'https://dig-www-nei-mrr-stage.nblytest.com/'
 },{
-    brand: 'window-genie',
+    brand_handle: 'window-genie',
+    brand : 'WDG',
     conceptID: 16,
     prod: 'https://www.windowgenie.com/',
     stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/'
@@ -64,7 +74,7 @@ function addVariationInput() {
 
     const newLabel = document.createElement('label');
     newLabel.setAttribute('for', 'variation-live-qa-' + variationCount);
-    newLabel.textContent = 'Variation Live QA Link ' + variationCount + ':';
+    newLabel.textContent = 'Live QA - V' + variationCount + ':';
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
@@ -84,7 +94,7 @@ function generateUrls() {
     const qaParam = document.getElementById('qa-param').value;
 
     if (!prodUrl || !qaParam) {
-        alert("Please fill in both the Prod URL and the QA Parameter.");
+        alert("Please fill Prod URL and QA Param.");
         return;
     }
 
@@ -132,13 +142,13 @@ function generateUrls() {
             const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
 
             outputHtml += `
-                <h3>Variation ${index + 1}</h3>
-                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}" target="_blank">${prodUrlWithParam}</a></p>
+                <h3>V${index + 1}</h3>
+                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>
             `;
 
             if (stagingUrlWithParam) {
                 outputHtml += `
-                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}" target="_blank">${stagingUrlWithParam}</a></p>
+                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}">${stagingUrlWithParam}</a></p>
                 `;
             }
         }
@@ -146,6 +156,8 @@ function generateUrls() {
 
     // Display the generated URLs
     const outputDiv = document.getElementById('output');
+    outputDiv.classList.add('urls-generated');
+    $('body').addClass('url-generator-active');
     outputDiv.innerHTML = outputHtml;
 }
 
@@ -156,13 +168,16 @@ function generateBrandButtons() {
     brands.forEach(brand => {
         const button = document.createElement('button');
         button.textContent = brand.brand;
-        button.onclick = () => fillUrls(brand.prod, brand.stage);
+        button.onclick = () => fillUrls(brand.prod, brand.stage,button);
         brandButtonsDiv.appendChild(button);
     });
 }
 
 // Function to fill Prod and Staging URLs
-function fillUrls(prodUrl, stageUrl) {
+function fillUrls(prodUrl, stageUrl,button) {
+    $('#brand-buttons button.active').removeClass('active');
+    button.classList.add('active');
+
     document.getElementById('prod-url').value = prodUrl;
     document.getElementById('staging-url').value = stageUrl;
 }
@@ -175,7 +190,10 @@ function clearFormAndOutput() {
     document.getElementById('prod-url').value = '';
     document.getElementById('staging-url').value = '';
     document.getElementById('qa-param').value = '';
-    document.getElementById('output').innerHTML = ''; // Assuming you output the results in this div
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('urls-generated');
+    $('#brand-buttons button.active').removeClass('active');
+    $('body').removeClass('url-generator-active');
 
     // Clear all variation inputs
     const variationInputs = document.querySelectorAll('input[id^="variation-live-qa-"]');
