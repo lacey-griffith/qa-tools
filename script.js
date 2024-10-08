@@ -75,7 +75,7 @@ let brands = [{
     stage: ''
 }*/];
 
-let variationCount = 1;
+let variationCount = 2;
 function addVariationInput() {
     variationCount++;
     const variationGroupContainer = document.getElementById('variation-group-container');
@@ -135,9 +135,7 @@ function generateUrls() {
             urlObj.searchParams.set('utm_medium', `${qaParam}`);
 
             // Clean up _conv_eforce param
-            console.log(convParam)
             if (!convParam.startsWith('&_conv_eforce=')) {
-                console.log('numbers only')
                 // If it's only the numbers, prepend &_conv_eforce=
                 if (/^\d+\.\d+$/.test(convParam)) {
                     convParam = '&_conv_eforce=' + convParam;
