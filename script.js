@@ -61,7 +61,19 @@ let brands = [{
     conceptID: 16,
     prod: 'https://www.windowgenie.com/',
     stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/'
-}];
+}/*,{
+    brand_handle: 'yoga-works',
+    brand : 'Yoga Works',
+    conceptID: 0,
+    prod: 'https://yogaworks.com/',
+    stage: ''
+},{
+    brand_handle: 'sun-home-sauna',
+    brand : 'Sun Home Saunas',
+    conceptID: 0,
+    prod: 'https://sunhomesaunas.com/',
+    stage: ''
+}*/];
 
 let variationCount = 1;
 function addVariationInput() {
@@ -154,12 +166,12 @@ function generateUrls() {
 
             outputHtml += `
                 <h3>${index === 0 ? 'OG' : 'V' + index}</h3>
-                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}" target="_blank">${prodUrlWithParam}</a></p>
+                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>
             `;
 
             if (stagingUrlWithParam) {
                 outputHtml += `
-                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}" target="_blank">${stagingUrlWithParam}</a></p>
+                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}"">${stagingUrlWithParam}</a></p>
                 `;
             }
         }

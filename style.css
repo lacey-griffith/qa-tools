@@ -194,6 +194,13 @@ button.btn.add-var:hover {
     }
 }
 
+@media only screen and (max-width: 400px){
+    #brand-buttons {
+        flex-wrap: nowrap;
+        overflow: scroll;
+    }
+}
+
 @media only screen and (min-width: 1028px){
     .url-generator-inner {
         margin-bottom: 0;
