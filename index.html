@@ -27,7 +27,7 @@
         <div class="tool-inner">
             <div id="brand-buttons"></div>
 
-            <div class="url-generator-inner">
+            <div class="url-generator-inner tool-body">
                 <div>
                     <div class="form-group">
                         <label for="prod-url">Prod URL:</label>
@@ -60,6 +60,20 @@
             <div class="output" id="output"></div>
         </div>
     </section>
+
+    <section id="fpoo-codes" class="tool">
+        <h4>FPOO Code Generator</h4>
+        <div class='tool-inner'>
+            <div class="tool-body">
+                <label for="codes">Enter codes:</label><br>
+                <input type="text" id="codes" placeholder="Insert codes">
+                <div id="url-output"></div>
+                <button class="btn" onclick="clearFPOOCodes()">Clear</button>
+                <button class="btn" onclick="generateFPOOUrls()">Generate</button>  
+            </div> 
+        </div>
+    </section>
+
     <footer>
         <div>Created by Lacey Hay</div>
     </footer>
