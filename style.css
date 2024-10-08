@@ -199,11 +199,6 @@ button.btn.add-var:hover {
     body.url-generator-active #url-generator .tool-inner {
         justify-content: space-around;
     }
-    
-    body.url-generator-active .url-generator-inner,
-    body.url-generator-active #output {
-        max-width: 47%;
-    }
 }
 
 @media only screen and (min-width: 1200px){
@@ -224,11 +219,12 @@ button.btn.add-var:hover {
     }
 
     body.url-generator-active .url-generator-inner {
-        flex: 35%;
+        margin-right: 15px;
     }
 
+    body.url-generator-active .url-generator-inner,
     body.url-generator-active .output {
-        flex: 36%;
+        flex: 35%;
     }
 
     section.tool {
