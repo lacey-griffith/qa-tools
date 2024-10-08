@@ -95,13 +95,12 @@ function generateUrls() {
     if(!prodUrl || !qaParam){
         if (!prodUrl){
             document.getElementById('prod-url').insertAdjacentHTML('afterend', '<p class="error-message">Prod URL is required.</p>');
-            return;
         }
     
         if(!qaParam){
             document.getElementById('qa-param').insertAdjacentHTML('afterend', '<p class="error-message">QA param is required.</p>');
-            return;
         }
+        return;
     }
 
     // Get all variation live QA link inputs

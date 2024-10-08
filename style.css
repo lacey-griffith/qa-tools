@@ -10,6 +10,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
+    background-color: #4D869B;
 }
 
 footer {
@@ -177,6 +178,8 @@ button.btn.add-var:hover {
     background-color: #dbdbdbc4;
     padding: 10px;
     border-radius: 4px;
+    word-break: break-all;
+    white-space: normal;
 }
 
 @media only screen and (min-width: 650px){
@@ -213,6 +216,7 @@ button.btn.add-var:hover {
         margin: 0 10px 0 0;
         max-width: 350px;
     }
+
     .url-generator-inner {
         flex: 75%;
         margin-right: 30px;
@@ -221,10 +225,11 @@ button.btn.add-var:hover {
     body.url-generator-active .url-generator-inner {
         margin-right: 15px;
     }
-
     body.url-generator-active .url-generator-inner,
     body.url-generator-active .output {
         flex: 35%;
+        margin: 0 0 20px 0;
+        max-width: 35%;
     }
 
     section.tool {
