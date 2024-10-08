@@ -61,19 +61,7 @@ let brands = [{
     conceptID: 16,
     prod: 'https://www.windowgenie.com/',
     stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/'
-}/*,{
-    brand_handle: 'yoga-works',
-    brand : 'Yoga Works',
-    conceptID: 0,
-    prod: 'https://yogaworks.com/',
-    stage: ''
-},{
-    brand_handle: 'sun-home-sauna',
-    brand : 'Sun Home Saunas',
-    conceptID: 0,
-    prod: 'https://sunhomesaunas.com/',
-    stage: ''
-}*/];
+}];
 
 let variationCount = 2;
 function addVariationInput() {
@@ -91,9 +79,9 @@ function addVariationInput() {
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
-    newInput.setAttribute('id', 'variation-live-qa-' + variationCount);
+    newInput.setAttribute('id', 'variation-live-qa-' + (variationCount-1));
     newInput.setAttribute('name', 'variation-live-qa[]');
-    newInput.setAttribute('placeholder', 'Enter Variation Live QA Link');
+    newInput.setAttribute('placeholder', 'Enter Forced Variation Snippet');
 
     newVariationGroup.appendChild(newLabel);
     newVariationGroup.appendChild(newInput);
@@ -221,8 +209,15 @@ function clearFormAndOutput() {
 
     // Clear all variation inputs
     const variationInputs = document.querySelectorAll('input[id^="variation-live-qa-"]');
+
     variationInputs.forEach(input => {
-        input.value = '';
+        // If the input's ID is not 'variation-live-qa-og' or 'variation-live-qa-1', remove it
+        if (input.id !== 'variation-live-qa-og' && input.id !== 'variation-live-qa-1') {
+            $(input).parent().remove();
+        } else {
+            input.value = '';
+        }
+        variationCount = 2
     });
 }
 
