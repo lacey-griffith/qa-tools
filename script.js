@@ -73,7 +73,9 @@ function addVariationInput() {
 
     const newLabel = document.createElement('label');
     newLabel.setAttribute('for', 'variation-live-qa-' + variationCount);
-    newLabel.textContent = 'Live QA - V' + variationCount + ':';
+    
+    // Set label for the first input as "Live QA - OG", others as "Live QA - V1", "Live QA - V2", etc.
+    newLabel.textContent = variationCount === 1 ? 'Live QA - OG:' : 'Live QA - V' + (variationCount - 1) + ':';
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
@@ -92,12 +94,11 @@ function generateUrls() {
     const stagingUrl = document.getElementById('staging-url').value;
     const qaParam = document.getElementById('qa-param').value;
 
-    if(!prodUrl || !qaParam){
-        if (!prodUrl){
+    if (!prodUrl || !qaParam) {
+        if (!prodUrl) {
             document.getElementById('prod-url').insertAdjacentHTML('afterend', '<p class="error-message">Prod URL is required.</p>');
         }
-    
-        if(!qaParam){
+        if (!qaParam) {
             document.getElementById('qa-param').insertAdjacentHTML('afterend', '<p class="error-message">QA param is required.</p>');
         }
         return;
@@ -115,8 +116,6 @@ function generateUrls() {
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
             url = 'https://' + url; // Prepend https if no protocol is provided
         }
-
-        console.log(convParam)
 
         try {
             const urlObj = new URL(url);
@@ -145,23 +144,22 @@ function generateUrls() {
         }
     }
 
-    // Generate URLs for each variation
+    // Generate URLs for each variation, starting from OG
     variationInputs.forEach((variationInput, index) => {
         const variationConvParam = variationInput.value; // Get the _conv_eforce from input
 
         if (variationConvParam) {
             const prodUrlWithParam = addQueryParams(prodUrl, qaParam, variationConvParam);
             const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
-            console.log(index);
 
             outputHtml += `
-                <h3>V${index + 1}</h3>
-                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>
+                <h3>${index === 0 ? 'OG' : 'V' + index}</h3>
+                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}" target="_blank">${prodUrlWithParam}</a></p>
             `;
 
             if (stagingUrlWithParam) {
                 outputHtml += `
-                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}">${stagingUrlWithParam}</a></p>
+                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}" target="_blank">${stagingUrlWithParam}</a></p>
                 `;
             }
         }
@@ -173,6 +171,7 @@ function generateUrls() {
     $('body').addClass('url-generator-active');
     outputDiv.innerHTML = outputHtml;
 }
+
 
 // Generate buttons for each brand
 function generateBrandButtons() {
