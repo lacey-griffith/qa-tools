@@ -46,6 +46,12 @@
 
                     <div id="variation-group-container">
                         <div class="variation-group">
+                            <label for="variation-live-qa-og">Live QA - OG:</label>
+                            <input type="text" id="variation-live-qa-og" name="variation-live-qa[]"
+                                placeholder="Enter Forced Variation Snippet">
+                        </div>
+                        
+                        <div class="variation-group">
                             <label for="variation-live-qa-1">Live QA - V1:</label>
                             <input type="text" id="variation-live-qa-1" name="variation-live-qa[]"
                                 placeholder="Enter Forced Variation Snippet">
@@ -65,7 +71,6 @@
         <h4>FPOO Codes</h4>
         <div class='tool-inner'>
             <div class="tool-body">
-                <label for="codes">Enter codes:</label><br>
                 <input type="text" id="codes" placeholder="Insert codes">
                 <div id="url-output"></div>
                 <button class="btn" onclick="clearFPOOCodes()">Clear</button>

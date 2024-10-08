@@ -119,7 +119,7 @@ function generateUrls() {
         try {
             const urlObj = new URL(url);
             // Append the utm_medium parameter with the QA value
-            urlObj.searchParams.set('utm_medium', `${qaParam}_QA`);
+            urlObj.searchParams.set('utm_medium', `${qaParam}`);
 
             // Clean up _conv_eforce param
             if (convParam.startsWith('?')) {
