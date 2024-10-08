@@ -116,18 +116,25 @@ function generateUrls() {
             url = 'https://' + url; // Prepend https if no protocol is provided
         }
 
+        console.log(convParam)
+
         try {
             const urlObj = new URL(url);
             // Append the utm_medium parameter with the QA value
             urlObj.searchParams.set('utm_medium', `${qaParam}`);
 
             // Clean up _conv_eforce param
-            if (convParam.startsWith('?')) {
-                // If it starts with '?', replace it with '&'
-                convParam = convParam.replace('?', '&');
-            } else if (!convParam.startsWith('&')) {
-                // If it doesn't start with '?' or '&', prepend an '&'
-                convParam = '&' + convParam;
+            if (!convParam.startsWith('&_conv_eforce=')) {
+                // If it's only the numbers, prepend &_conv_eforce=
+                if (/^\d+\.\d+$/.test(convParam)) {
+                    convParam = '&_conv_eforce=' + convParam;
+                } else if (convParam.startsWith('?')) {
+                    // If it starts with '?', replace it with '&'
+                    convParam = convParam.replace('?', '&');
+                } else if (!convParam.startsWith('&')) {
+                    // If it doesn't start with '?' or '&', prepend an '&'
+                    convParam = '&' + convParam;
+                }
             }
 
             // Append the _conv_eforce param manually to avoid URL object escaping it
@@ -145,6 +152,7 @@ function generateUrls() {
         if (variationConvParam) {
             const prodUrlWithParam = addQueryParams(prodUrl, qaParam, variationConvParam);
             const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
+            console.log(index);
 
             outputHtml += `
                 <h3>V${index + 1}</h3>
