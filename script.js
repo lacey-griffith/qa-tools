@@ -1,66 +1,164 @@
 /* * * * * * * * */
 /* QA URL GENERATOR */
 /* * * * * * * * */
-let brands = [{
+let brands = [
+    /* NBLY */
+    {
     brand_handle: 'aire-serve',
-    brand : 'ASV',
+    brand: 'ASV',
     conceptID: 3,
     prod: 'https://www.aireserv.com/',
-    stage: 'https://dig-www-nei-asv-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-asv-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'five-star-painting',
-    brand : 'FSP',
+    brand: 'FSP',
     conceptID: 4,
     prod: 'https://www.fivestarpainting.com/',
-    stage: 'https://dig-www-nei-fsp-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-fsp-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'grounds-guys',
-    brand : 'GUY',
+    brand: 'GUY',
     conceptID: 6,
     prod: 'https://www.groundsguys.com/',
-    stage: 'https://dig-www-nei-guy-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-guy-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'glass-doctor',
-    brand : 'MDG',
+    brand: 'MDG',
     conceptID: 5,
     prod: 'https://www.glassdoctor-us.com/',
-    stage: 'https://develop-dwyr-mdg.pantheonsite.io/'
-},{
+    stage: 'https://develop-dwyr-mdg.pantheonsite.io/',
+    neighborly: true
+}, {
     brand_handle: 'molly-maid',
-    brand : 'MOL',
+    brand: 'MOL',
     conceptID: 1,
     prod: 'https://www.mollymaid.com/',
-    stage: 'https://dig-www-nei-mly-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-mly-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'mr-appliance',
-    brand : 'MRA',
+    brand: 'MRA',
     conceptID: 8,
     prod: 'https://www.mrappliance.com/',
-    stage: 'https://dig-www-nei-mra-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-mra-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'mr-electric',
-    brand : 'MRE',
+    brand: 'MRE',
     conceptID: 9,
     prod: 'https://mrelectric.com/',
-    stage: 'https://dig-www-nei-mre2.nblyprod.com/'
-},{
+    stage: 'https://dig-www-nei-mre2.nblyprod.com/',
+    neighborly: true
+}, {
     brand_handle: 'mr-handyman',
-    brand : 'MRH',
+    brand: 'MRH',
     conceptID: 2,
     prod: 'https://www.mrhandyman.com/',
-    stage: 'https://dig-www-nei-mrh-stage.nblytest.com/'
-},{
+    stage: 'https://dig-www-nei-mrh-stage.nblytest.com/',
+    neighborly: true
+}, {
     brand_handle: 'mr-rooter',
-    brand : 'MRR',
+    brand: 'MRR',
     conceptID: 10,
     prod: 'https://www.mrrooter.com/',
-    stage: 'https://dig-www-nei-mrr-stage.nblytest.com/'
+    stage: 'https://dig-www-nei-mrr-stage.nblytest.com/',
+    neighborly: true
 },{
     brand_handle: 'window-genie',
-    brand : 'WDG',
+    brand: 'WDG',
     conceptID: 16,
     prod: 'https://www.windowgenie.com/',
-    stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/'
+    stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/',
+    neighborly: true
+},
+/* NON NBLY */
+{
+    brand_handle: 'adm',
+    brand: 'ADM',
+    conceptID: 0,
+    prod: 'https://www.adm.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'sun-home-saunas',
+    brand: 'Sun Home Saunas',
+    conceptID: 0,
+    prod: 'https://www.sunhomesaunas.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'yoga-works',
+    brand: 'Yoga Works',
+    conceptID: 0,
+    prod: 'https://www.yogaworks.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'lights-feest',
+    brand: 'Lights Festival',
+    conceptID: 0,
+    prod: 'https://www.thelightsfest.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'lancer-skincare',
+    brand: 'Lancer',
+    conceptID: 0,
+    prod: 'https://www.lancerskincare.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'lexie-hearing',
+    brand: 'Lexie Hearing',
+    conceptID: 0,
+    prod: 'https://www.lexiehearing.com/us',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'go-hearing',
+    brand: 'Go Hearing',
+    conceptID: 0,
+    prod: 'https://www.gohearing.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: '1up-nutrition',
+    brand: '1UP',
+    conceptID: 0,
+    prod: 'https://www.1upnutrition.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'emler-swim-school',
+    brand: 'Emler',
+    conceptID: 0,
+    prod: 'https://www.emlerswimschool.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'fresh-pressed-olive-oil',
+    brand: 'FPOO',
+    conceptID: 0,
+    prod: 'https://www.freshpressedoliveoil.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'moon-juice',
+    brand: 'Moon Juice',
+    conceptID: 0,
+    prod: 'https://www.moonjuice.com/',
+    stage: '',
+    neighborly: false
+},{
+    brand_handle: 'spot-loan',
+    brand: 'Spot Loan',
+    conceptID: 0,
+    prod: 'https://www.spotloan.com/',
+    stage: '',
+    neighborly: false
 }];
 
 let variationCount = 2;
@@ -73,13 +171,13 @@ function addVariationInput() {
 
     const newLabel = document.createElement('label');
     newLabel.setAttribute('for', 'variation-live-qa-' + variationCount);
-    
+
     // Set label for the first input as "Live QA - OG", others as "Live QA - V1", "Live QA - V2", etc.
     newLabel.textContent = variationCount === 1 ? 'Live QA - OG:' : 'Live QA - V' + (variationCount - 1) + ':';
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
-    newInput.setAttribute('id', 'variation-live-qa-' + (variationCount-1));
+    newInput.setAttribute('id', 'variation-live-qa-' + (variationCount - 1));
     newInput.setAttribute('name', 'variation-live-qa[]');
     newInput.setAttribute('placeholder', 'Enter Forced Variation Snippet');
 
@@ -106,7 +204,7 @@ function generateUrls() {
 
     // Get all variation live QA link inputs
     const variationInputs = document.querySelectorAll('input[name="variation-live-qa[]"]');
-    
+
     // Initialize output string
     let outputHtml = `<h2>Generated URLs</h2>`;
 
@@ -172,21 +270,21 @@ function generateUrls() {
     outputDiv.innerHTML = outputHtml;
 }
 
-
 // Generate buttons for each brand
 function generateBrandButtons() {
-    const brandButtonsDiv = document.getElementById('brand-buttons');
+    const brandDiv = document.getElementById('brand-buttons');
     
     brands.forEach(brand => {
         const button = document.createElement('button');
         button.textContent = brand.brand;
-        button.onclick = () => fillUrls(brand.prod, brand.stage,button);
-        brandButtonsDiv.appendChild(button);
+        button.onclick = () => fillUrls(brand.prod, brand.stage, button);
+        
+        brandDiv.appendChild(button);
     });
 }
 
 // Function to fill Prod and Staging URLs
-function fillUrls(prodUrl, stageUrl,button) {
+function fillUrls(prodUrl, stageUrl, button) {
     $('#brand-buttons button.active').removeClass('active');
     button.classList.add('active');
 
@@ -232,14 +330,14 @@ let copy_btn = `<button class='copy' onClick="copyText(this)">
 </button>`;
 
 let urls = [{
-    name: 'Choose', 
-    structure:'placeholder/choose'
-},{
-    name: 'SignUp', 
-    structure:'/signup/placeholder'
-},{
-    name: 'LP', 
-    structure:'placeholder/tj'
+    name: 'Choose',
+    structure: 'placeholder/choose'
+}, {
+    name: 'SignUp',
+    structure: '/signup/placeholder'
+}, {
+    name: 'LP',
+    structure: 'placeholder/tj'
 }];
 
 function codes(arr) {
@@ -251,7 +349,7 @@ function codes(arr) {
 function generateFPOOUrls() {
     // Get the input value
     let input = document.getElementById('codes').value;
-    if(input === ''){
+    if (input === '') {
         document.getElementById('codes').insertAdjacentHTML('afterend', '<p class="error-message">Please enter a code</p>');
         return;
     }
@@ -277,41 +375,41 @@ function generateFPOOUrls() {
 }
 
 /* clear error messages when input is focused */
-$('input#codes').on('change blur focus', function(){
+$('input#codes').on('change blur focus', function () {
     $('#fpoo-codes .tool-body .error-message').remove();
 });
 
-$('input#prod-url').on('change blur focus', function(){
+$('input#prod-url').on('change blur focus', function () {
     let el = $('input#prod-url').parent().find('.error-message');
     el.remove();
 });
 
-$('input#qa-param').on('change blur focus', function(){
+$('input#qa-param').on('change blur focus', function () {
     let el = $('input#qa-param').parent().find('.error-message');
     el.remove();
 });
 
 /* copy function */
 function copyText(button) {
-// Find the closest .url-list div to the clicked button
-const urlListDiv = button.closest('.url-list');
-    
-// Get the text content of all span elements inside the .url-list div
-const urlText = Array.from(urlListDiv.querySelectorAll('span'))
-                     .map(span => span.textContent)
-                     .join(' ');
+    // Find the closest .url-list div to the clicked button
+    const urlListDiv = button.closest('.url-list');
 
-// Copy the text to the clipboard
-navigator.clipboard.writeText(urlText)
-    .then(() => {
-        console.log('Text copied to clipboard:', urlText);
-    })
-    .catch(err => {
-        console.error('Failed to copy text:', err);
-    });
-  }
+    // Get the text content of all span elements inside the .url-list div
+    const urlText = Array.from(urlListDiv.querySelectorAll('span'))
+        .map(span => span.textContent)
+        .join(' ');
 
-function clearFPOOCodes(){
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(urlText)
+        .then(() => {
+            console.log('Text copied to clipboard:', urlText);
+        })
+        .catch(err => {
+            console.error('Failed to copy text:', err);
+        });
+}
+
+function clearFPOOCodes() {
     document.getElementById('codes').value = '';
     document.getElementById('url-output').innerHTML = '';
 }
