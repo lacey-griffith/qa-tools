@@ -67,6 +67,50 @@
         </div>
     </section>
 
+    <section id="qa-form-generator" class="tool">
+        <h4>QA Form</h4>
+        <div class="tool-inner">
+            <div class="tool-body">
+                <form id="qaForm">
+                    <label for="name">Reviewer Name:</label>
+                    <input type="text" id="name" name="name"><br>
+                
+                    <label for="title">Test Title:</label>
+                    <input type="text" id="title" name="title"><br>
+                
+                    <label for="test-id">Test ID:</label>
+                    <input type="text" id="test-id" name="test-id"><br>
+                
+                    <label>Which brand is being tested?</label><br>
+                    <div id="brandCheckboxes" class="checkbox-container"></div>
+                
+                    <label>What ares of the site are impacted?</label><br>
+                    <div id="impactAreasCheckboxes" class="checkbox-container"></div>
+                
+                    <label>What platforms have you tested?</label><br>
+                    <div id="platformsTestedCheckboxes" class="checkbox-container"></div>
+                
+                    <label>What elements were reviewed?</label><br>
+                    <div id="elementsReviewedCheckboxes" class="checkbox-container"></div>
+                
+                    <label>What physical devices were used?</label><br>
+                    <div id='devicesCheckboxes' class="checkbox-container"></div>
+                
+                    <label>What browsers were used?</label><br>
+                    <div id='browserCheckboxes' class="checkbox-container"></div>
+                
+                    <label>What environments were tested?</label><br>
+                    <div id='environmentCheckboxes' class="checkbox-container"></div>
+                
+                    <label>Additional Notes:</label><br>
+                    <textarea id="additional-notes"></textarea><br>
+                
+                    <button class='btn' type="button" onclick="generatePDF()">Download PDF</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <section id="fpoo-codes" class="tool">
         <h4>FPOO Codes</h4>
         <div class='tool-inner'>
@@ -86,7 +130,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src='script.js'></script>
+    <script src='script_URLGeneratorTool.js'></script>
+    <script src='script_FPOOtool.js'></script>
+    <script src='script_QAFormTool.js'></script>
 </body>
 
 </html>

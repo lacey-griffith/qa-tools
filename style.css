@@ -29,6 +29,7 @@ footer {
 label {
     font-weight: bold;
     display: block;
+    line-height: 1.2;
 }
 
 input[type="text"] {
@@ -273,4 +274,24 @@ button.copy {
     #url-output {
         flex-direction: row;
     }
+}
+/* * * * * * * * * * * * * */
+/* END FPOO URL GENERATOR */
+/* * * * * * * * * * * * */
+
+/* * * * * * * * * *  */
+/* QA FORM GENERATOR */
+/* * * * * * * * *  */
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.checkbox-container p.error-message {
+    width: 100%;
+    margin-top: 10px;
 }
