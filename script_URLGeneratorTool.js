@@ -91,8 +91,8 @@ let brands = [
     prod: 'https://www.windowgenie.com/',
     stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.windowgenie.com/west-austin',
+    staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin'
 },
 /* NON NBLY */
 {
