@@ -9,70 +9,90 @@ let brands = [
     conceptID: 3,
     prod: 'https://www.aireserv.com/',
     stage: 'https://dig-www-nei-asv-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'https://www.aireserv.com/jacksonville',
+    staging_local_homepage:'https://dig-www-nei-asv-stage.nblytest.com/jacksonville'
 }, {
     brand_handle: 'five-star-painting',
     brand: 'FSP',
     conceptID: 4,
     prod: 'https://www.fivestarpainting.com/',
     stage: 'https://dig-www-nei-fsp-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'grounds-guys',
     brand: 'GUY',
     conceptID: 6,
     prod: 'https://www.groundsguys.com/',
     stage: 'https://dig-www-nei-guy-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'glass-doctor',
     brand: 'MDG',
     conceptID: 5,
     prod: 'https://www.glassdoctor.com/',
     stage: 'https://develop-dwyr-mdg.pantheonsite.io/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'molly-maid',
     brand: 'MOL',
     conceptID: 1,
     prod: 'https://www.mollymaid.com/',
     stage: 'https://dig-www-nei-mly-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'mr-appliance',
     brand: 'MRA',
     conceptID: 8,
     prod: 'https://www.mrappliance.com/',
     stage: 'https://dig-www-nei-mra-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'mr-electric',
     brand: 'MRE',
     conceptID: 9,
     prod: 'https://mrelectric.com/',
     stage: 'https://dig-www-nei-mre2.nblyprod.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'https://mrelectric.com/san-antonio',
+    staging_local_homepage:'https://dig-www-nei-mre2.nblyprod.com/san-antonio'
 }, {
     brand_handle: 'mr-handyman',
     brand: 'MRH',
     conceptID: 2,
     prod: 'https://www.mrhandyman.com/',
     stage: 'https://dig-www-nei-mrh-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 }, {
     brand_handle: 'mr-rooter',
     brand: 'MRR',
     conceptID: 10,
     prod: 'https://www.mrrooter.com/',
     stage: 'https://dig-www-nei-mrr-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'https://www.mrrooter.com/austin',
+    staging_local_homepage:'https://dig-www-nei-mrr-stage.nblytest.com/austin'
 },{
     brand_handle: 'window-genie',
     brand: 'WDG',
     conceptID: 16,
     prod: 'https://www.windowgenie.com/',
     stage: 'https://dig-www-nei-wdg2-stage.nblytest.com/',
-    neighborly: true
+    neighborly: true,
+    prod_local_homepage:'',
+    staging_local_homepage:''
 },
 /* NON NBLY */
 {
@@ -187,6 +207,7 @@ function addVariationInput() {
     variationGroupContainer.appendChild(newVariationGroup);
 }
 
+/*
 function generateUrls() {
     const prodUrl = document.getElementById('prod-url').value;
     const stagingUrl = document.getElementById('staging-url').value;
@@ -269,6 +290,87 @@ function generateUrls() {
     $('body').addClass('url-generator-active');
     outputDiv.innerHTML = outputHtml;
 }
+*/
+function generateUrls() {
+    const prodUrl = document.getElementById('prod-url').value;
+    const stagingUrl = document.getElementById('staging-url').value;
+    const qaParam = document.getElementById('qa-param').value;
+    const localPagesChecked = document.getElementById('local-pages').checked;
+
+    if (!prodUrl || !qaParam) {
+        if (!prodUrl) {
+            document.getElementById('prod-url').insertAdjacentHTML('afterend', '<p class="error-message">Prod URL is required.</p>');
+        }
+        if (!qaParam) {
+            document.getElementById('qa-param').insertAdjacentHTML('afterend', '<p class="error-message">QA param is required.</p>');
+        }
+        return;
+    }
+
+    const variationInputs = document.querySelectorAll('input[name="variation-live-qa[]"]');
+    let outputHtml = `<h2>Generated URLs</h2>`;
+
+    function addQueryParams(url, qaParam, convParam) {
+        if (!url) return '';
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+
+        try {
+            const urlObj = new URL(url);
+            urlObj.searchParams.set('utm_medium', `${qaParam}`);
+
+            if (!convParam.startsWith('&_conv_eforce=')) {
+                if (/^\d+\.\d+$/.test(convParam)) {
+                    convParam = '&_conv_eforce=' + convParam;
+                } else if (convParam.startsWith('?')) {
+                    convParam = convParam.replace('?', '&');
+                } else if (!convParam.startsWith('&')) {
+                    convParam = '&' + convParam;
+                }
+            }
+
+            return urlObj.toString() + convParam;
+        } catch (error) {
+            console.error('Invalid URL:', url);
+            return '';
+        }
+    }
+
+    variationInputs.forEach((variationInput, index) => {
+        const variationConvParam = variationInput.value;
+        if (variationConvParam) {
+            const prodUrlWithParam = addQueryParams(prodUrl, qaParam, variationConvParam);
+            const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
+
+            outputHtml += `<h3>${index === 0 ? 'OG' : 'V' + index}</h3>
+                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>`;
+
+            if (stagingUrlWithParam) {
+                outputHtml += `<p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}">${stagingUrlWithParam}</a></p>`;
+            }
+
+            if (localPagesChecked) {
+                const brand = brands.find(b => b.prod === prodUrl);  // Assuming prod URL matches the brand
+                if (brand && brand.prod_local_homepage && brand.staging_local_homepage) {
+                    const prodLocalWithParam = addQueryParams(brand.prod_local_homepage, qaParam, variationConvParam);
+                    const stagingLocalWithParam = addQueryParams(brand.staging_local_homepage, qaParam, variationConvParam);
+
+                    outputHtml += `
+                        <p><strong>Prod Local Homepage URL:</strong> <a href="${prodLocalWithParam}">${prodLocalWithParam}</a></p>
+                        <p><strong>Staging Local Homepage URL:</strong> <a href="${stagingLocalWithParam}">${stagingLocalWithParam}</a></p>
+                    `;
+                }
+            }
+        }
+    });
+
+    const outputDiv = document.getElementById('output');
+    outputDiv.classList.add('urls-generated');
+    $('body').addClass('url-generator-active');
+    outputDiv.innerHTML = outputHtml;
+}
+
 
 // Generate buttons for each brand
 function generateBrandButtons() {
@@ -277,8 +379,20 @@ function generateBrandButtons() {
     brands.forEach(brand => {
         const button = document.createElement('button');
         button.textContent = brand.brand;
+        button.setAttribute('data-neighborly', brand.neighborly)
         button.onclick = () => fillUrls(brand.prod, brand.stage, button);
         
+        // Add an event listener for when the button is clicked
+        button.addEventListener('click', function() {
+        let isNeighborly = button.getAttribute('data-neighborly') === 'true';
+        
+        if (!isNeighborly) {
+            // Uncheck the local pages checkbox if it's a non-NBLY brand
+            document.querySelector('#local-pages').checked = false;
+        }
+        // Handle other button click functionality here
+    });
+
         brandDiv.appendChild(button);
     });
 }
