@@ -129,6 +129,12 @@ function generatePDF() {
     doc.text("Additional Notes: ", 10, 50 + (pdfContent.length * 10));
     doc.text(notes, 10, 60 + (pdfContent.length * 10));
 
+    // Get the container element
+    const brandContainer = document.getElementById('brandCheckboxes');
+    // Find all checked checkboxes within that container
+    const checkedBrands = brandContainer.querySelectorAll('input[type="checkbox"]:checked');
+    console.log(checkedBrands[0].value);
+    console.log(testTitle)
     // Save the generated PDF
     doc.save("QA_Form.pdf");
 }

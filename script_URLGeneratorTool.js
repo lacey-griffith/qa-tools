@@ -28,7 +28,7 @@ let brands = [
     brand_handle: 'glass-doctor',
     brand: 'MDG',
     conceptID: 5,
-    prod: 'https://www.glassdoctor-us.com/',
+    prod: 'https://www.glassdoctor.com/',
     stage: 'https://develop-dwyr-mdg.pantheonsite.io/',
     neighborly: true
 }, {
