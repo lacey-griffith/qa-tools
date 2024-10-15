@@ -19,8 +19,8 @@ let brands = [
     prod: 'https://www.fivestarpainting.com/',
     stage: 'https://dig-www-nei-fsp-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.fivestarpainting.com/lagrange/',
+    staging_local_homepage:'https://dig-www-nei-fsp-stage.nblytest.com/lagrange'
 }, {
     brand_handle: 'grounds-guys',
     brand: 'GUY',
@@ -28,8 +28,8 @@ let brands = [
     prod: 'https://www.groundsguys.com/',
     stage: 'https://dig-www-nei-guy-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.groundsguys.com/sparksnv/',
+    staging_local_homepage:'https://dig-www-nei-guy-stage.nblytest.com/sparksnv'
 }, {
     brand_handle: 'glass-doctor',
     brand: 'MDG',
@@ -37,8 +37,8 @@ let brands = [
     prod: 'https://www.glassdoctor.com/',
     stage: 'https://develop-dwyr-mdg.pantheonsite.io/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.glassdoctor.com/chelmsford',
+    staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/chelmsford/'
 }, {
     brand_handle: 'molly-maid',
     brand: 'MOL',
@@ -46,8 +46,8 @@ let brands = [
     prod: 'https://www.mollymaid.com/',
     stage: 'https://dig-www-nei-mly-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.mollymaid.com/chelmsford/',
+    staging_local_homepage:'https://dig-www-nei-mly-stage.nblytest.com/chelmsford/'
 }, {
     brand_handle: 'mr-appliance',
     brand: 'MRA',
@@ -55,8 +55,8 @@ let brands = [
     prod: 'https://www.mrappliance.com/',
     stage: 'https://dig-www-nei-mra-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.mrappliance.com/indianapolis/',
+    staging_local_homepage:'https://dig-www-nei-mra-stage.nblytest.com/indianapolis/'
 }, {
     brand_handle: 'mr-electric',
     brand: 'MRE',
@@ -73,8 +73,8 @@ let brands = [
     prod: 'https://www.mrhandyman.com/',
     stage: 'https://dig-www-nei-mrh-stage.nblytest.com/',
     neighborly: true,
-    prod_local_homepage:'',
-    staging_local_homepage:''
+    prod_local_homepage:'https://www.mrhandyman.com/south-essex-county/',
+    staging_local_homepage:'https://dig-www-nei-mrh-stage.nblytest.com/south-essex-county/'
 }, {
     brand_handle: 'mr-rooter',
     brand: 'MRR',
@@ -113,7 +113,7 @@ let brands = [
     brand_handle: 'yoga-works',
     brand: 'Yoga Works',
     conceptID: 0,
-    prod: 'https://www.yogaworks.com/',
+    prod: 'https://yogaworks.com/',
     stage: '',
     neighborly: false
 },{
@@ -151,14 +151,14 @@ let brands = [
     prod: 'https://www.1upnutrition.com/',
     stage: '',
     neighborly: false
-},{
+},/*{
     brand_handle: 'emler-swim-school',
     brand: 'Emler',
     conceptID: 0,
     prod: 'https://www.emlerswimschool.com/',
     stage: '',
     neighborly: false
-},{
+},*/{
     brand_handle: 'fresh-pressed-olive-oil',
     brand: 'FPOO',
     conceptID: 0,

@@ -18,8 +18,15 @@ function generateCheckboxes(options, containerId, name) {
         label.htmlFor = checkbox.id;
         label.textContent = option;
 
-        container.appendChild(checkbox);
-        container.appendChild(label);
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('checkbox-wrapper');
+        wrapper.appendChild(checkbox);
+        wrapper.appendChild(label);
+
+
+        //container.appendChild(checkbox);
+        //container.appendChild(label);
+        container.appendChild(wrapper)
         container.appendChild(document.createElement('br'));
 
         // Add event listener to remove error message when this checkbox is checked
