@@ -22,6 +22,10 @@ footer {
     color: #88BAC8;
 }
 
+.hidden {
+    display: none;
+}
+
 .form-group {
     margin-bottom: 15px;
 }

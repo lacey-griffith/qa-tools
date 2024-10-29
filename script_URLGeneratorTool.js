@@ -207,90 +207,6 @@ function addVariationInput() {
     variationGroupContainer.appendChild(newVariationGroup);
 }
 
-/*
-function generateUrls() {
-    const prodUrl = document.getElementById('prod-url').value;
-    const stagingUrl = document.getElementById('staging-url').value;
-    const qaParam = document.getElementById('qa-param').value;
-
-    if (!prodUrl || !qaParam) {
-        if (!prodUrl) {
-            document.getElementById('prod-url').insertAdjacentHTML('afterend', '<p class="error-message">Prod URL is required.</p>');
-        }
-        if (!qaParam) {
-            document.getElementById('qa-param').insertAdjacentHTML('afterend', '<p class="error-message">QA param is required.</p>');
-        }
-        return;
-    }
-
-    // Get all variation live QA link inputs
-    const variationInputs = document.querySelectorAll('input[name="variation-live-qa[]"]');
-
-    // Initialize output string
-    let outputHtml = `<h2>Generated URLs</h2>`;
-
-    // Function to append the QA param and _conv_eforce to the URLs
-    function addQueryParams(url, qaParam, convParam) {
-        if (!url) return ''; // Return empty string if the URL is invalid or empty
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            url = 'https://' + url; // Prepend https if no protocol is provided
-        }
-
-        try {
-            const urlObj = new URL(url);
-            // Append the utm_medium parameter with the QA value
-            urlObj.searchParams.set('utm_medium', `${qaParam}`);
-
-            // Clean up _conv_eforce param
-            if (!convParam.startsWith('&_conv_eforce=')) {
-                // If it's only the numbers, prepend &_conv_eforce=
-                if (/^\d+\.\d+$/.test(convParam)) {
-                    convParam = '&_conv_eforce=' + convParam;
-                } else if (convParam.startsWith('?')) {
-                    // If it starts with '?', replace it with '&'
-                    convParam = convParam.replace('?', '&');
-                } else if (!convParam.startsWith('&')) {
-                    // If it doesn't start with '?' or '&', prepend an '&'
-                    convParam = '&' + convParam;
-                }
-            }
-
-            // Append the _conv_eforce param manually to avoid URL object escaping it
-            return urlObj.toString() + convParam;
-        } catch (error) {
-            console.error('Invalid URL:', url); // Log the invalid URL
-            return ''; // Return an empty string for invalid URLs
-        }
-    }
-
-    // Generate URLs for each variation, starting from OG
-    variationInputs.forEach((variationInput, index) => {
-        const variationConvParam = variationInput.value; // Get the _conv_eforce from input
-
-        if (variationConvParam) {
-            const prodUrlWithParam = addQueryParams(prodUrl, qaParam, variationConvParam);
-            const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
-
-            outputHtml += `
-                <h3>${index === 0 ? 'OG' : 'V' + index}</h3>
-                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>
-            `;
-
-            if (stagingUrlWithParam) {
-                outputHtml += `
-                    <p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}"">${stagingUrlWithParam}</a></p>
-                `;
-            }
-        }
-    });
-
-    // Display the generated URLs
-    const outputDiv = document.getElementById('output');
-    outputDiv.classList.add('urls-generated');
-    $('body').addClass('url-generator-active');
-    outputDiv.innerHTML = outputHtml;
-}
-*/
 function generateUrls() {
     const prodUrl = document.getElementById('prod-url').value;
     const stagingUrl = document.getElementById('staging-url').value;
@@ -318,7 +234,7 @@ function generateUrls() {
 
         try {
             const urlObj = new URL(url);
-            urlObj.searchParams.set('utm_medium', `${qaParam}`);
+            urlObj.searchParams.set('utm_medium', qaParam);
 
             if (!convParam.startsWith('&_conv_eforce=')) {
                 if (/^\d+\.\d+$/.test(convParam)) {
@@ -358,8 +274,8 @@ function generateUrls() {
 
                     outputHtml += `
                         <p><strong>Prod Local Homepage URL:</strong> <a href="${prodLocalWithParam}">${prodLocalWithParam}</a></p>
-                        <p><strong>Staging Local Homepage URL:</strong> <a href="${stagingLocalWithParam}">${stagingLocalWithParam}</a></p>
-                    `;
+                        <p><strong>Staging Local Homepage URL:</strong> <a href="${stagingLocalWithParam}">${stagingLocalWithParam}</a></p>`
+                    ;
                 }
             }
         }
