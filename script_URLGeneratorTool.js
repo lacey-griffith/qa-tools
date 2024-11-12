@@ -41,10 +41,10 @@ let brands = [
     staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/chelmsford/'
 }, {
     brand_handle: 'molly-maid',
-    brand: 'MOL',
+    brand: 'MLY',
     conceptID: 1,
     prod: 'https://www.mollymaid.com/',
-    stage: 'https://dig-www-nei-mly-stage.nblytest.com/',
+    stage: 'https://dig-www-nei-mly2-stage.nblytest.com/',
     neighborly: true,
     prod_local_homepage:'https://www.mollymaid.com/chelmsford/',
     staging_local_homepage:'https://dig-www-nei-mly-stage.nblytest.com/chelmsford/'
