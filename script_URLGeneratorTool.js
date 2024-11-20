@@ -589,9 +589,9 @@ $('input#qa-param').on('change blur focus', function () {
     let el = $('input#qa-param').parent().find('.error-message');
     el.remove();
 });
-
-$('#prod-url').val('https://www.mrhandyman.com/')
-$('#staging-url').val('https://dig-www-nei-mrh-stage.nblytest.com/');
-$('#variation-og').val('https://www.mrhandyman.com/?convert_action=convert_vpreview&convert_e=100454435&convert_v=1004134174');
-$('#variation-1').val('https://www.mrhandyman.com/?convert_action=convert_vpreview&convert_e=100454435&convert_v=1004134175');
-//$('#').value = '';
+/*
+$('#prod-url').val('')
+$('#staging-url').val('');
+$('#variation-og').val('');
+$('#variation-1').val('');
+*/
