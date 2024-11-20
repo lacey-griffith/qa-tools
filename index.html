@@ -18,10 +18,6 @@
 </head>
 
 <body>
-    <section>
-        <h1></h1>
-    </section>
-
     <section id="url-generator" class="tool">
         <h4>Live QA URL Generator</h4>
         <div class="tool-inner">
@@ -29,9 +25,15 @@
 
             <div class="url-generator-inner tool-body">
                 <div>
-                    <div class="form-group checkbox-container">
-                        <input type="checkbox" id="local-pages" name="local-pages">
-                        <label for="local-pages">Local Pages</label>
+                    <div>
+                        <div class="form-group checkbox-container">
+                            <input type="checkbox" id="local-pages" name="local-pages">
+                            <label for="local-pages">Local Pages</label>
+                        </div>
+                        <div class="form-group checkbox-container">
+                            <input type="checkbox" id="national-pages" name="national-pages" checked>
+                            <label for="national-pages">National Pages</label>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -43,7 +45,7 @@
                         <label for="staging-url">Staging URL:</label>
                         <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="qa-param">QA Parameter:</label>
                         <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
@@ -51,15 +53,15 @@
 
                     <div id="variation-group-container">
                         <div class="variation-group">
-                            <label for="variation-live-qa-og">Live QA - OG:</label>
-                            <input type="text" id="variation-live-qa-og" name="variation-live-qa[]"
-                                placeholder="Enter OG Forced Variation Snippet">
+                            <label for="variation-og">OG:</label>
+                            <input type="text" id="variation-og" name="variation-live-qa[]"
+                                placeholder="Enter Preview Link">
                         </div>
 
                         <div class="variation-group">
-                            <label for="variation-live-qa-1">Live QA - V1:</label>
-                            <input type="text" id="variation-live-qa-1" name="variation-live-qa[]"
-                                placeholder="Enter Forced Variation Snippet">
+                            <label for="variation-1">V1:</label>
+                            <input type="text" id="variation-1" name="variation-live-qa[]"
+                                placeholder="Enter Preview Link">
                         </div>
                         <button class="btn add-var" type="button" onclick="addVariationInput()">+</button>
                     </div>
@@ -72,6 +74,7 @@
         </div>
     </section>
 
+
     <section id="qa-form-generator" class="tool hidden">
         <h4>QA Form</h4>
         <div class="tool-inner">
@@ -79,37 +82,37 @@
                 <form id="qaForm">
                     <label for="name">Reviewer Name:</label>
                     <input type="text" id="name" name="name"><br>
-                
+
                     <label for="title">Test Title:</label>
                     <input type="text" id="title" name="title" placeholder="CF 00 - Experiment Title"><br>
-                
+
                     <label for="test-id">Test ID:</label>
                     <input type="text" id="test-id" name="test-id"><br>
-                
+
                     <label>Which brand is being tested?</label><br>
                     <div id="brandCheckboxes" class="checkbox-container"></div>
-                
+
                     <label>What ares of the site are impacted?</label><br>
                     <div id="impactAreasCheckboxes" class="checkbox-container"></div>
-                
+
                     <label>What platforms have you tested?</label><br>
                     <div id="platformsTestedCheckboxes" class="checkbox-container"></div>
-                
+
                     <label>What elements were reviewed?</label><br>
                     <div id="elementsReviewedCheckboxes" class="checkbox-container"></div>
-                
+
                     <label>What physical devices were used?</label><br>
                     <div id='devicesCheckboxes' class="checkbox-container"></div>
-                
+
                     <label>What browsers were used?</label><br>
                     <div id='browserCheckboxes' class="checkbox-container"></div>
-                
+
                     <label>What environments were tested?</label><br>
                     <div id='environmentCheckboxes' class="checkbox-container"></div>
-                
+
                     <label>Additional Notes:</label><br>
                     <textarea id="additional-notes"></textarea><br>
-                
+
                     <button class='btn' type="button" onclick="generatePDF()">Download PDF</button>
                 </form>
             </div>
@@ -123,8 +126,8 @@
                 <input type="text" id="codes" placeholder="Insert codes">
                 <div id="url-output"></div>
                 <button class="btn" onclick="clearFPOOCodes()">Clear</button>
-                <button class="btn" onclick="generateFPOOUrls()">Generate</button>  
-            </div> 
+                <button class="btn" onclick="generateFPOOUrls()">Generate</button>
+            </div>
         </div>
     </section>
 
@@ -136,7 +139,7 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src='script.js'></script>
     <script src='script_URLGeneratorTool.js'></script>
     <script src='script_FPOOtool.js'></script>

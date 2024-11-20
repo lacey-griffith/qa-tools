@@ -190,16 +190,16 @@ function addVariationInput() {
     newVariationGroup.className = 'variation-group';
 
     const newLabel = document.createElement('label');
-    newLabel.setAttribute('for', 'variation-live-qa-' + variationCount);
+    newLabel.setAttribute('for', 'variation-' + variationCount);
 
     // Set label for the first input as "Live QA - OG", others as "Live QA - V1", "Live QA - V2", etc.
-    newLabel.textContent = variationCount === 1 ? 'Live QA - OG:' : 'Live QA - V' + (variationCount - 1) + ':';
+    newLabel.textContent = variationCount === 1 ? 'OG:' : 'V' + (variationCount - 1) + ':';
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
-    newInput.setAttribute('id', 'variation-live-qa-' + (variationCount - 1));
-    newInput.setAttribute('name', 'variation-live-qa[]');
-    newInput.setAttribute('placeholder', 'Enter Forced Variation Snippet');
+    newInput.setAttribute('id', 'variation-' + (variationCount - 1));
+    newInput.setAttribute('name', 'variation-[]');
+    newInput.setAttribute('placeholder', 'Enter Preview Link');
 
     newVariationGroup.appendChild(newLabel);
     newVariationGroup.appendChild(newInput);
@@ -207,85 +207,312 @@ function addVariationInput() {
     variationGroupContainer.appendChild(newVariationGroup);
 }
 
+/*
 function generateUrls() {
-    const prodUrl = document.getElementById('prod-url').value;
-    const stagingUrl = document.getElementById('staging-url').value;
-    const qaParam = document.getElementById('qa-param').value;
-    const localPagesChecked = document.getElementById('local-pages').checked;
+    const prodUrl = document.getElementById('prod-url')?.value.trim();
+    const stagingUrl = document.getElementById('staging-url')?.value.trim();
+    const qaParam = document.getElementById('qa-param')?.value.trim();  // QA Param
+    const nationalPagesChecked = document.getElementById('national-pages')?.checked;  // National Pages checkbox
+    const localPagesChecked = document.getElementById('local-pages')?.checked;  // Local Pages checkbox (renamed to National Pages)
 
-    if (!prodUrl || !qaParam) {
-        if (!prodUrl) {
-            document.getElementById('prod-url').insertAdjacentHTML('afterend', '<p class="error-message">Prod URL is required.</p>');
-        }
-        if (!qaParam) {
-            document.getElementById('qa-param').insertAdjacentHTML('afterend', '<p class="error-message">QA param is required.</p>');
-        }
+    // Validate checkboxes
+    if (!localPagesChecked && !nationalPagesChecked) {
+        alert('Please select at least one option: Local Pages or National Pages.');
         return;
     }
 
-    const variationInputs = document.querySelectorAll('input[name="variation-live-qa[]"]');
-    let outputHtml = `<h2>Generated URLs</h2>`;
+    // Ensure Prod URL is provided
+    if (!prodUrl) {
+        alert('Prod URL is required.');
+        return;
+    }
 
-    function addQueryParams(url, qaParam, convParam) {
-        if (!url) return '';
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            url = 'https://' + url;
-        }
+    // Select all variation input elements
+    const variationInputs = document.querySelectorAll('input[name^="variation-"]');
+    if (variationInputs.length === 0) {
+        alert('No variation links provided.');
+        return;
+    }
 
+    let previewLinksHtml = '';
+    let liveQaLinksHtml = '';
+
+    // Helper function to extract parameters from a URL
+    function extractConvertParams(url) {
         try {
-            const urlObj = new URL(url);
-            urlObj.searchParams.set('utm_medium', qaParam);
+            const urlObj = new URL(url.trim());
+            const action = urlObj.searchParams.get('convert_action');
+            const eParam = urlObj.searchParams.get('convert_e');
+            const vParam = urlObj.searchParams.get('convert_v');
 
-            if (!convParam.startsWith('&_conv_eforce=')) {
-                if (/^\d+\.\d+$/.test(convParam)) {
-                    convParam = '&_conv_eforce=' + convParam;
-                } else if (convParam.startsWith('?')) {
-                    convParam = convParam.replace('?', '&');
-                } else if (!convParam.startsWith('&')) {
-                    convParam = '&' + convParam;
-                }
+            if (action === 'convert_vpreview' && eParam && vParam) {
+                return { eParam, vParam };
+            } else {
+                console.warn('Invalid convert preview link:', url);
+                return null;
             }
-
-            return urlObj.toString() + convParam;
         } catch (error) {
-            console.error('Invalid URL:', url);
-            return '';
+            console.error('Error parsing variation link:', url, error);
+            return null;
         }
     }
 
     variationInputs.forEach((variationInput, index) => {
-        const variationConvParam = variationInput.value;
-        if (variationConvParam) {
-            const prodUrlWithParam = addQueryParams(prodUrl, qaParam, variationConvParam);
-            const stagingUrlWithParam = stagingUrl ? addQueryParams(stagingUrl, qaParam, variationConvParam) : '';
+        const variationLink = variationInput.value.trim();
+        const variationName = index === 0 ? 'OG' : `V${index}`;
 
-            outputHtml += `<h3>${index === 0 ? 'OG' : 'V' + index}</h3>
-                <p><strong>Prod URL:</strong> <a href="${prodUrlWithParam}">${prodUrlWithParam}</a></p>`;
+        if (!variationLink) {
+            previewLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Variation link is empty.</p>`;
+            liveQaLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Variation link is empty.</p>`;
+            return;
+        }
 
-            if (stagingUrlWithParam) {
-                outputHtml += `<p><strong>Staging URL:</strong> <a href="${stagingUrlWithParam}">${stagingUrlWithParam}</a></p>`;
+        const params = extractConvertParams(variationLink);
+        if (!params) {
+            previewLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+            liveQaLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+            return;
+        }
+
+        const { eParam, vParam } = params;
+
+        // Preview Links
+        previewLinksHtml += `<h3>${variationName}</h3>`;
+        // National Pages first
+        if (nationalPagesChecked) {
+            const nationalPreviewProd = `${prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+            const nationalPreviewStaging = stagingUrl
+                ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+                : '';
+            previewLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
+            if (nationalPreviewStaging) {
+                previewLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
             }
+        }
 
-            if (localPagesChecked) {
-                const brand = brands.find(b => b.prod === prodUrl);  // Assuming prod URL matches the brand
-                if (brand && brand.prod_local_homepage && brand.staging_local_homepage) {
-                    const prodLocalWithParam = addQueryParams(brand.prod_local_homepage, qaParam, variationConvParam);
-                    const stagingLocalWithParam = addQueryParams(brand.staging_local_homepage, qaParam, variationConvParam);
+        // Local Pages (using the brand object)
+        if (localPagesChecked) {
+            const brand = brands.find(b => b.prod === prodUrl); // Find the correct brand object based on prodUrl
+            if (brand) {
+                const localPreviewProd = `${brand.prod_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+                const localPreviewStaging = brand.staging_local_homepage
+                    ? `${brand.staging_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+                    : '';
+                previewLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
+                if (localPreviewStaging) {
+                    previewLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
+                }
+            }
+        }
 
-                    outputHtml += `
-                        <p><strong>Prod Local Homepage URL:</strong> <a href="${prodLocalWithParam}">${prodLocalWithParam}</a></p>
-                        <p><strong>Staging Local Homepage URL:</strong> <a href="${stagingLocalWithParam}">${stagingLocalWithParam}</a></p>`
-                    ;
+        // Live QA Links (conditionally including QA Param)
+        let liveQaQuery = `?convert_e=${eParam}&convert_v=${vParam}`;
+        if (qaParam) {
+            liveQaQuery = `?utm_medium=${qaParam}&convert_e=${eParam}&convert_v=${vParam}`;
+        }
+
+        liveQaLinksHtml += `<h3>${variationName}</h3>`;
+        // National Pages first
+        if (nationalPagesChecked) {
+            const nationalQaProd = `${prodUrl}${liveQaQuery}`;
+            const nationalQaStaging = stagingUrl
+                ? `${stagingUrl}${liveQaQuery}`
+                : '';
+            liveQaLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
+            if (nationalQaStaging) {
+                liveQaLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
+            }
+        }
+
+        // Local Pages (using the brand object)
+        if (localPagesChecked) {
+            const brand = brands.find(b => b.prod === prodUrl); // Find the correct brand object based on prodUrl
+            if (brand) {
+                const localQaProd = `${brand.prod_local_homepage}${liveQaQuery}`;
+                const localQaStaging = brand.staging_local_homepage
+                    ? `${brand.staging_local_homepage}${liveQaQuery}`
+                    : '';
+                liveQaLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
+                if (localQaStaging) {
+                    liveQaLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
                 }
             }
         }
     });
 
     const outputDiv = document.getElementById('output');
-    outputDiv.classList.add('urls-generated');
-    $('body').addClass('url-generator-active');
-    outputDiv.innerHTML = outputHtml;
+    if (previewLinksHtml || liveQaLinksHtml) {
+        outputDiv.classList.add('urls-generated');
+        outputDiv.innerHTML = `
+            <div>
+                <h2>Preview Links</h2>
+                ${previewLinksHtml || '<p>No Preview Links generated. Please check your inputs.</p>'}
+            </div>
+            <div>
+                <h2>Live QA Links</h2>
+                ${liveQaLinksHtml || '<p>No Live QA Links generated. Please check your inputs.</p>'}
+            </div>
+        `;
+    } else {
+        outputDiv.innerHTML = '<p>No URLs were generated. Please check your inputs.</p>';
+    }
+}*/
+function generateUrls() {
+    const prodUrl = document.getElementById('prod-url')?.value.trim();
+    const stagingUrl = document.getElementById('staging-url')?.value.trim();
+    const qaParam = document.getElementById('qa-param')?.value.trim();
+    const nationalPagesChecked = document.getElementById('national-pages')?.checked;
+    const localPagesChecked = document.getElementById('local-pages')?.checked;
+
+    // Validate checkboxes
+    if (!localPagesChecked && !nationalPagesChecked) {
+        alert('Please select at least one option: Local Pages or National Pages.');
+        return;
+    }
+
+    // Ensure Prod URL is provided
+    if (!prodUrl) {
+        alert('Prod URL is required.');
+        return;
+    }
+
+    // Select all variation input elements
+    const variationInputs = document.querySelectorAll('input[name^="variation-"]');
+    if (variationInputs.length === 0) {
+        alert('No variation links provided.');
+        return;
+    }
+
+    let previewLinksHtml = '';
+    let liveQaLinksHtml = '';
+
+    // Helper function to extract parameters from a URL
+    function extractConvertParams(url) {
+        try {
+            const urlObj = new URL(url.trim());
+            const action = urlObj.searchParams.get('convert_action');
+            const eParam = urlObj.searchParams.get('convert_e');
+            const vParam = urlObj.searchParams.get('convert_v');
+
+            if (action === 'convert_vpreview' && eParam && vParam) {
+                return { eParam, vParam };
+            } else {
+                console.warn('Invalid or missing parameters in variation link:', url);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error parsing variation link:', url, error);
+            return null;
+        }
+    }
+
+    variationInputs.forEach((variationInput, index) => {
+        const variationLink = variationInput.value.trim();
+        const variationName = index === 0 ? 'OG' : `V${index}`;
+
+        if (!variationLink) {
+            previewLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Variation link is empty.</p>`;
+            liveQaLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Variation link is empty.</p>`;
+            return;
+        }
+
+        const params = extractConvertParams(variationLink);
+        if (!params) {
+            previewLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+            liveQaLinksHtml += `<h3>${variationName}</h3>
+                <p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+            return;
+        }
+
+        const { eParam, vParam } = params;
+
+        // Preview Links
+        previewLinksHtml += `<h3>${variationName}</h3>`;
+        if (nationalPagesChecked) {
+            const nationalPreviewProd = `${prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+            const nationalPreviewStaging = stagingUrl
+                ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+                : '';
+            previewLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
+            if (nationalPreviewStaging) {
+                previewLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
+            }
+        }
+
+        if (localPagesChecked) {
+            const brand = brands.find(b => b.prod === prodUrl); 
+            if (brand) {
+                const localPreviewProd = `${brand.prod_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+                const localPreviewStaging = brand.staging_local_homepage
+                    ? `${brand.staging_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+                    : '';
+                previewLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
+                if (localPreviewStaging) {
+                    previewLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
+                }
+            }
+        }
+
+        // Live QA Links
+        let liveQaQuery = `?_conv_eforce=${eParam}.${vParam}`;
+
+        if (qaParam) {
+            liveQaQuery = `?utm_medium=${qaParam}&_conv_eforce=${eParam}.${vParam}`;
+        }
+
+        liveQaLinksHtml += `<h3>${variationName}</h3>`;
+        if (nationalPagesChecked) {
+            const nationalQaProd = `${prodUrl}${liveQaQuery}`;
+            const nationalQaStaging = stagingUrl
+                ? `${stagingUrl}${liveQaQuery}`
+                : '';
+            liveQaLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
+            if (nationalQaStaging) {
+                liveQaLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
+            }
+        }
+
+        if (localPagesChecked) {
+            const brand = brands.find(b => b.prod === prodUrl); 
+            if (brand) {
+                const localQaProd = `${brand.prod_local_homepage}${liveQaQuery}`;
+                const localQaStaging = brand.staging_local_homepage
+                    ? `${brand.staging_local_homepage}${liveQaQuery}`
+                    : '';
+                liveQaLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
+                if (localQaStaging) {
+                    liveQaLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
+                }
+            }
+        }
+    });
+
+    const outputDiv = document.getElementById('output');
+    if (previewLinksHtml || liveQaLinksHtml) {
+        outputDiv.classList.add('urls-generated');
+        outputDiv.innerHTML = `
+            <div>
+                <h2>Preview Links</h2>
+                ${previewLinksHtml || '<p>No Preview Links generated. Please check your inputs.</p>'}
+            </div>
+            <div>
+                <h2>Live QA Links</h2>
+                ${liveQaLinksHtml || '<p>No Live QA Links generated. Please check your inputs.</p>'}
+            </div>
+        `;
+    } else {
+        outputDiv.innerHTML = '<p>No URLs were generated. Please check your inputs.</p>';
+    }
 }
+
+
 
 
 // Generate buttons for each brand
@@ -336,11 +563,11 @@ function clearFormAndOutput() {
     $('body').removeClass('url-generator-active');
 
     // Clear all variation inputs
-    const variationInputs = document.querySelectorAll('input[id^="variation-live-qa-"]');
+    const variationInputs = document.querySelectorAll('input[id^="variation-"]');
 
     variationInputs.forEach(input => {
         // If the input's ID is not 'variation-live-qa-og' or 'variation-live-qa-1', remove it
-        if (input.id !== 'variation-live-qa-og' && input.id !== 'variation-live-qa-1') {
+        if (input.id !== 'variation-og' && input.id !== 'variation-1') {
             $(input).parent().remove();
         } else {
             input.value = '';
@@ -362,3 +589,9 @@ $('input#qa-param').on('change blur focus', function () {
     let el = $('input#qa-param').parent().find('.error-message');
     el.remove();
 });
+
+$('#prod-url').val('https://www.mrhandyman.com/')
+$('#staging-url').val('https://dig-www-nei-mrh-stage.nblytest.com/');
+$('#variation-og').val('https://www.mrhandyman.com/?convert_action=convert_vpreview&convert_e=100454435&convert_v=1004134174');
+$('#variation-1').val('https://www.mrhandyman.com/?convert_action=convert_vpreview&convert_e=100454435&convert_v=1004134175');
+//$('#').value = '';
