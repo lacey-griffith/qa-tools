@@ -47,7 +47,7 @@ let brands = [
     stage: 'https://dig-www-nei-mly2-stage.nblytest.com/',
     neighborly: true,
     prod_local_homepage:'https://www.mollymaid.com/chelmsford/',
-    staging_local_homepage:'https://dig-www-nei-mly-stage.nblytest.com/chelmsford/'
+    staging_local_homepage:'https://dig-www-nei-mly2-stage.nblytest.com/chelmsford/'
 }, {
     brand_handle: 'mr-appliance',
     brand: 'MRA',
