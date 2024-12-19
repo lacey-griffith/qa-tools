@@ -74,6 +74,18 @@
         </div>
     </section>
 
+    <section id="random-zipcode" class="tool">
+        <div class="tool-inner">
+            <div class="tool-body">
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" placeholder="Enter City">
+                </div>
+                <button class="btn" type="button" onclick="getZips()">Go</button>
+            </div>
+        </div>
+        <div id="zip-result"></div>
+    </section>
 
     <section id="qa-form-generator" class="tool hidden">
         <h4>QA Form</h4>
@@ -142,6 +154,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src='script.js'></script>
     <script src='script_URLGeneratorTool.js'></script>
+    <script src='script_RandomZip.js'></script>
     <script src='script_FPOOtool.js'></script>
     <script src='script_QAFormTool.js'></script>
 </body>
