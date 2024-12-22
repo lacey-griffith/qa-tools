@@ -19,62 +19,9 @@
 
 <body>
     <section id="url-generator" class="tool">
-        <h4>Live QA URL Generator</h4>
-        <div class="tool-inner">
-            <div id="brand-buttons" class="brand-btn-container"></div>
-
-            <div class="url-generator-inner tool-body">
-                <div>
-                    <div>
-                        <div class="form-group checkbox-container">
-                            <input type="checkbox" id="local-pages" name="local-pages">
-                            <label for="local-pages">Local Pages</label>
-                        </div>
-                        <div class="form-group checkbox-container">
-                            <input type="checkbox" id="national-pages" name="national-pages" checked>
-                            <label for="national-pages">National Pages</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prod-url">Prod URL:</label>
-                        <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="staging-url">Staging URL:</label>
-                        <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="qa-param">QA Parameter:</label>
-                        <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
-                    </div>
-
-                    <div id="variation-group-container">
-                        <div class="variation-group">
-                            <label for="variation-og">OG:</label>
-                            <input type="text" id="variation-og" name="variation-live-qa[]"
-                                placeholder="Enter Preview Link">
-                        </div>
-
-                        <div class="variation-group">
-                            <label for="variation-1">V1:</label>
-                            <input type="text" id="variation-1" name="variation-live-qa[]"
-                                placeholder="Enter Preview Link">
-                        </div>
-                        <button class="btn add-var" type="button" onclick="addVariationInput()">+</button>
-                    </div>
-                    <button class="btn" id="clear-button">Clear</button>
-                    <button class="btn" type="button" onclick="generateUrls()">Generate</button>
-                </div>
-            </div>
-
-            <div class="output" id="output"></div>
-        </div>
     </section>
 
-    <section id="random-zipcode" class="tool">
+    <section id="random-zipcode" class="tool hidden">
         <div class="tool-inner">
             <div class="tool-body">
                 <div class="form-group">
