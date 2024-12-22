@@ -218,11 +218,12 @@ const updateLabel = (label) => {
 };
 
 function addSection(){
+
     let url_markup = `<h4>QA URL Generator</h4>
         <div class="tool-inner">
             <div id="brand-buttons" class="brand-btn-container"></div>
 
-            <div class="url-generator-inner tool-body">
+            <div class="url-generator-inner tool-body nbly-form">
                 <div>
                     <div>
                         <div class="form-group checkbox-container">
@@ -274,7 +275,7 @@ function addSection(){
 
         $('section#url-generator').append(url_markup);
 
-        $('#variation-group-container .variation-group').each((i,eL) => {
+        $('section#url-generator #variation-group-container .variation-group').each((i,eL) => {
             let label = $(eL).find('label');
             labelEditor(label);
         });
@@ -359,7 +360,7 @@ function generateUrls() {
 
     variationInputs.forEach((variationInput, index) => {
         const variationLink = variationInput.value.trim();
-        const variationName = index === 0 ? 'OG' : `V${index}`;
+        const variationName = $(variationInput).prev('label').text();
 
         if (!variationLink) {
             previewLinksHtml += `<h3>${variationName}</h3>
@@ -381,15 +382,15 @@ function generateUrls() {
         const { eParam, vParam } = params;
 
         // Preview Links
-        previewLinksHtml += `<h3>${variationName}</h3>`;
+        //previewLinksHtml += `<h2>${variationName}</h2>`;
         if (nationalPagesChecked) {
             const nationalPreviewProd = `${prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
             const nationalPreviewStaging = stagingUrl
                 ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
                 : '';
-            previewLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
+            previewLinksHtml += `<h3>National - ${variationName}</h3><p><strong>Prod:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
             if (nationalPreviewStaging) {
-                previewLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
+                previewLinksHtml += `<p><strong>Stage:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
             }
         }
 
@@ -400,9 +401,9 @@ function generateUrls() {
                 const localPreviewStaging = brand.staging_local_homepage
                     ? `${brand.staging_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
                     : '';
-                previewLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
+                previewLinksHtml += `<h3>Local - ${variationName}</h3><p><strong>Prod:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
                 if (localPreviewStaging) {
-                    previewLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
+                    previewLinksHtml += `<p><strong>Stage:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
                 }
             }
         }
@@ -414,15 +415,15 @@ function generateUrls() {
             liveQaQuery = `?utm_medium=${qaParam}&_conv_eforce=${eParam}.${vParam}`;
         }
 
-        liveQaLinksHtml += `<h3>${variationName}</h3>`;
+        //liveQaLinksHtml += `<h2>${variationName}</h2>`;
         if (nationalPagesChecked) {
             const nationalQaProd = `${prodUrl}${liveQaQuery}`;
             const nationalQaStaging = stagingUrl
                 ? `${stagingUrl}${liveQaQuery}`
                 : '';
-            liveQaLinksHtml += `<p><strong>Prod National:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
+            liveQaLinksHtml += `<h3> National - ${variationName}</h3><p><strong>Prod:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
             if (nationalQaStaging) {
-                liveQaLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
+                liveQaLinksHtml += `<p><strong>Stage:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
             }
         }
 
@@ -433,9 +434,9 @@ function generateUrls() {
                 const localQaStaging = brand.staging_local_homepage
                     ? `${brand.staging_local_homepage}${liveQaQuery}`
                     : '';
-                liveQaLinksHtml += `<p><strong>Prod Local:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
+                liveQaLinksHtml += `<h3>Local - ${variationName}</h3><p><strong>Prod:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
                 if (localQaStaging) {
-                    liveQaLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
+                    liveQaLinksHtml += `<p><strong>Stage:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
                 }
             }
         }
@@ -540,9 +541,10 @@ $('input#qa-param').on('change blur focus', function () {
     el.remove();
 });
 
-/*
-$('#prod-url').val('')
-$('#staging-url').val('');
-$('#variation-og').val('');
-$('#variation-1').val('');
+/* USE MRE CF 34 
+$('#prod-url').val('https://mrelectric.com/')
+$('#staging-url').val('https://dig-www-nei-mre2.nblyprod.com/');
+
+$('#variation-og').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293134');
+$('#variation-1').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293135');
 */
