@@ -183,22 +183,17 @@ let brands = [
 
 // Variation Label editing
 const labelEditor = (label) => {
-    console.log(label);
     label.attr('contenteditable','true');
 
     label.on('click', function(){
         let text = $(this).text();
-        $(this).replaceWith(`<input class="editing-label"/>`);
-        $('input.editing-label').val(text);
-        labelEditorEvents();
+        $(this).replaceWith(`<input class="editing-label" autofocus/>`);
+        $('input.editing-label').val(text).focus();
+        labelEditorEvents(text);
     });
 };
 
-function labelEditorEvents(){
-    $('input.editing-label').on('focus', () => {
-        console.log('input on focus!!')
-    });
-
+function labelEditorEvents(OgText){
     $('input.editing-label').on('blur keydown', function(e){
         //only trigger for enter key
         if(e.type ==='keydown' && e.keyCode !== 13){
@@ -206,11 +201,9 @@ function labelEditorEvents(){
         }
 
         e.preventDefault();
-        console.log('blur')
         let text = $(this).val();
-
-        if(text !== undefined && text !== ''){
-            console.log(text);
+        if(text === ''){
+            text = OgText;
         }
 
         let labelFor = $(this).next('input').attr('id');
@@ -521,6 +514,11 @@ function clearFormAndOutput() {
         // If the input's ID is not 'variation-live-qa-og' or 'variation-live-qa-1', remove it
         if (input.id !== 'variation-og' && input.id !== 'variation-1') {
             $(input).parent().remove();
+            if(input.id === 'variation-og'){
+                input.prev('label').text('OG:');
+            } else if(input.id === 'variation-1'){
+                input.prev('label').text('V1:');
+            }
         } else {
             input.value = '';
         }
