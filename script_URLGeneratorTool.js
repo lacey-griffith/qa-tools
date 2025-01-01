@@ -218,7 +218,7 @@ const updateLabel = (label) => {
 };
 
 function addSection(){
-
+console.log('hitting add section');
     let url_markup = `<h4>QA URL Generator</h4>
         <div class="tool-inner">
             <div id="brand-buttons" class="brand-btn-container"></div>
