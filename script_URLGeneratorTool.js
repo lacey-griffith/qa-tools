@@ -309,8 +309,6 @@ function addVariationInput() {
 }
 
 function generateUrls() {
-    console.log('generate clicked');
-
     const prodUrl = document.getElementById('prod-url')?.value.trim();
     const stagingUrl = document.getElementById('staging-url')?.value.trim();
     const qaParam = document.getElementById('qa-param')?.value.trim();
