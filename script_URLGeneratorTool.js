@@ -37,8 +37,8 @@ let brands = [
     prod: 'https://www.glassdoctor.com/',
     stage: 'https://develop-dwyr-mdg.pantheonsite.io/',
     neighborly: true,
-    prod_local_homepage:'https://www.glassdoctor.com/chelmsford',
-    staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/chelmsford/'
+    prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
+    staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/tacoma-wa/'
 }, {
     brand_handle: 'molly-maid',
     brand: 'MLY',

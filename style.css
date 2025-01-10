@@ -102,7 +102,7 @@ p.error-message {
     justify-content: center;
 }
 
-.brand-btn-container {
+#url-generator .brand-btn-container {
     width: 100%;
     margin-bottom: 20px;
     max-width: 800px;
@@ -112,7 +112,7 @@ p.error-message {
     text-align: center;
 }
 
-.brand-btn-container button {
+#url-generator .brand-btn-container button {
     background-color: transparent;
     color: #fff;
     border: 1px solid #fff;
@@ -126,24 +126,24 @@ p.error-message {
     cursor: pointer;
 }
 
-.brand-btn-container button:hover {
+#url-generator .brand-btn-container button:hover {
     background-color: #4D869B;
 }
 
-.brand-btn-container button.active {
+#url-generator .brand-btn-container button.active {
     background-color: #4D869B;
 }
 
-.variation-group {
+#url-generator .variation-group {
     margin-bottom: 10px;
 }
 
-div#variation-group-container {
+#url-generator div#variation-group-container {
     position: relative;
     margin-bottom: 25px;
 }
 
-button.btn.add-var {
+#url-generator button.btn.add-var {
     position: absolute;
     bottom: -20px;
     max-width: max-content;
@@ -157,13 +157,13 @@ button.btn.add-var {
     border-color: #336063 !important;
 }
 
-button.btn.add-var:hover {
+#url-generator button.btn.add-var:hover {
     color: #fff !important;
     background-color: #336063 !important;
 }
 
 /* output container */
-.output.urls-generated {
+#url-generator .output.urls-generated {
     width: 100%;
     max-width: 800px;
     border-radius: 4px;
@@ -171,14 +171,14 @@ button.btn.add-var:hover {
     margin: 0 auto 20px auto;
 }
 
-.output.urls-generated > div {
+#url-generator  .output.urls-generated > div {
     background-color: #fff;
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 10px;
 }
 
-.output p {
+#url-generator  .output p {
     background-color: #dbdbdbc4;
     padding: 10px;
     border-radius: 4px;
@@ -187,7 +187,7 @@ button.btn.add-var:hover {
 }
 
 @media only screen and (min-width: 1028px){
-    .url-generator-inner {
+    #url-generator  .url-generator-inner {
         margin-bottom: 0;
     }
 
@@ -201,7 +201,7 @@ button.btn.add-var:hover {
         flex-direction: row;
     }
 
-    .brand-btn-container {
+    #url-generator .brand-btn-container {
         max-height: 500px;
         margin: 0 10px 0 0;
         max-width: 49%;
@@ -211,16 +211,173 @@ button.btn.add-var:hover {
         height: 100%;
     }
 
-    .brand-btn-container button {
+    #url-generator .brand-btn-container button {
         width: 125px;
     }
 
-    .url-generator-inner {
+    #url-generator .url-generator-inner {
         flex: 50%;
         margin: 0 0 20px auto !important;
     }
 
-    .output.urls-generated {
+    #url-generator  .output.urls-generated {
+        max-width: unset;
+    }
+
+    section.tool {
+        max-width: 1400px;
+        margin: auto auto 30px auto;
+    }
+}
+/* * * * * * * * * * * * */
+/* END QA URL GENERATOR */
+/* * * * * * * * * * * */
+
+  /* * * * * * * * * * * */
+ /*  START QA TOOL 2.0  */
+/* * * * * * * * * * * */
+
+section.tool .tool-body.transparent-background {
+    background-color: transparent;
+    display: none;
+}
+
+#url-gen .brand-btn-container.initial {
+    flex-direction: row;
+    justify-content: space-evenly;
+    max-width: unset;
+}
+
+#url-gen div#form {
+    min-height: 650px;
+}
+
+#url-gen .tool-inner {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#url-gen .brand-btn-container {
+    width: 100%;
+    margin-bottom: 20px;
+    max-width: 800px;
+    height: 300px;
+    overflow: scroll;
+    display: block;
+    text-align: center;
+}
+
+#url-gen .brand-btn-container button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    margin: 3px 5px;
+    padding: 10px;
+    width: auto;
+    min-width: 175px;
+    max-height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#url-gen .brand-btn-container button:hover {
+    background-color: #4D869B;
+}
+
+#url-gen .brand-btn-container button.active {
+    background-color: #4D869B;
+}
+
+#url-gen .variation-group {
+    margin-bottom: 10px;
+}
+
+#url-gen div#variation-group-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+#url-gen button.btn.add-var {
+    position: absolute;
+    bottom: -20px;
+    max-width: max-content;
+    min-width: unset !important;
+    max-height: unset !important;
+    height: 10px;
+    line-height: 2px;
+    margin: 0 !important;
+    color: #336063 !important;
+    background-color: transparent !important;
+    border-color: #336063 !important;
+}
+
+#url-gen button.btn.add-var:hover {
+    color: #fff !important;
+    background-color: #336063 !important;
+}
+
+/* output container */
+#url-gen .output.urls-generated {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 4px;
+    color: #000;
+    margin: 0 auto 20px auto;
+}
+
+#url-gen .output.urls-generated > div {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+#url-gen  .output p {
+    background-color: #dbdbdbc4;
+    padding: 10px;
+    border-radius: 4px;
+    word-break: break-all;
+    white-space: normal;
+}
+
+@media only screen and (min-width: 1028px){
+    #url-gen .url-generator-inner {
+        margin-bottom: 0;
+    }
+
+    body.url-generator-active #url-gen .tool-inner {
+        justify-content: space-around;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    .tool-inner {
+        flex-direction: row;
+    }
+
+    #url-gen .brand-btn-container {
+        max-height: 500px;
+        margin: 0 10px 0 0;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 100%;
+    }
+
+    #url-gen .brand-btn-container button {
+        width: 125px;
+    }
+
+    #url-gen .url-generator-inner {
+        flex: 50%;
+        margin: 0 0 20px auto !important;
+    }
+
+    #url-gen  .output.urls-generated {
         max-width: unset;
     }
 
@@ -230,8 +387,8 @@ button.btn.add-var:hover {
     }
 }
 
-/* * * * * * * * * * * * */
-/* END QA URL GENERATOR */
+  /* * * * * * * * * * * */
+ /*   END QA TOOL 2.0   */
 /* * * * * * * * * * * */
 
 
