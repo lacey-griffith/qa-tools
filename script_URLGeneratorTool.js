@@ -246,6 +246,16 @@ function addSection(){
                     </div>
 
                     <div class="form-group">
+                        <label for="local-prod-url">Local Prod URL:</label>
+                        <input type="text" id="local-prod-url" name="local-prod-url" placeholder="Enter Local Prod URL">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="local-stage-url">Local Stage URL:</label>
+                        <input type="text" id="local-stage-url" name="local-stage-url" placeholder="Enter Local Stage URL">
+                    </div>
+
+                    <div class="form-group">
                         <label for="qa-param">QA Parameter:</label>
                         <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
                     </div>
@@ -311,6 +321,8 @@ function addVariationInput() {
 function generateUrls() {
     const prodUrl = document.getElementById('prod-url')?.value.trim();
     const stagingUrl = document.getElementById('staging-url')?.value.trim();
+    const localURL = document.getElementById('local-url')?.value.trim();
+
     const qaParam = document.getElementById('qa-param')?.value.trim();
     const nationalPagesChecked = document.getElementById('national-pages')?.checked;
     const localPagesChecked = document.getElementById('local-pages')?.checked;
@@ -394,7 +406,7 @@ function generateUrls() {
         }
 
         if (localPagesChecked) {
-            const brand = brands.find(b => b.prod === prodUrl); 
+            const brand = brands.find(b => b.prod === prodUrl);
             if (brand) {
                 const localPreviewProd = `${brand.prod_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
                 const localPreviewStaging = brand.staging_local_homepage
@@ -467,7 +479,7 @@ function generateBrandButtons() {
         const button = document.createElement('button');
         button.textContent = brand.brand;
         button.setAttribute('data-neighborly', brand.neighborly)
-        button.onclick = () => fillUrls(brand.prod, brand.stage, button);
+        button.onclick = () => fillUrls(brand.prod, brand.stage, brand.prod_local_homepage, brand.staging_local_homepage, button);
         
         // Add an event listener for when the button is clicked
         button.addEventListener('click', function() {
@@ -485,12 +497,15 @@ function generateBrandButtons() {
 }
 
 // Function to fill Prod and Staging URLs
-function fillUrls(prodUrl, stageUrl, button) {
+function fillUrls(prodUrl, stageUrl, localProd, localStage, button) {
     $('#brand-buttons button.active').removeClass('active');
     button.classList.add('active');
 
     document.getElementById('prod-url').value = prodUrl;
     document.getElementById('staging-url').value = stageUrl;
+    document.getElementById('local-prod-url').value = localProd;
+    document.getElementById('local-stage-url').value = localStage;
+
 }
 
 // Generate the brand buttons on page load
@@ -501,6 +516,9 @@ generateBrandButtons();
 function clearFormAndOutput() {
     document.getElementById('prod-url').value = '';
     document.getElementById('staging-url').value = '';
+    document.getElementById('local-stage-url').value = '';
+    document.getElementById('local-prod-url').value = '';
+
     document.getElementById('qa-param').value = '';
     document.getElementById('output').innerHTML = '';
     document.getElementById('output').classList.remove('urls-generated');
