@@ -547,7 +547,6 @@ function clearFormAndOutput() {
 // Attach event listener to the Clear buttons
 document.getElementById('clear-button').addEventListener('click', clearFormAndOutput);
 
-
 $('input#prod-url').on('change blur focus', function () {
     let el = $('input#prod-url').parent().find('.error-message');
     el.remove();
