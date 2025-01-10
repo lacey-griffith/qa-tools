@@ -399,9 +399,9 @@ function generateUrls() {
             const nationalPreviewStaging = stagingUrl
                 ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
                 : '';
-            previewLinksHtml += `<h3>National - ${variationName}</h3><p><strong>Prod:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
+            previewLinksHtml += `<h3>${variationName}</h3><p><strong>National Prod:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
             if (nationalPreviewStaging) {
-                previewLinksHtml += `<p><strong>Stage:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
+                previewLinksHtml += `<p><strong>National Stage:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
             }
         }
 
@@ -412,9 +412,9 @@ function generateUrls() {
                 const localPreviewStaging = brand.staging_local_homepage
                     ? `${brand.staging_local_homepage}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
                     : '';
-                previewLinksHtml += `<h3>Local - ${variationName}</h3><p><strong>Prod:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
+                previewLinksHtml += `<h3>${variationName}</h3><p><strong>Prod Local:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
                 if (localPreviewStaging) {
-                    previewLinksHtml += `<p><strong>Stage:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
+                    previewLinksHtml += `<p><strong>Prod Stage:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
                 }
             }
         }
@@ -432,9 +432,9 @@ function generateUrls() {
             const nationalQaStaging = stagingUrl
                 ? `${stagingUrl}${liveQaQuery}`
                 : '';
-            liveQaLinksHtml += `<h3> National - ${variationName}</h3><p><strong>Prod:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
+            liveQaLinksHtml += `<h3>${variationName}</h3><p><strong>Prod National:</strong> <a href="${nationalQaProd}" target="_blank">${nationalQaProd}</a></p>`;
             if (nationalQaStaging) {
-                liveQaLinksHtml += `<p><strong>Stage:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
+                liveQaLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalQaStaging}" target="_blank">${nationalQaStaging}</a></p>`;
             }
         }
 
@@ -445,9 +445,9 @@ function generateUrls() {
                 const localQaStaging = brand.staging_local_homepage
                     ? `${brand.staging_local_homepage}${liveQaQuery}`
                     : '';
-                liveQaLinksHtml += `<h3>Local - ${variationName}</h3><p><strong>Prod:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
+                liveQaLinksHtml += `<h3>${variationName}</h3><p><strong>Stage Prod:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
                 if (localQaStaging) {
-                    liveQaLinksHtml += `<p><strong>Stage:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
+                    liveQaLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
                 }
             }
         }
