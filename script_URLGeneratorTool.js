@@ -49,6 +49,15 @@ let brands = [
     prod_local_homepage:'https://www.mollymaid.com/chelmsford/',
     staging_local_homepage:'https://dig-www-nei-mly2-stage.nblytest.com/chelmsford/'
 }, {
+    brand_handle: 'mosquito-joe',
+    brand: 'MOJ',
+    conceptID: 18,
+    prod: 'https://mosquitojoe.com/',
+    stage: 'https://dig-www-nei-moj2-stage.nblytest.com/',
+    neighborly: true,
+    prod_local_homepage:'https://mosquitojoe.com/locations/northern-delaware/',
+    staging_local_homepage:'https://dig-www-nei-moj2-stage.nblytest.com/locations/northern-delaware/'
+},{
     brand_handle: 'mr-appliance',
     brand: 'MRA',
     conceptID: 8,
@@ -93,15 +102,6 @@ let brands = [
     neighborly: true,
     prod_local_homepage:'https://www.windowgenie.com/west-austin',
     staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin'
-},{
-    brand_handle: 'mosquito-joe',
-    brand: 'MOJ',
-    conceptID: 18,
-    prod: 'https://mosquitojoe.com/',
-    stage: 'https://dig-www-nei-moj2-stage.nblytest.com/',
-    neighborly: true,
-    prod_local_homepage:'https://mosquitojoe.com/locations/northern-delaware/',
-    staging_local_homepage:'https://dig-www-nei-moj2-stage.nblytest.com/locations/northern-delaware/'
 },
 /* NON NBLY */
 {
