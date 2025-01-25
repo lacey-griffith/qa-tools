@@ -94,6 +94,7 @@ p.error-message {
  /* QA URL GENERATOR */
 /*  * * * * * * * * */
 
+/* Brand Buttons */
 #url-generator .tool-inner {
     padding: 10px;
     width: 100%;
@@ -134,6 +135,16 @@ p.error-message {
     background-color: #4D869B;
 }
 
+/* checkbox container */
+.error-msg {
+    display: none;
+}
+
+.error-msg.show {
+    display: block;
+}
+
+/* Variation containers */
 #url-generator .variation-group {
     margin-bottom: 10px;
 }
@@ -143,6 +154,7 @@ p.error-message {
     margin-bottom: 25px;
 }
 
+/* Add more variations button */
 #url-generator button.btn.add-var {
     position: absolute;
     bottom: -20px;

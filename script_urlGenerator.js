@@ -1,7 +1,7 @@
 import { brands } from './config.js';
 
 let nblyForm = `<div class='nbly-form'>
-                    <div>
+                    <div class='checkbox-outer'>
                         <div class="form-group checkbox-container">
                             <input type="checkbox" id="local-pages" name="local-pages">
                             <label for="local-pages">Local Pages</label>
@@ -10,11 +10,13 @@ let nblyForm = `<div class='nbly-form'>
                             <input type="checkbox" id="national-pages" name="national-pages">
                             <label for="national-pages">National Pages</label>
                         </div>
+                        <div class='error-msg'>Select Local or National.</div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group prod-required required">
                         <label for="prod-url">Prod Natl URL:</label>
                         <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
+                        <div class='error-msg'>This URL is required.</div>
                     </div>
 
                     <div class="form-group">
@@ -52,7 +54,7 @@ let nblyForm = `<div class='nbly-form'>
                         <button class="btn add-var" type="button">+</button>
                     </div>
                     <button class="btn" id="clear-button">Clear</button>
-                    <button class="btn" type="button" onclick="generateUrls()">Generate</button>
+                    <button class="btn" type="button" id='generate-btn'>Generate</button>
                 </div>`;
 
 let regForm = `
@@ -87,7 +89,12 @@ let regForm = `
                         <button class="btn add-var" type="button">+</button>
                     </div>
                     <button class="btn" id="clear-button">Clear</button>
-                    <button class="btn" type="button" onclick="generateUrls()">Generate</button>
+                    <button class="btn" type="button" id='generate-btn'>Generate</button>
+                </div>`;
+
+let ADMForm = `<div>
+                    <div>🚧 Work In Progress! 🚧</div>
+                    <a class='lol' href='#'>don't click it</a>
                 </div>`;
 
 (function () {
@@ -144,7 +151,12 @@ let regForm = `
             markUp = nblyForm;
             //if brand.neighborly is false
         } else if (!activeBrand.neighborly) {
-            markUp = regForm;
+            //If ADM (Optimizely)
+            if(!activeBrand.neighborly && activeBrand.brand === 'ADM'){
+                markUp = ADMForm;
+            } else {
+                markUp = regForm;
+            }
         }
 
         $('section#url-generator').removeClass('no-form').addClass('form-present');
@@ -177,6 +189,32 @@ let regForm = `
         //add event listener to clear form
         $('#clear-button').on('click', function () {
             Clear();
+        });
+
+        //add event listener to generate urls
+        $('#generate-btn').on('click', function () {
+            if(activeBrand.neighborly){
+                generateNblyUrls();
+            } else {
+                generateUrls();
+            }
+        });
+
+        //i crack myself up tbh
+        let clicks = 0;
+        $('a.lol').on('click',function(){
+            console.log(clicks)
+            let url ='https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            clicks++
+            if(clicks == 1){
+                $(this).text('stop it');
+            } else if(clicks == 2){
+                $(this).text('seriously? knock it off');
+            } else if(clicks == 3){
+                $(this).text('ok I warned you... last chance');
+            } else if(clicks >= 4){
+                window.open(url,"_blank");
+            }
         });
     }
 
@@ -229,7 +267,51 @@ let regForm = `
         });
     }
 
-    //function generateUrls(){}
+    function generateUrls(){
+        const prodUrl = $();
+        const stagingUrl = $();
+        const qaParam = $();
+
+
+    }
+
+    function generateNblyUrls(){
+        const prodUrl = $();
+        const stagingUrl = $();
+
+        const localProdUrl = $();
+        const localStagingUrl = $();
+        const qaParam = $();
+
+        const nationalChecked = document.getElementById('national-pages')?.checked;
+        const localChecked= document.getElementById('local-pages')?.checked;
+
+        //determine which site area we are working with, national or local
+        if(!localChecked && !nationalChecked){
+            $('.form-group.checkbox-container .error-msg').addClass('show');
+            return;
+        }
+        $('.form-group.checkbox-container .error-msg.show').removeClass('show');
+
+        //make sure main url is present
+        if(!prodUrl){
+            $('.prod-required .error-msg').addClass('show');
+            return;
+        }
+        $('.prod-required .error-msg.show').removeClass('show');
+
+        // Select all variation input elements
+        const variationInputs = document.querySelectorAll('input[name^="variation-"]');
+        if(variationInputs.length === 0){
+            $('#variation-group-container .error-msg').addClass('show');
+            return;
+        }
+        $('#variation-group-container .error-msg.show').removeClass('show');
+
+        let previewMarkUp = ``;
+        let liveQaMarkUp = ``;
+
+    }
 
     function Clear(){
         //remove additional variations that may have been added
@@ -246,7 +328,10 @@ let regForm = `
                 console.log($(input).parent().find('label'))
                 $(input).parent().find('label').text(labelText);
             }
-        })
+        });
+
+        //remove input values of urls & output
+
     }
 
 
