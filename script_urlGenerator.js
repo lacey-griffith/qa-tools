@@ -7,7 +7,7 @@ let nblyForm = `<div class='nbly-form'>
                             <label for="local-pages">Local Pages</label>
                         </div>
                         <div class="form-group checkbox-container">
-                            <input type="checkbox" id="national-pages" name="national-pages">
+                            <input type="checkbox" id="national-pages" name="national-pages" checked>
                             <label for="national-pages">National Pages</label>
                         </div>
                         <div class='error-msg'>Select Local or National.</div>
@@ -294,8 +294,6 @@ let ADMForm = `<div>
         const nationalChecked = $('#national-pages').is(':checked');
         const localChecked = $('#local-pages').is(':checked');
         
-        console.log('national checked:'+ nationalChecked);
-        console.log('local checked:'+ localChecked);
 
         //check that at least one is selected
         if (!localChecked && !nationalChecked) {
@@ -319,7 +317,10 @@ let ADMForm = `<div>
         }
         $('#variation-group-container .error-msg.show').removeClass('show');
 
-        let markup = ``;
+        let previewNationalMarkup = '';
+        let previewLocalMarkup = '';
+        let qaNationalMarkup = '';
+        let qaLocalMarkup = '';
 
         // Helper function to extract parameters from a URL
         function extractConvertParams(url) {
@@ -347,14 +348,29 @@ let ADMForm = `<div>
             const variationName = $(this).prev('label').text();
 
             if (!variationLink) {
-                markup += `<h3>${variationName}</h3><p class="error-message">Variation link is empty.</p>`;
-                console.log(markup)
+                // Handle empty variation links for both National and Local
+                if (nationalChecked) {
+                    previewNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+                    qaNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+                }
+                if (localChecked) {
+                    previewLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+                    qaLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+                }
                 return;
             }
 
             const params = extractConvertParams(variationLink);
             if (!params) {
-                markup += `<h3>${variationName}</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                // Handle invalid variation links for both National and Local
+                if (nationalChecked) {
+                    previewNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    qaNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                }
+                if (localChecked) {
+                    previewLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    qaLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                }
                 return;
             }
 
@@ -379,33 +395,90 @@ let ADMForm = `<div>
                 }
             ];
 
-            console.log(urls);
-
             urls.forEach(url => {
                 if (nationalChecked && url.type === 'National' || localChecked && url.type === 'Local') {
                     const previewProdUrl = `${url.prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
                     const previewStagingUrl = url.stagingUrl ? `${url.stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}` : '';
                     const qaProdUrl = `${url.prodUrl}${liveQaQuery}`;
                     const qaStagingUrl = url.stagingUrl ? `${url.stagingUrl}${liveQaQuery}` : '';
-
-                    markup += `<h3>${variationName} (${url.type})</h3>`;
-                    markup += `<p><strong>Preview Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
-                    if (previewStagingUrl) {
-                        markup += `<p><strong>Preview Stage:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
-                    }
-                    markup += `<p><strong>QA Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
-                    if (qaStagingUrl) {
-                        markup += `<p><strong>QA Stage:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
+            
+                    // Separate National and Local links
+                    if (url.type === 'National') {
+                        // Add to National Preview Links
+                        previewNationalMarkup += `<h3>${variationName}</h3>`;
+                        previewNationalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
+                        if (previewStagingUrl) {
+                            previewNationalMarkup += `<p><strong>Stage:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
+                        }
+            
+                        // Add to National QA Links
+                        qaNationalMarkup += `<h3>${variationName}</h3>`;
+                        qaNationalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
+                        if (qaStagingUrl) {
+                            qaNationalMarkup += `<p><strong>Stage:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
+                        }
+                    } else if (url.type === 'Local') {
+                        // Add to Local Preview Links
+                        previewLocalMarkup += `<h3>${variationName}</h3>`;
+                        previewLocalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
+                        if (previewStagingUrl) {
+                            previewLocalMarkup += `<p><strong>Stage:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
+                        }
+            
+                        // Add to Local QA Links
+                        qaLocalMarkup += `<h3>${variationName}</h3>`;
+                        qaLocalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
+                        if (qaStagingUrl) {
+                            qaLocalMarkup += `<p><strong>Stage:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
+                        }
                     }
                 }
             });
+            
+            // Output the generated links separately for National and Local
+            const outputDiv = $('#output');
+            if (previewNationalMarkup || previewLocalMarkup || qaNationalMarkup || qaLocalMarkup) {
+                let finalMarkup = '';
+            
+                if (previewNationalMarkup) {
+                    finalMarkup += `<h2>National Preview Links</h2>${previewNationalMarkup}`;
+                }
+                if (previewLocalMarkup) {
+                    finalMarkup += `<h2>Local Preview Links</h2>${previewLocalMarkup}`;
+                }
+                if (qaNationalMarkup) {
+                    finalMarkup += `<h2>National QA Links</h2>${qaNationalMarkup}`;
+                }
+                if (qaLocalMarkup) {
+                    finalMarkup += `<h2>Local QA Links</h2>${qaLocalMarkup}`;
+                }
+            
+                outputDiv.addClass('urls-generated').html(finalMarkup);
+            } else {
+                outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
+            }
+            
         });
 
         // Output the generated links
         const outputDiv = $('#output');
-        if (markup) {
-            outputDiv.addClass('urls-generated').html(markup);
-            console.log('is there urls present? i hope so');
+        if (previewNationalMarkup || previewLocalMarkup || qaNationalMarkup || qaLocalMarkup) {
+            let finalMarkup = '';
+        
+            if (previewNationalMarkup) {
+                finalMarkup += `<h2>National Preview Links</h2>${previewNationalMarkup}`;
+            }
+            if (previewLocalMarkup) {
+                finalMarkup += `<h2>Local Preview Links</h2>${previewLocalMarkup}`;
+            }
+            if (qaNationalMarkup) {
+                finalMarkup += `<h2>National QA Links</h2>${qaNationalMarkup}`;
+            }
+            if (qaLocalMarkup) {
+                finalMarkup += `<h2>Local QA Links</h2>${qaLocalMarkup}`;
+            }
+        
+            outputDiv.addClass('urls-generated').html(finalMarkup);
         } else {
             outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
         }
