@@ -408,9 +408,9 @@ function generateUrls() {
             const nationalPreviewStaging = stagingUrl
                 ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
                 : '';
-            previewLinksHtml += `<h3>${variationName}</h3><p><strong>National Prod:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
+            previewLinksHtml += `<h3>${variationName}</h3><p><strong>Prod National:</strong> <a href="${nationalPreviewProd}" target="_blank">${nationalPreviewProd}</a></p>`;
             if (nationalPreviewStaging) {
-                previewLinksHtml += `<p><strong>National Stage:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
+                previewLinksHtml += `<p><strong>Stage National:</strong> <a href="${nationalPreviewStaging}" target="_blank">${nationalPreviewStaging}</a></p>`;
             }
         }
 
@@ -423,7 +423,7 @@ function generateUrls() {
                     : '';
                 previewLinksHtml += `<h3>${variationName}</h3><p><strong>Prod Local:</strong> <a href="${localPreviewProd}" target="_blank">${localPreviewProd}</a></p>`;
                 if (localPreviewStaging) {
-                    previewLinksHtml += `<p><strong>Prod Stage:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
+                    previewLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localPreviewStaging}" target="_blank">${localPreviewStaging}</a></p>`;
                 }
             }
         }
@@ -454,7 +454,7 @@ function generateUrls() {
                 const localQaStaging = brand.staging_local_homepage
                     ? `${brand.staging_local_homepage}${liveQaQuery}`
                     : '';
-                liveQaLinksHtml += `<h3>${variationName}</h3><p><strong>Stage Prod:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
+                liveQaLinksHtml += `<h3>${variationName}</h3><p><strong>Prod Local:</strong> <a href="${localQaProd}" target="_blank">${localQaProd}</a></p>`;
                 if (localQaStaging) {
                     liveQaLinksHtml += `<p><strong>Stage Local:</strong> <a href="${localQaStaging}" target="_blank">${localQaStaging}</a></p>`;
                 }
