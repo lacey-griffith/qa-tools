@@ -41,13 +41,13 @@ let nblyForm = `<div class='nbly-form'>
 
                     <div id="variation-group-container">
                         <div class="variation-group">
-                            <label contendeditable="true for="variation-control">Control:</label>
+                            <label contendeditable="true" for="variation-control">Control:</label>
                             <input type="text" id="variation-control" name="variation-live-qa[]"
                                 placeholder="Enter Preview Link">
                         </div>
 
                         <div class="variation-group">
-                            <label contendeditable="true for="variation-1">V1:</label>
+                            <label contendeditable="true" for="variation-1">V1:</label>
                             <input type="text" id="variation-1" name="variation-live-qa[]"
                                 placeholder="Enter Preview Link">
                         </div>
@@ -60,8 +60,8 @@ let nblyForm = `<div class='nbly-form'>
 let regForm = `
         <div class='reg-form'>
                     <div class="form-group">
-                        <label for="url">URL:</label>
-                        <input type="text" id="url" name="url" placeholder="Enter URL">
+                        <label for="prod-url">URL:</label>
+                        <input type="text" id="prod-url" name="prod-url" placeholder="Enter URL">
                     </div>
 
                     <div class="form-group">
@@ -93,9 +93,9 @@ let regForm = `
                 </div>`;
 
 let ADMForm = `<div>
-                    <div>🚧 Work In Progress! 🚧</div>
-                    <a class='lol' href='#'>don't click it</a>
-                </div>`;
+                <div>🚧 Work In Progress! 🚧</div>
+                <a class='lol' href='#'>don't click it</a>
+            </div>`;
 
 (function () {
     function addSteps() {
@@ -142,6 +142,7 @@ let ADMForm = `<div>
         });
     }
 
+    //show the right form per client
     function buildForm(handle) {
         let activeBrand = brands.find(brand => brand.brand_handle === handle);
         let markUp = ``;
@@ -152,7 +153,7 @@ let ADMForm = `<div>
             //if brand.neighborly is false
         } else if (!activeBrand.neighborly) {
             //If ADM (Optimizely)
-            if(!activeBrand.neighborly && activeBrand.brand === 'ADM'){
+            if (!activeBrand.neighborly && activeBrand.brand === 'ADM') {
                 markUp = ADMForm;
             } else {
                 markUp = regForm;
@@ -166,6 +167,8 @@ let ADMForm = `<div>
         $('#form .tool-body').removeClass('transparent-background');
 
         //Set values based on brand info
+        console.log(activeBrand.staging)
+        console.log($('#form #prod-url'))
         $('#form #prod-url').val(activeBrand.prod)
         $('#form #staging-url').val(activeBrand.staging)
 
@@ -193,7 +196,9 @@ let ADMForm = `<div>
 
         //add event listener to generate urls
         $('#generate-btn').on('click', function () {
-            if(activeBrand.neighborly){
+            console.log('clicked')
+            console.log(activeBrand.neighborly)
+            if (activeBrand.neighborly) {
                 generateNblyUrls();
             } else {
                 generateUrls();
@@ -202,18 +207,18 @@ let ADMForm = `<div>
 
         //i crack myself up tbh
         let clicks = 0;
-        $('a.lol').on('click',function(){
+        $('a.lol').on('click', function () {
             console.log(clicks)
-            let url ='https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            let url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
             clicks++
-            if(clicks == 1){
-                $(this).text('stop it');
-            } else if(clicks == 2){
+            if (clicks == 1) {
+                $(this).text('stopppp it');
+            } else if (clicks == 2) {
                 $(this).text('seriously? knock it off');
-            } else if(clicks == 3){
+            } else if (clicks == 3) {
                 $(this).text('ok I warned you... last chance');
-            } else if(clicks >= 4){
-                window.open(url,"_blank");
+            } else if (clicks >= 4) {
+                window.open(url, "_blank");
             }
         });
     }
@@ -267,58 +272,151 @@ let ADMForm = `<div>
         });
     }
 
-    function generateUrls(){
-        const prodUrl = $();
-        const stagingUrl = $();
-        const qaParam = $();
+    function generateUrls() {
+        const prodUrl = $('#form #prod-url').val().trim();
+        const stagingUrl = $('#form #staging-url').val().trim();
+        const qaParam = $('#form #qa-param').val().trim();
+
 
 
     }
 
-    function generateNblyUrls(){
-        const prodUrl = $();
-        const stagingUrl = $();
+    function generateNblyUrls() {
+        console.log('generating neighborly urls...');
 
-        const localProdUrl = $();
-        const localStagingUrl = $();
-        const qaParam = $();
+        const prodUrl = $('#form #prod-url').val().trim();
+        const stagingUrl = $('#form #staging-url').val().trim();
+        const qaParam = $('#form #qa-param').val().trim();
 
-        const nationalChecked = document.getElementById('national-pages')?.checked;
-        const localChecked= document.getElementById('local-pages')?.checked;
+        const localProdUrl = $('#form #prod-local-url').val().trim();
+        const localStagingUrl = $('#form #staging-local-url').val().trim();
 
-        //determine which site area we are working with, national or local
-        if(!localChecked && !nationalChecked){
-            $('.form-group.checkbox-container .error-msg').addClass('show');
+        const nationalChecked = $('#national-pages').is(':checked');
+        const localChecked = $('#local-pages').is(':checked');
+        
+        console.log('national checked:'+ nationalChecked);
+        console.log('local checked:'+ localChecked);
+
+        //check that at least one is selected
+        if (!localChecked && !nationalChecked) {
+            $('.nbly-form .checkbox-outer .error-msg').addClass('show');
             return;
         }
-        $('.form-group.checkbox-container .error-msg.show').removeClass('show');
+        $('.nbly-form .checkbox-outer .error-msg.show').removeClass('show');
 
-        //make sure main url is present
-        if(!prodUrl){
+        //check if main url is present
+        if (!prodUrl) {
             $('.prod-required .error-msg').addClass('show');
             return;
         }
         $('.prod-required .error-msg.show').removeClass('show');
 
         // Select all variation input elements
-        const variationInputs = document.querySelectorAll('input[name^="variation-"]');
-        if(variationInputs.length === 0){
+        const variationInputs = $('input[name^="variation-"]');
+        if (variationInputs.length === 0) {
             $('#variation-group-container .error-msg').addClass('show');
             return;
         }
         $('#variation-group-container .error-msg.show').removeClass('show');
 
-        let previewMarkUp = ``;
-        let liveQaMarkUp = ``;
+        let markup = ``;
 
+        // Helper function to extract parameters from a URL
+        function extractConvertParams(url) {
+            try {
+                const urlObj = new URL(url);
+                const action = urlObj.searchParams.get('convert_action');
+                const eParam = urlObj.searchParams.get('convert_e');
+                const vParam = urlObj.searchParams.get('convert_v');
+
+                if (action === 'convert_vpreview' && eParam && vParam) {
+                    return { eParam, vParam };
+                } else {
+                    console.warn('Invalid or missing parameters in variation link:', url);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error parsing variation link:', url, error);
+                return null;
+            }
+        }
+
+        // Process variation inputs and generate both preview and QA links
+        variationInputs.each(function () {
+            const variationLink = $(this).val().trim();
+            const variationName = $(this).prev('label').text();
+
+            if (!variationLink) {
+                markup += `<h3>${variationName}</h3><p class="error-message">Variation link is empty.</p>`;
+                console.log(markup)
+                return;
+            }
+
+            const params = extractConvertParams(variationLink);
+            if (!params) {
+                markup += `<h3>${variationName}</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                return;
+            }
+
+            const { eParam, vParam } = params;
+            //set up urls if QA param is present for live qa or as preview links
+            let liveQaQuery = `?_conv_eforce=${eParam}.${vParam}`;
+            if (qaParam) {
+                liveQaQuery = `?utm_medium=${qaParam}&_conv_eforce=${eParam}.${vParam}`;
+            }
+
+            // Generate URLs for National + Local + Preview + Live QA
+            const urls = [
+                {
+                    type: 'National',
+                    prodUrl: prodUrl,
+                    stagingUrl: stagingUrl
+                },
+                {
+                    type: 'Local',
+                    prodUrl: localProdUrl,
+                    stagingUrl: localStagingUrl
+                }
+            ];
+
+            console.log(urls);
+
+            urls.forEach(url => {
+                if (nationalChecked && url.type === 'National' || localChecked && url.type === 'Local') {
+                    const previewProdUrl = `${url.prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+                    const previewStagingUrl = url.stagingUrl ? `${url.stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}` : '';
+                    const qaProdUrl = `${url.prodUrl}${liveQaQuery}`;
+                    const qaStagingUrl = url.stagingUrl ? `${url.stagingUrl}${liveQaQuery}` : '';
+
+                    markup += `<h3>${variationName} (${url.type})</h3>`;
+                    markup += `<p><strong>Preview Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
+                    if (previewStagingUrl) {
+                        markup += `<p><strong>Preview Stage:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
+                    }
+                    markup += `<p><strong>QA Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
+                    if (qaStagingUrl) {
+                        markup += `<p><strong>QA Stage:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
+                    }
+                }
+            });
+        });
+
+        // Output the generated links
+        const outputDiv = $('#output');
+        if (markup) {
+            outputDiv.addClass('urls-generated').html(markup);
+            console.log('is there urls present? i hope so');
+        } else {
+            outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
+        }
     }
 
-    function Clear(){
+    function Clear() {
         //remove additional variations that may have been added
         const variations = $('#url-generator input[id^="variation-"]');
         variations.each((i, input) => {
             //remove any that are not variation-control or variation-1
-            if(input.id !== 'variation-control' && input.id !== 'variation-1'){
+            if (input.id !== 'variation-control' && input.id !== 'variation-1') {
                 $(input).parent().remove();
             } else {
                 //determine if its not the control, must be v1, apply text accordingly
@@ -339,3 +437,9 @@ let ADMForm = `<div>
         addSteps();
     });
 })();
+
+/*
+$('#variation-control').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293134');
+$('#variation-1').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293135');
+$('#variation-2').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=9999999999');
+ */

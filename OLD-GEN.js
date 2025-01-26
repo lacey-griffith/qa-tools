@@ -151,18 +151,6 @@ function generateUrls() {
     }
 }
 
-// Function to fill Prod and Staging URLs
-function fillUrls(prodUrl, stageUrl, localProd, localStage, button) {
-    $('#brand-buttons button.active').removeClass('active');
-    button.classList.add('active');
-
-    document.getElementById('prod-url').value = prodUrl;
-    document.getElementById('staging-url').value = stageUrl;
-    document.getElementById('local-prod-url').value = localProd;
-    document.getElementById('local-stage-url').value = localStage;
-
-}
-
 
 // Function to clear form inputs and output
 function clearFormAndOutput() {
