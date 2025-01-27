@@ -1,4 +1,9 @@
+import { text } from 'express';
 import { brands } from './config.js';
+
+let copy_btn = `<button class='copy'> Copy
+<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fill-rule="nonzero"/></svg>
+</button>`;
 
 let nblyForm = `<div class='nbly-form'>
                     <div class='checkbox-outer'>
@@ -437,51 +442,71 @@ let ADMForm = `<div>
             
             // Output the generated links separately for National and Local
             const outputDiv = $('#output');
-            if (previewNationalMarkup || previewLocalMarkup || qaNationalMarkup || qaLocalMarkup) {
-                let finalMarkup = '';
-            
+            outputDiv.html(`
+            `);
+
                 if (previewNationalMarkup) {
-                    finalMarkup += `<h2>National Preview Links</h2>${previewNationalMarkup}`;
+                    outputDiv.append(`<div id="national-preview">
+                        ${copy_btn}
+                        <div class='link-container'></div>
+                        </div>`);
+                    $('#national-preview .link-container').html(`<h2>National Preview Links</h2>${previewNationalMarkup}`);
                 }
                 if (previewLocalMarkup) {
-                    finalMarkup += `<h2>Local Preview Links</h2>${previewLocalMarkup}`;
+                    outputDiv.append(`<div id="local-preview"> 
+                        ${copy_btn}
+                        <div class='link-container'></div>
+                        </div>`);
+                    $('#local-preview .link-container').html(`<h2>Local Preview Links</h2>${previewLocalMarkup}`);
                 }
                 if (qaNationalMarkup) {
-                    finalMarkup += `<h2>National QA Links</h2>${qaNationalMarkup}`;
+                    outputDiv.append(`<div id="national-qa">
+                        ${copy_btn}
+                        <div class='link-container'></div>
+                        </div>`);
+                    $(`#national-qa .link-container`).html(`<h2>National QA Links</h2>${qaNationalMarkup}`);
                 }
                 if (qaLocalMarkup) {
-                    finalMarkup += `<h2>Local QA Links</h2>${qaLocalMarkup}`;
+                    outputDiv.append(`<div id="local-qa">
+                        ${copy_btn}
+                        <div class='link-container'></div>
+                        </div>`);
+                    $('#local-qa .link-container').html(`<h2>Local QA Links</h2>${qaLocalMarkup}`);
                 }
             
-                outputDiv.addClass('urls-generated').html(finalMarkup);
-            } else {
-                outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
-            }
+                // If no URLs were generated, show a message
+                if (!previewNationalMarkup && !previewLocalMarkup && !qaNationalMarkup && !qaLocalMarkup) {
+                    outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
+                } else {
+                    outputDiv.addClass('urls-generated');
+                }
+
+                $('button.copy').on('click', function(){
+                    copyText($(this));
+                });
             
         });
+    }
 
-        // Output the generated links
-        const outputDiv = $('#output');
-        if (previewNationalMarkup || previewLocalMarkup || qaNationalMarkup || qaLocalMarkup) {
-            let finalMarkup = '';
-        
-            if (previewNationalMarkup) {
-                finalMarkup += `<h2>National Preview Links</h2>${previewNationalMarkup}`;
-            }
-            if (previewLocalMarkup) {
-                finalMarkup += `<h2>Local Preview Links</h2>${previewLocalMarkup}`;
-            }
-            if (qaNationalMarkup) {
-                finalMarkup += `<h2>National QA Links</h2>${qaNationalMarkup}`;
-            }
-            if (qaLocalMarkup) {
-                finalMarkup += `<h2>Local QA Links</h2>${qaLocalMarkup}`;
-            }
-        
-            outputDiv.addClass('urls-generated').html(finalMarkup);
-        } else {
-            outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
-        }
+    /* copy function */
+    function copyText(button) {
+
+        // Find the closest parent div to the clicked button
+        const parentDiv = button.parent().find('.link-container');
+
+        // Get the text content of all elements inside the parent div
+        const textToCopy = parentDiv.innerText;
+        console.log(parentDiv);
+        console.log(textToCopy)
+
+        // Copy the text to the clipboard
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                console.log('Text copied to clipboard:', textToCopy);
+            })
+            .catch(err => {
+                console.error('Failed to copy text:', err);
+            });
     }
 
     function Clear() {
