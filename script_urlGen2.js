@@ -224,8 +224,8 @@ let nblyForm = `<div class='nbly-form'>
 
                     <div id="variation-group-container">
                         <div class="variation-group">
-                            <label for="variation-og">OG:</label>
-                            <input type="text" id="variation-og" name="variation-live-qa[]"
+                            <label for="variation-control">Control:</label>
+                            <input type="text" id="variation-control" name="variation-live-qa[]"
                                 placeholder="Enter Preview Link">
                         </div>
 
@@ -254,8 +254,8 @@ let regForm = `
 
                     <div id="variation-group-container">
                         <div class="variation-group">
-                            <label for="variation-og">OG:</label>
-                            <input type="text" id="variation-og" name="variation-live-qa[]"
+                            <label for="variation-control">Control:</label>
+                            <input type="text" id="variation-control" name="variation-live-qa[]"
                                 placeholder="Enter Preview Link">
                         </div>
 

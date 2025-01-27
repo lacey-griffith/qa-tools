@@ -202,7 +202,7 @@ const labelEditor = (label) => {
     });
 };
 
-function labelEditorEvents(OgText){
+function labelEditorEvents(controlText){
     $('input.editing-label').on('blur keydown', function(e){
         //only trigger for enter key
         if(e.type ==='keydown' && e.keyCode !== 13){
@@ -212,7 +212,7 @@ function labelEditorEvents(OgText){
         e.preventDefault();
         let text = $(this).val();
         if(text === ''){
-            text = OgText;
+            text = controlText;
         }
 
         let labelFor = $(this).next('input').attr('id');
@@ -271,8 +271,8 @@ function addSection(){
 
                     <div id="variation-group-container">
                         <div class="variation-group">
-                            <label for="variation-og">OG:</label>
-                            <input type="text" id="variation-og" name="variation-live-qa[]"
+                            <label for="variation-control">Control:</label>
+                            <input type="text" id="variation-control" name="variation-live-qa[]"
                                 placeholder="Enter Preview Link">
                         </div>
 
@@ -312,8 +312,8 @@ function addVariationInput() {
     newLabel.setAttribute('for', 'variation-' + variationCount);
     newLabel.setAttribute('contenteditable', 'true');
 
-    // Set label for the first input as "Live QA - OG", others as "Live QA - V1", "Live QA - V2", etc.
-    newLabel.textContent = variationCount === 1 ? 'OG:' : 'V' + (variationCount - 1) + ':';
+    // Set label for the first input as "Live QA - Control", others as "Live QA - V1", "Live QA - V2", etc.
+    newLabel.textContent = variationCount === 1 ? 'Control:' : 'V' + (variationCount - 1) + ':';
 
     const newInput = document.createElement('input');
     newInput.setAttribute('type', 'text');
@@ -538,11 +538,11 @@ function clearFormAndOutput() {
     const variationInputs = document.querySelectorAll('input[id^="variation-"]');
 
     variationInputs.forEach(input => {
-        // If the input's ID is not 'variation-live-qa-og' or 'variation-live-qa-1', remove it
-        if (input.id !== 'variation-og' && input.id !== 'variation-1') {
+        // If the input's ID is not 'variation-live-qa-control' or 'variation-live-qa-1', remove it
+        if (input.id !== 'variation-control' && input.id !== 'variation-1') {
             $(input).parent().remove();
-            if(input.id === 'variation-og'){
-                input.prev('label').text('OG:');
+            if(input.id === 'variation-control'){
+                input.prev('label').text('Control:');
             } else if(input.id === 'variation-1'){
                 input.prev('label').text('V1:');
             }
@@ -570,6 +570,6 @@ $('input#qa-param').on('change blur focus', function () {
 $('#prod-url').val('https://mrelectric.com/')
 $('#staging-url').val('https://dig-www-nei-mre2.nblyprod.com/');
 
-$('#variation-og').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293134');
+$('#variation-control').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293134');
 $('#variation-1').val('https://mrelectric.com/?convert_action=convert_vpreview&convert_e=1004123614&convert_v=1004293135');
 */
