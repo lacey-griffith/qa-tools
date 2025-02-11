@@ -1,4 +1,3 @@
-import { text } from 'express';
 import { brands } from './config.js';
 
 let copy_btn = `<button class='copy'> Copy
