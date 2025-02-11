@@ -148,6 +148,7 @@
         outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
     }
 }
-*/
+    */
+
 
 /* CHAT GPT VERSION */
