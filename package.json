@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "config.js",
+  "main": "./data/config.js",
   "scripts": {
-    "start": "node config.js",
+    "start": "node ./data/config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lacey",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "http-server": "^14.1.1"
   }
 }
