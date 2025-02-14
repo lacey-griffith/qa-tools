@@ -324,28 +324,28 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
                     // Separate National and Local links
                     if (url.type === 'National') {
                         // Add to National Preview Links
-                        previewNationalMarkup += `<span>\n</span> <h3>${variationName}</h3> <span>\n</span>`;
+                        previewNationalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
                         previewNationalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewNationalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to National QA Links
-                        qaNationalMarkup += `<span>\n</span> <h3>${variationName}</h3> <span>\n</span>`;
+                        qaNationalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
                         qaNationalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaNationalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
                         }
                     } else if (url.type === 'Local') {
                         // Add to Local Preview Links
-                        previewLocalMarkup += `<span>\n</span> <h3>${variationName}</h3> <span>\n</span>`;
+                        previewLocalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
                         previewLocalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewLocalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to Local QA Links
-                        qaLocalMarkup += `<span>\n</span> <h3>${variationName}</h3> <span>\n</span>`;
+                        qaLocalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
                         qaLocalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaLocalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
@@ -363,25 +363,25 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="national-preview">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#national-preview .link-container').innerHTML = `<span>\n</span> <h2>National Preview Links</h2>${previewNationalMarkup}`;
+                    document.querySelector('#national-preview .link-container').innerHTML = `<span>\n</span><h2>National Preview Links</h2>${previewNationalMarkup}`;
                 }
                 if (previewLocalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="local-preview"> 
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-preview .link-container').innerHTML = `<span>\n</span> <h2>Local Preview Links</h2>${previewLocalMarkup}`;
+                    document.querySelector('#local-preview .link-container').innerHTML = `<span>\n</span><h2>Local Preview Links</h2>${previewLocalMarkup}`;
                 }
                 if (qaNationalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="national-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector(`#national-qa .link-container`).innerHTML = `<span>\n</span> <h2>National QA Links</h2>${qaNationalMarkup}`;
+                    document.querySelector(`#national-qa .link-container`).innerHTML = `<span>\n</span><h2>National QA Links</h2>${qaNationalMarkup}`;
                 }
                 if (qaLocalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="local-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-qa .link-container').innerHTML = `<span>\n</span> <h2>Local QA Links</h2>${qaLocalMarkup}`;
+                    document.querySelector('#local-qa .link-container').innerHTML = `<span>\n</span><h2>Local QA Links</h2>${qaLocalMarkup}`;
                 }
             
                 // If no URLs were generated, show a message
