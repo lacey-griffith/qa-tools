@@ -2,7 +2,7 @@ import { brands, nblyForm, regForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
 import { copyText, clear } from './helpers.js';
 
-let enableTesting = true; // set to true to reveal the "fill-in values test" button;
+let enableTesting = false; // set to true to reveal the "fill-in values test" button;
 
 (function () {
     function addSteps() {
