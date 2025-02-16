@@ -1,8 +1,9 @@
 import { brands, nblyForm, regForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
-import { copyText, clear } from './helpers.js';
+import { copyText, clear, extractConvertParams } from './helpers.js';
 
 let enableTesting = false; // set to true to reveal the "fill-in values test" button;
+let varCount = 2;
 
 (function () {
     function addSteps() {
@@ -103,7 +104,8 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
 
         //add event listener to clear form
         $('#clear-button').on('click', function () {
-            clear();
+            clear(); // clear the form
+            varCount = 2; // reset the variation count so it's ready for next time
         });
 
         //add event listener to generate urls
@@ -133,7 +135,6 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
     }
 
     //Add more variations
-    let varCount = 2;
     function addVariationInput() {
         varCount++;
         //target container
@@ -206,7 +207,6 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
 
         const nationalChecked = document.querySelector('#national-pages').checked;
         const localChecked = document.querySelector('#local-pages').checked;
-        
 
         //check that at least one is selected
         if (!localChecked && !nationalChecked) {
@@ -223,12 +223,19 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
         document.querySelector('.prod-required .error-msg')?.classList.remove('show');
 
         // Select all variation input elements
-        const variationInputs = document.querySelectorAll('input[name^="variation-"]');
-        if (!variationInputs.length) {
-            document.querySelector('#variation-group-container .error-msg')?.classList.add('show');
-            return;
+        let variationInputs;
+        const allLinks = document.querySelector('#all-links').value.trim();
+        if (allLinks.length) {
+            variationInputs = allLinks.split(/[\n\t]/).filter((x) => x.includes('http'));
         }
-        document.querySelector('#variation-group-container .error-msg')?.classList.remove('show');
+        else {
+            variationInputs = document.querySelectorAll('input[name^="variation-"]')?.value?.trim();
+            if (!variationInputs.length) {
+                document.querySelector('#variation-group-container .error-msg')?.classList.add('show');
+                return;
+            }
+            document.querySelector('#variation-group-container .error-msg')?.classList.remove('show');
+        }
 
         let previewNationalMarkup = '';
         let previewLocalMarkup = '';
@@ -236,35 +243,11 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
         let qaLocalMarkup = '';
 
         /**
-         * Helper function to extract parameters from a URL
-         * @param {String} url 
-         * @returns { Object } // of exp parameter for convert, and variable parameter. null if invalid
-         */
-        const extractConvertParams = (url) => {
-            try {
-                const urlObj = new URL(url);
-                const action = urlObj.searchParams.get('convert_action');
-                const eParam = urlObj.searchParams.get('convert_e');
-                const vParam = urlObj.searchParams.get('convert_v');
-
-                if (action === 'convert_vpreview' && eParam && vParam) {
-                    return { eParam, vParam };
-                } else {
-                    console.warn('Invalid or missing parameters in variation link:', url);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error parsing variation link:', url, error);
-                return null;
-            }
-        }
-
-        /**
          * Process variation inputs and generate both preview and QA links
          */
-        Array.from(variationInputs).forEach((input) => {
-            const variationLink = input.value.trim();
-            const variationName = input.previousElementSibling.textContent;
+        Array.from(variationInputs).forEach((input, index) => {
+            const variationLink = input;
+            const variationName = index == 0 ? 'Control:' : `V${index}:`;
 
             if (!variationLink) {
                 // Handle empty variation links for both National and Local
@@ -324,28 +307,28 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
                     // Separate National and Local links
                     if (url.type === 'National') {
                         // Add to National Preview Links
-                        previewNationalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
+                        previewNationalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
                         previewNationalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewNationalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to National QA Links
-                        qaNationalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
+                        qaNationalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
                         qaNationalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaNationalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
                         }
                     } else if (url.type === 'Local') {
                         // Add to Local Preview Links
-                        previewLocalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
+                        previewLocalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
                         previewLocalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewLocalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to Local QA Links
-                        qaLocalMarkup += `<span>\n</span><h3>${variationName}</h3><span>\n</span>`;
+                        qaLocalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
                         qaLocalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaLocalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
@@ -363,25 +346,25 @@ let enableTesting = false; // set to true to reveal the "fill-in values test" bu
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="national-preview">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#national-preview .link-container').innerHTML = `<span>\n</span><h2>National Preview Links</h2>${previewNationalMarkup}`;
+                    document.querySelector('#national-preview .link-container').innerHTML = `<span>\n</span> <h2>National Preview Links</h2>${previewNationalMarkup}`;
                 }
                 if (previewLocalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="local-preview"> 
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-preview .link-container').innerHTML = `<span>\n</span><h2>Local Preview Links</h2>${previewLocalMarkup}`;
+                    document.querySelector('#local-preview .link-container').innerHTML = `<span>\n</span> <h2>Local Preview Links</h2>${previewLocalMarkup}`;
                 }
                 if (qaNationalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="national-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector(`#national-qa .link-container`).innerHTML = `<span>\n</span><h2>National QA Links</h2>${qaNationalMarkup}`;
+                    document.querySelector(`#national-qa .link-container`).innerHTML = `<span>\n</span> <h2>National QA Links</h2>${qaNationalMarkup}`;
                 }
                 if (qaLocalMarkup) {
                     outputDiv.insertAdjacentHTML('beforeend', `<div id="local-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-qa .link-container').innerHTML = `<span>\n</span><h2>Local QA Links</h2>${qaLocalMarkup}`;
+                    document.querySelector('#local-qa .link-container').innerHTML = `<span>\n</span> <h2>Local QA Links</h2>${qaLocalMarkup}`;
                 }
             
                 // If no URLs were generated, show a message

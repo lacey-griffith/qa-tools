@@ -272,6 +272,13 @@ const nblyForm = (enableTesting) => {
             <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
         </div>
 
+        <div class="form-group">
+            <label for="all-links">All Links:</label>
+            <input type="text" id="all-links" name="all-links" placeholder="All Links (Copied from QA Doc with Labels)">
+        </div>
+
+        <p>OR</p>
+
         <div id="variation-group-container">
             <div class="variation-group">
                 <label contendeditable="true" for="variation-control">Control:</label>
@@ -308,6 +315,13 @@ const regForm = (enableTesting) => {
             <label for="qa-param">QA Parameter:</label>
             <input type="text" id="qa-param" name="qa-param" placeholder="Enter QA Parameter">
         </div>
+
+        <div class="form-group">
+            <label for="all-links">All Links:</label>
+            <input type="text" id="all-links" name="all-links" placeholder="All Links (Copied from QA Doc with Labels)">
+        </div>
+
+        <p>OR</p>
 
         <div id="variation-group-container">
             <div class="variation-group">

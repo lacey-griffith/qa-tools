@@ -9,16 +9,27 @@ const copyFormattedText = async (html) => {
       const data = [new ClipboardItem({ 'text/html': blob })];
       await navigator.clipboard.write(data);
       console.log('Formatted text copied to clipboard!');
+      return true;
     } catch (err) {
       console.error('Failed to copy formatted text: ', err);
+      throw(err);
     }
 }
 
-const copyText = (button) => {
-
+const copyText = async (button) => {
     // Find the closest parent div to the clicked button
-    const output = button.closest('#output');
-    copyFormattedText(output.outerHTML);
+    const btn = button.closest('button');
+    const output = btn.closest('#output');
+    let copied = await copyFormattedText(output.outerHTML);
+    if (copied) {
+        let originalButton = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Copied!';
+        setTimeout(() => {
+            btn.innerHTML = originalButton;
+            btn.disabled = false;
+        }, 2000);
+    }
 }
 
 const clear = () => {
@@ -43,4 +54,28 @@ const clear = () => {
     document.querySelector('#output').innerHTML = '';
 }
 
-export { copyText, clear };
+/**
+ * Helper function to extract parameters from a URL
+ * @param {String} url 
+ * @returns { Object } // of exp parameter for convert, and variable parameter. null if invalid
+ */
+const extractConvertParams = (url) => {
+    try {
+        const urlObj = new URL(url);
+        const action = urlObj.searchParams.get('convert_action');
+        const eParam = urlObj.searchParams.get('convert_e');
+        const vParam = urlObj.searchParams.get('convert_v');
+
+        if (action === 'convert_vpreview' && eParam && vParam) {
+            return { eParam, vParam };
+        } else {
+            console.warn('Invalid or missing parameters in variation link:', url);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error parsing variation link:', url, error);
+        return null;
+    }
+}
+
+export { copyText, clear, extractConvertParams };
