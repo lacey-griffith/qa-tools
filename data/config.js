@@ -293,6 +293,15 @@ const nblyForm = (enableTesting) => {
             </div>
             <button class="btn add-var" type="button">+</button>
         </div>
+
+        <div id="variation-name-group-container">
+            <div class="variation-name-group">
+                <label contendeditable="true" for="variation-name-1">V1 Name:</label>
+                <input type="text" id="variation-name-1" name="variation-name-1"
+                    placeholder="Enter Name of Variation">
+            </div>
+        </div>
+
         <button class="btn" id="clear-button">Clear</button>
         <button class="btn" type="button" id="generate-btn">Generate</button>
         <button class="btn ${enableTesting ? '' : 'hidden'}" type="button" id="test-btn">Fill-In Test Values</button>
@@ -337,6 +346,15 @@ const regForm = (enableTesting) => {
             </div>
             <button class="btn add-var" type="button">+</button>
         </div>
+
+        <div id="variation-name-group-container">
+            <div class="variation-name-group">
+                <label contendeditable="true" for="variation-name-1">V1 Name:</label>
+                <input type="text" id="variation-name-1" name="variation-name-1"
+                    placeholder="Enter Name of Variation">
+            </div>
+        </div>
+
         <button class="btn" id="clear-button">Clear</button>
         <button class="btn" type="button" id="generate-btn">Generate</button>
         <button class="btn ${enableTesting ? '' : 'hidden'}" type="button" id="test-btn">Fill-In Test Values</button>

@@ -156,6 +156,19 @@ p.error-message {
     margin-bottom: 25px;
 }
 
+#url-generator #variation-name-group-container {
+    display: flex;
+    padding: 20px 0 10px;
+}
+
+#url-generator #variation-name-group-container > div {
+    margin-right: 10px;
+}
+
+#url-generator #variation-name-group-container input {
+    margin-left: 0;
+}
+
 .checkbox-outer {
     display: flex;
     justify-content: start;
