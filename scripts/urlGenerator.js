@@ -1,4 +1,4 @@
-import { brands, nblyForm, regForm } from '../data/config.js';
+import { brands, nblyForm, regForm, ADMForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
 import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs, trolling } from './helpers.js';
 
@@ -79,7 +79,7 @@ let allLinksValue;
         $('#form .tool-body').html(markUp);
         $('#form .tool-body').removeClass('transparent-background');
 
-        if (activeBrand.brand === 'ADM') {
+        if(activeBrand.brand === 'ADM'){
             trolling();
         }
 
