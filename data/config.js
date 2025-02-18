@@ -27,10 +27,10 @@ const brands = [
         brand: 'GUY',
         conceptID: 6,
         prod: 'https://www.groundsguys.com/',
-        staging: 'https://dig-www-nei-guy-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-guy2.nblyprod.com/',
         neighborly: true,
         prod_local_homepage:'https://www.groundsguys.com/sparksnv/',
-        staging_local_homepage:'https://dig-www-nei-guy-stage.nblytest.com/sparksnv',
+        staging_local_homepage:'https://dig-www-nei-guy2.nblyprod.com/sparksnv',
         active_client: true
     },
     {

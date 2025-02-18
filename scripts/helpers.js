@@ -33,14 +33,14 @@ const copyText = async (button) => {
 }
 
 const addNewVariationNameInputs = (labelEditor, varCount) => {
-    let varNameContainer = document.querySelector('#variation-name-group-container');
+    let varNameContainer = $('#variation-name-group-container');
     let newVarName = `<div class="variation-name-group">
         <label contendeditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
         <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
             placeholder="Enter Name of Variation">
     </div>`;
 
-    varNameContainer.insertAdjacentHTML('beforeend', newVarName);
+    varNameContainer.append(newVarName);
     // must use jquery to fit with labelEditor
     let varNameLabel = $(`.variation-name-group [for="variation-name-${varCount - 1}"]`);
     labelEditor(varNameLabel);
@@ -58,24 +58,24 @@ const updateVariationNames = (labelEditor, value) => {
 
 const clear = () => {
     // remove additional variations that may have been added
-    const variationInputs = document.querySelectorAll('#url-generator input[id^="variation-"]');
-    Array.from(variationInputs).forEach((input) => {
+    const variationInputs = $('#url-generator input[id^="variation-"]');
+    variationInputs.each((input) => {
         //remove any that are not variation-control or variation-1
         if (input.id !== 'variation-control' && input.id !== 'variation-1' && input.id !== 'variation-name-1') {
-            input.parentNode.remove();
+            input.parent().remove();
         } else {
             //determine if its not the control, must be v1, apply text accordingly
             const labelText = input.id === 'variation-control' ? 'Control:' : `${input.id.includes('name') ? 'V1 Name:' : 'V1:'}`;
-            input.value = '';
-            input.parentNode.querySelector('label').textContent = labelText;
+            input.val('');
+            input.parent().find('label').text(labelText);
         }
     });
 
     //remove input values of urls & output
-    Array.from(document.querySelectorAll('.url-generator-inner input')).forEach((input) => {
-        input.value = '';
+    $('.url-generator-inner input').each((input) => {
+        input.val('');
     });
-    document.querySelector('#output').innerHTML = '';
+    $('#output').html('');
 }
 
 /**
