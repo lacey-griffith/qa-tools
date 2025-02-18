@@ -1,9 +1,10 @@
 import { brands, nblyForm, regForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
-import { copyText, clear, extractConvertParams } from './helpers.js';
+import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs } from './helpers.js';
 
 let enableTesting = false; // set to true to reveal the "fill-in values test" button;
 let varCount = 2;
+let allLinksValue;
 
 (function () {
     function addSteps() {
@@ -117,6 +118,15 @@ let varCount = 2;
             }
         });
 
+        // add event listener for pasting into All Links
+        // this will update the available variation name slot count
+        document.querySelector('#all-links').addEventListener('change', (e) => {
+            if (allLinksValue !== e.target.value) {
+                allLinksValue = e.target.value;
+                updateVariationNames(labelEditor, e.target.value);
+            }
+        });
+
         //i crack myself up tbh
         let clicks = 0;
         $('a.lol').on('click', function () {
@@ -149,6 +159,9 @@ let varCount = 2;
         varContainer.append(newVar);
         let label = $(`.variation-group [for="variation-${varCount - 1}"]`);
         labelEditor(label);
+
+        // repeat the same process for variation names
+        addNewVariationNameInputs(labelEditor, varCount);
     }
 
     // Variation Label editing
@@ -247,17 +260,23 @@ let varCount = 2;
          */
         Array.from(variationInputs).forEach((input, index) => {
             const variationLink = input;
-            const variationName = index == 0 ? 'Control:' : `V${index}:`;
+            const variationNumber = index == 0 ? 'Control' : `V${index}`;
+
+            let variationName = '';
+            if (index > 0) {
+                variationName = document.querySelector(`#variation-name-${index}`)?.value.trim();
+                variationName.length ? variationName = ` (${variationName})` : '';
+            }
 
             if (!variationLink) {
                 // Handle empty variation links for both National and Local
                 if (nationalChecked) {
-                    previewNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-                    qaNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+                    previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+                    qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
                 }
                 if (localChecked) {
-                    previewLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-                    qaLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+                    previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+                    qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
                 }
                 return;
             }
@@ -266,12 +285,12 @@ let varCount = 2;
             if (!params) {
                 // Handle invalid variation links for both National and Local
                 if (nationalChecked) {
-                    previewNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
-                    qaNationalMarkup += `<h3>${variationName} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
                 }
                 if (localChecked) {
-                    previewLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
-                    qaLocalMarkup += `<h3>${variationName} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
+                    qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Invalid variation link. Unable to generate URLs.</p>`;
                 }
                 return;
             }
@@ -307,28 +326,28 @@ let varCount = 2;
                     // Separate National and Local links
                     if (url.type === 'National') {
                         // Add to National Preview Links
-                        previewNationalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
+                        previewNationalMarkup += `<span>\n</span> <h3>${variationNumber}${variationName}:</h3>`;
                         previewNationalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewNationalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to National QA Links
-                        qaNationalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
+                        qaNationalMarkup += `<span>\n</span> <h3>${variationNumber}${variationName}:</h3>`;
                         qaNationalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaNationalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
                         }
                     } else if (url.type === 'Local') {
                         // Add to Local Preview Links
-                        previewLocalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
+                        previewLocalMarkup += `<span>\n</span> <h3>${variationNumber}${variationName}:</h3>`;
                         previewLocalMarkup += `<p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p>`;
                         if (previewStagingUrl) {
                             previewLocalMarkup += `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`;
                         }
             
                         // Add to Local QA Links
-                        qaLocalMarkup += `<span>\n</span> <h3>${variationName}</h3>`;
+                        qaLocalMarkup += `<span>\n</span> <h3>${variationNumber}${variationName}:</h3>`;
                         qaLocalMarkup += `<p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>`;
                         if (qaStagingUrl) {
                             qaLocalMarkup += `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`;
