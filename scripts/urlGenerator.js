@@ -55,7 +55,7 @@ let allLinksValue;
     function buildForm(handle) {
         let activeBrand = brands.find(brand => brand.brand_handle === handle);
         let markUp = ``; // #fpoo-codes remove hidden
-        const fpooCodes = document.querySelector('#fpoo-codes');
+        const fpooCodes = $('#fpoo-codes');
 
         //if brand.neighborly is true
         if (activeBrand.neighborly) {
@@ -65,10 +65,10 @@ let allLinksValue;
             markUp = ADMForm;
         } else {
             if (handle === 'fresh-pressed-olive-oil') {
-                fpooCodes.classList.remove('hidden');
+                fpooCodes.removeClass('hidden');
             }
             else {
-                fpooCodes.classList.add('hidden');
+                fpooCodes.addClass('hidden');
             }
             markUp = regForm(enableTesting);
         }
@@ -120,10 +120,10 @@ let allLinksValue;
 
         // add event listener for pasting into All Links
         // this will update the available variation name slot count
-        document.querySelector('#all-links').addEventListener('change', (e) => {
-            if (allLinksValue !== e.target.value) {
-                allLinksValue = e.target.value;
-                updateVariationNames(labelEditor, e.target.value);
+        $('#all-links').on('change', (e) => {
+            if (allLinksValue !== e.target.val()) {
+                allLinksValue = e.target.val();
+                updateVariationNames(labelEditor, e.target.val());
             }
         });
 
@@ -199,9 +199,9 @@ let allLinksValue;
      * this function declares the variables for URLs and parameters based on the form values
      */
     const generateUrls = () => {
-        const prodUrl = document.querySelector('#form #prod-url').value.trim();
-        const stagingUrl = document.querySelector('#form #staging-url').value.trim();
-        const qaParam = document.querySelector('#form #qa-param').value.trim();
+        const prodUrl = $('#form #prod-url').val().trim();
+        const stagingUrl = $('#form #staging-url').val().trim();
+        const qaParam = $('#form #qa-param').val().trim();
     }
 
     /**
@@ -211,43 +211,43 @@ let allLinksValue;
     const generateNblyUrls = () => {
         console.log('generating neighborly urls...');
 
-        const prodUrl = document.querySelector('#form #prod-url').value.trim();
-        const stagingUrl = document.querySelector('#form #staging-url').value.trim();
-        const qaParam = document.querySelector('#form #qa-param').value.trim();
+        const prodUrl = $('#form #prod-url').val().trim();
+        const stagingUrl = $('#form #staging-url').val().trim();
+        const qaParam = $('#form #qa-param').val().trim();
 
-        const localProdUrl = document.querySelector('#form #prod-local-url').value.trim();
-        const localStagingUrl = document.querySelector('#form #staging-local-url').value.trim();
+        const localProdUrl = $('#form #prod-local-url').val().trim();
+        const localStagingUrl = $('#form #staging-local-url').val().trim();
 
-        const nationalChecked = document.querySelector('#national-pages').checked;
-        const localChecked = document.querySelector('#local-pages').checked;
+        const nationalChecked = $('#national-pages').checked;
+        const localChecked = $('#local-pages').checked;
 
         //check that at least one is selected
         if (!localChecked && !nationalChecked) {
-            document.querySelector('.nbly-form .checkbox-outer .error-msg')?.classList.add('show');
+            $('.nbly-form .checkbox-outer .error-msg')?.addClass('show');
             return;
         }
-        document.querySelector('.nbly-form .checkbox-outer .error-msg')?.classList.remove('show');
+        $('.nbly-form .checkbox-outer .error-msg')?.removeClass('show');
 
         //check if main url is present
         if (!prodUrl) {
-            document.querySelector('.prod-required .error-msg')?.classList.add('show');
+            $('.prod-required .error-msg')?.addClass('show');
             return;
         }
-        document.querySelector('.prod-required .error-msg')?.classList.remove('show');
+        $('.prod-required .error-msg')?.removeClass('show');
 
         // Select all variation input elements
         let variationInputs;
-        const allLinks = document.querySelector('#all-links').value.trim();
+        const allLinks = $('#all-links').val().trim();
         if (allLinks.length) {
-            variationInputs = allLinks.split(/[\n\t]/).filter((x) => x.includes('http'));
+            variationInputs = allLinks.split(/[\n\t\s]/).filter((x) => x.includes('http'));
         }
         else {
-            variationInputs = document.querySelectorAll('input[name^="variation-"]')?.value?.trim();
+            variationInputs = $('input[name^="variation-"]').map(x => x.val().trim());
             if (!variationInputs.length) {
-                document.querySelector('#variation-group-container .error-msg')?.classList.add('show');
+                $('#variation-group-container .error-msg')?.addClass('show');
                 return;
             }
-            document.querySelector('#variation-group-container .error-msg')?.classList.remove('show');
+            $('#variation-group-container .error-msg')?.removeClass('show');
         }
 
         let previewNationalMarkup = '';
@@ -258,13 +258,13 @@ let allLinksValue;
         /**
          * Process variation inputs and generate both preview and QA links
          */
-        Array.from(variationInputs).forEach((input, index) => {
+        variationInputs.each((input, index) => {
             const variationLink = input;
             const variationNumber = index == 0 ? 'Control' : `V${index}`;
 
             let variationName = '';
             if (index > 0) {
-                variationName = document.querySelector(`#variation-name-${index}`)?.value.trim();
+                variationName = $(`#variation-name-${index}`)?.val().trim();
                 variationName.length ? variationName = ` (${variationName})` : '';
             }
 
@@ -357,56 +357,56 @@ let allLinksValue;
             });
             
             // Output the generated links separately for National and Local
-            const outputDiv = document.querySelector('#output');
+            const outputDiv = $('#output');
             // clear the current div first
-            outputDiv.innerHTML = '';
+            outputDiv.html('');
 
                 if (previewNationalMarkup) {
-                    outputDiv.insertAdjacentHTML('beforeend', `<div id="national-preview">
+                    outputDiv.append(`<div id="national-preview">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#national-preview .link-container').innerHTML = `<span>\n</span> <h2>National Preview Links</h2>${previewNationalMarkup}`;
+                    $('#national-preview .link-container').html(`<span>\n</span> <h2>National Preview Links</h2>${previewNationalMarkup}`);
                 }
                 if (previewLocalMarkup) {
-                    outputDiv.insertAdjacentHTML('beforeend', `<div id="local-preview"> 
+                    outputDiv.append(`<div id="local-preview"> 
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-preview .link-container').innerHTML = `<span>\n</span> <h2>Local Preview Links</h2>${previewLocalMarkup}`;
+                    $('#local-preview .link-container').html(`<span>\n</span> <h2>Local Preview Links</h2>${previewLocalMarkup}`);
                 }
                 if (qaNationalMarkup) {
-                    outputDiv.insertAdjacentHTML('beforeend', `<div id="national-qa">
+                    outputDiv.append(`<div id="national-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector(`#national-qa .link-container`).innerHTML = `<span>\n</span> <h2>National QA Links</h2>${qaNationalMarkup}`;
+                    $(`#national-qa .link-container`).html(`<span>\n</span> <h2>National QA Links</h2>${qaNationalMarkup}`);
                 }
                 if (qaLocalMarkup) {
-                    outputDiv.insertAdjacentHTML('beforeend', `<div id="local-qa">
+                    outputDiv.append(`<div id="local-qa">
                         <div class="link-container"></div>
                     </div>`);
-                    document.querySelector('#local-qa .link-container').innerHTML = `<span>\n</span> <h2>Local QA Links</h2>${qaLocalMarkup}`;
+                    $('#local-qa .link-container').html(`<span>\n</span> <h2>Local QA Links</h2>${qaLocalMarkup}`);
                 }
             
                 // If no URLs were generated, show a message
                 if (!previewNationalMarkup && !previewLocalMarkup && !qaNationalMarkup && !qaLocalMarkup) {
-                    outputDiv.classList.remove('urls-generated').innerHTML = '<p>No URLs were generated. Please check your inputs.</p>';
+                    outputDiv.removeClass('urls-generated').html('<p>No URLs were generated. Please check your inputs.</p>');
                 } else {
-                    outputDiv.classList.add('urls-generated');
+                    outputDiv.addClass('urls-generated');
                 }
 
-                outputDiv.insertAdjacentHTML('beforeend', `<div class="copy-container">
+                outputDiv.append(`<div class="copy-container">
                     <button class="copy"> Copy
                         <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fill-rule="nonzero"/></svg>
                     </button>
                 </div>`);
 
-                document.querySelector('button.copy').addEventListener('click', (e) => {
+                $('button.copy').on('click', (e) => {
                     copyText(e.target);
                 });
             
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function (e) {
+    $('DOMContentLoaded', function (e) {
         addSteps();
     });
 })();
