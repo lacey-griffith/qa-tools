@@ -121,9 +121,9 @@ let allLinksValue;
         // add event listener for pasting into All Links
         // this will update the available variation name slot count
         $('#all-links').on('change', (e) => {
-            if (allLinksValue !== e.target.val()) {
-                allLinksValue = e.target.val();
-                updateVariationNames(labelEditor, e.target.val());
+            if (allLinksValue !== e.target.value) {
+                allLinksValue = e.target.value;
+                updateVariationNames(labelEditor, e.target.value);
             }
         });
 
@@ -218,8 +218,8 @@ let allLinksValue;
         const localProdUrl = $('#form #prod-local-url').val().trim();
         const localStagingUrl = $('#form #staging-local-url').val().trim();
 
-        const nationalChecked = $('#national-pages').checked;
-        const localChecked = $('#local-pages').checked;
+        const nationalChecked = $('#national-pages').is(':checked');
+        const localChecked = $('#local-pages').is(':checked');
 
         //check that at least one is selected
         if (!localChecked && !nationalChecked) {
@@ -258,7 +258,7 @@ let allLinksValue;
         /**
          * Process variation inputs and generate both preview and QA links
          */
-        variationInputs.each((input, index) => {
+        variationInputs.forEach((input, index) => {
             const variationLink = input;
             const variationNumber = index == 0 ? 'Control' : `V${index}`;
 
