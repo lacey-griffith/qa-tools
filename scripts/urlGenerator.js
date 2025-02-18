@@ -1,6 +1,6 @@
 import { brands, nblyForm, regForm, ADMForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
-import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs } from './helpers.js';
+import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs, trolling } from './helpers.js';
 
 let enableTesting = false; // set to true to reveal the "fill-in values test" button;
 let varCount = 2;
@@ -128,24 +128,6 @@ let allLinksValue;
             if (allLinksValue !== e.target.value) {
                 allLinksValue = e.target.value;
                 updateVariationNames(labelEditor, e.target.value);
-            }
-        });
-    }
-
-    function trolling(){
-        //i crack myself up tbh
-        let clicks = 0;
-        $('a.lol').on('click', function () {
-            let url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-            clicks++
-            if (clicks == 1) {
-                $(this).text('stopppp it');
-            } else if (clicks == 2) {
-                $(this).text('seriously? knock it off');
-            } else if (clicks == 3) {
-                $(this).text('ok I warned you... last chance');
-            } else if (clicks >= 4) {
-                window.open(url, "_blank");
             }
         });
     }
