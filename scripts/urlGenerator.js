@@ -1,4 +1,4 @@
-import { brands, nblyForm, regForm } from '../data/config.js';
+import { brands, nblyForm, regForm, ADMForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
 import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs } from './helpers.js';
 
@@ -79,6 +79,10 @@ let allLinksValue;
         $('#form .tool-body').html(markUp);
         $('#form .tool-body').removeClass('transparent-background');
 
+        if(activeBrand.brand === 'ADM'){
+            trolling();
+        }
+
         // add testing functionality if enabled
         if (enableTesting) testBtnHandler(activeBrand);
 
@@ -126,7 +130,9 @@ let allLinksValue;
                 updateVariationNames(labelEditor, e.target.value);
             }
         });
+    }
 
+    function trolling(){
         //i crack myself up tbh
         let clicks = 0;
         $('a.lol').on('click', function () {
@@ -237,12 +243,13 @@ let allLinksValue;
 
         // Select all variation input elements
         let variationInputs;
-        const allLinks = document.querySelector('#all-links').value.trim();
+        const allLinks = document.querySelector('#all-links').value.trim();ƒ
         if (allLinks.length) {
             variationInputs = allLinks.split(/[\n\t]/).filter((x) => x.includes('http'));
         }
         else {
-            variationInputs = document.querySelectorAll('input[name^="variation-"]')?.value?.trim();
+            variationInputs = document.querySelectorAll('input[name^="variation-"]')//?.value?.trim();
+            console.log(variationInputs)
             if (!variationInputs.length) {
                 document.querySelector('#variation-group-container .error-msg')?.classList.add('show');
                 return;
