@@ -102,4 +102,22 @@ const extractConvertParams = (url) => {
     }
 }
 
-export { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs };
+const trolling = () => {
+    //i crack myself up tbh
+    let clicks = 0;
+    $('a.lol').on('click', function () {
+        let url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        clicks++
+        if (clicks == 1) {
+            $(this).text('stopppp it');
+        } else if (clicks == 2) {
+            $(this).text('seriously? knock it off');
+        } else if (clicks == 3) {
+            $(this).text('ok I warned you... last chance');
+        } else if (clicks >= 4) {
+            window.open(url, "_blank");
+        }
+    });
+}
+
+export { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs, trolling };
