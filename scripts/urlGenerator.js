@@ -269,7 +269,6 @@ let allLinksValue;
                 return;
             }
 
-            console.log(variationLink);
             const params = extractConvertParams(variationLink);
             if (!params) {
                 // Handle invalid variation links for both National and Local
