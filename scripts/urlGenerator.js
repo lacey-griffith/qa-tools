@@ -2,7 +2,7 @@ import { brands, nblyForm, regForm, ADMForm } from '../data/config.js';
 import { testBtnHandler } from '../data/testing.js';
 import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs, trolling } from './helpers.js';
 
-let enableTesting = false; // set to true to reveal the "fill-in values test" button;
+let enableTesting = true; // set to true to reveal the "fill-in values test" button;
 let varCount = 2;
 let allLinksValue;
 
@@ -230,7 +230,7 @@ let allLinksValue;
             variationInputs = allLinks.split(/[\n\t\s]/).filter((x) => x.includes('http'));
         }
         else {
-            variationInputs = $('input[name^="variation-"]').map(x => x.val().trim());
+            variationInputs = $('input[name^="variation-"]').not('input[name^="variation-name-"]').map((x,i) => $(i).val().trim());
             if (!variationInputs.length) {
                 $('#variation-group-container .error-msg')?.addClass('show');
                 return;
@@ -246,7 +246,7 @@ let allLinksValue;
         /**
          * Process variation inputs and generate both preview and QA links
          */
-        variationInputs.forEach((input, index) => {
+        variationInputs.each((index, input) => {
             const variationLink = input;
             const variationNumber = index == 0 ? 'Control' : `V${index}`;
 
@@ -269,6 +269,7 @@ let allLinksValue;
                 return;
             }
 
+            console.log(variationLink);
             const params = extractConvertParams(variationLink);
             if (!params) {
                 // Handle invalid variation links for both National and Local

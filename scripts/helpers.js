@@ -84,6 +84,7 @@ const clear = () => {
  * @returns { Object } // of exp parameter for convert, and variable parameter. null if invalid
  */
 const extractConvertParams = (url) => {
+    console.log(url)
     try {
         const urlObj = new URL(url);
         const action = urlObj.searchParams.get('convert_action');
