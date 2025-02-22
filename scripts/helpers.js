@@ -34,6 +34,7 @@ const copyText = async (button) => {
 
 const addNewVariationNameInputs = (labelEditor, varCount) => {
     let varNameContainer = $('#variation-name-group-container');
+    if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
     let newVarName = `<div class="variation-name-group">
         <label contendeditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
         <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
@@ -84,6 +85,7 @@ const clear = () => {
  * @returns { Object } // of exp parameter for convert, and variable parameter. null if invalid
  */
 const extractConvertParams = (url) => {
+    console.log('url:', url)
     try {
         const urlObj = new URL(url);
         const action = urlObj.searchParams.get('convert_action');
