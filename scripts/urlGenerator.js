@@ -246,7 +246,7 @@ let allLinksValue;
         /**
          * Process variation inputs and generate both preview and QA links
          */
-        variationInputs.each((index, input) => {
+        variationInputs.forEach((index, input) => {
             const variationLink = input;
             const variationNumber = index == 0 ? 'Control' : `V${index}`;
 
