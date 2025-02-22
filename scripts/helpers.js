@@ -59,21 +59,21 @@ const updateVariationNames = (labelEditor, value) => {
 const clear = () => {
     // remove additional variations that may have been added
     const variationInputs = $('#url-generator input[id^="variation-"]');
-    variationInputs.each((input) => {
+    variationInputs.each(() => {
         //remove any that are not variation-control or variation-1
-        if (input.id !== 'variation-control' && input.id !== 'variation-1' && input.id !== 'variation-name-1') {
-            input.parent().remove();
+        if ($(this).id !== 'variation-control' && $(this).id !== 'variation-1' && $(this).id !== 'variation-name-1') {
+            $(this).parent().remove();
         } else {
             //determine if its not the control, must be v1, apply text accordingly
-            const labelText = input.id === 'variation-control' ? 'Control:' : `${input.id.includes('name') ? 'V1 Name:' : 'V1:'}`;
-            input.val('');
-            input.parent().find('label').text(labelText);
+            const labelText = $(this).id === 'variation-control' ? 'Control:' : `${$(this).id.includes('name') ? 'V1 Name:' : 'V1:'}`;
+            $(this).val('');
+            $(this).parent().find('label').text(labelText);
         }
     });
 
     //remove input values of urls & output
-    $('.url-generator-inner input').each((input) => {
-        input.val('');
+    $('.url-generator-inner input').each(() => {
+        $(this).val('');
     });
     $('#output').html('');
 }
