@@ -120,6 +120,16 @@ const brands = [
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
         active_client: true
+    },{
+        brand_handle: 'precision-garage-door',
+        brand: 'PDS',
+        conceptID: 27,
+        prod: 'https://www.precisiondoor.net/',
+        staging: 'https://dig-www-nei-pds2-stage.nblytest.com/',
+        neighborly: true,
+        prod_local_homepage:'',
+        staging_local_homepage:'',
+        active_client: true
     },
     /* NON NBLY */
     {
@@ -129,7 +139,7 @@ const brands = [
         prod: 'https://www.adm.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'sun-home-saunas',
@@ -147,7 +157,7 @@ const brands = [
         prod: 'https://yogaworks.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'lights-fest',
@@ -234,18 +244,6 @@ const brands = [
 
 const nblyForm = (enableTesting) => {
     return `<div class="nbly-form">
-        <div class="checkbox-outer">
-            <div class="form-group checkbox-container">
-                <input type="checkbox" id="local-pages" name="local-pages">
-                <label for="local-pages">Local Pages</label>
-            </div>
-            <div class="form-group checkbox-container">
-                <input type="checkbox" id="national-pages" name="national-pages" checked>
-                <label for="national-pages">National Pages</label>
-            </div>
-            <div class="error-msg">Select Local or National.</div>
-        </div>
-
         <div class="form-group prod-required required">
             <label for="prod-url">Prod Natl URL:</label>
             <input type="text" id="prod-url" name="prod-url" placeholder="Enter Prod URL">
@@ -300,6 +298,18 @@ const nblyForm = (enableTesting) => {
                 <input type="text" id="variation-name-1" name="variation-name-1"
                     placeholder="Enter Name of Variation">
             </div>
+        </div>
+
+        <div class="checkbox-outer">
+            <div class="form-group checkbox-container">
+                <input type="checkbox" id="local-pages" name="local-pages">
+                <label for="local-pages">Local Pages</label>
+            </div>
+            <div class="form-group checkbox-container">
+                <input type="checkbox" id="national-pages" name="national-pages" checked>
+                <label for="national-pages">National Pages</label>
+            </div>
+            <div class="error-msg">Select Local or National.</div>
         </div>
 
         <button class="btn" id="clear-button">Clear</button>

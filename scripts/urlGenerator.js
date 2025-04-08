@@ -60,6 +60,7 @@ let allLinksValue;
         //if brand.neighborly is true
         if (activeBrand.neighborly) {
             markUp = nblyForm(enableTesting);
+
             //if brand.neighborly is false
         } else if (activeBrand.brand === 'ADM') {
             markUp = ADMForm;
@@ -81,6 +82,8 @@ let allLinksValue;
 
         if(activeBrand.brand === 'ADM'){
             trolling();
+        } else if (activeBrand.brand === 'PDS'){
+            $('input#local-pages').attr('disabled', true);
         }
 
         // add testing functionality if enabled
