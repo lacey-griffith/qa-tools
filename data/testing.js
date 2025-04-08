@@ -7,11 +7,19 @@ const testBtnHandler = (activeBrand) => {
 }
 
 const fillInTestValues = () => {
+    /*
     document.querySelector('button[data-handle="molly-maid"]').click();
     document.querySelector('input#qa-param').value = 'QA_MLY_20';
     const previewLinks = document.querySelectorAll('#variation-group-container > .variation-group input');
     previewLinks[0].value = 'https://www.mollymaid.com/?convert_action=convert_vpreview&convert_e=100475365&convert_v=1004183328';
-    previewLinks[1].value = 'https://www.mollymaid.com/?convert_action=convert_vpreview&convert_e=100475365&convert_v=1004183329';
+    previewLinks[1].value = 'https://www.mollymaid.com/?convert_action=convert_vpreview&convert_e=100475365&convert_v=1004183329';*/
+
+    document.querySelector('button[data-handle="precision-garage-door"]').click();
+    document.querySelector('input#qa-param').value = 'QA_PDS_04';
+    const previewLinks = document.querySelectorAll('#variation-group-container > .variation-group input');
+    previewLinks[0].value = 'https://www.precisiondoor.net/?convert_action=convert_vpreview&convert_e=100475365&convert_v=1004183328';
+    previewLinks[1].value = 'https://www.precisiondoor.net/?convert_action=convert_vpreview&convert_e=100475365&convert_v=1004183329';
+
 }
 
 export { testBtnHandler };
