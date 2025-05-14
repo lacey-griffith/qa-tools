@@ -5,7 +5,7 @@ const brands = [
         brand: 'ASV',
         conceptID: 3,
         prod: 'https://www.aireserv.com/',
-        staging: 'https://dig-www-nei-asv-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-asv2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.aireserv.com/jacksonville',
         staging_local_homepage:'https://dig-www-nei-asv-stage.nblytest.com/jacksonville',
@@ -31,7 +31,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.groundsguys.com/sparksnv/',
         staging_local_homepage:'https://dig-www-nei-guy2.nblyprod.com/sparksnv',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'glass-doctor',
@@ -42,7 +42,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
         staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/tacoma-wa/',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'molly-maid',
@@ -104,7 +104,7 @@ const brands = [
         brand: 'MRR',
         conceptID: 10,
         prod: 'https://www.mrrooter.com/',
-        staging: 'https://dig-www-nei-mrr-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.mrrooter.com/austin',
         staging_local_homepage:'https://dig-www-nei-mrr-stage.nblytest.com/austin',
@@ -119,7 +119,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
-        active_client: true
+        active_client: false
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
@@ -236,6 +236,33 @@ const brands = [
         brand: 'Spotloan',
         conceptID: 0,
         prod: 'https://www.spotloan.com/',
+        staging: '',
+        neighborly: false,
+        active_client: true
+    },
+    {
+        brand_handle: 'brident',
+        brand: 'Brident',
+        conceptID: 0,
+        prod: '',
+        staging: '',
+        neighborly: false,
+        active_client: true
+    },
+    {
+        brand_handle: 'smile-express',
+        brand: 'Smile Express',
+        conceptID: 0,
+        prod: '',
+        staging: '',
+        neighborly: false,
+        active_client: true
+    },
+    {
+        brand_handle: 'dental-works',
+        brand: 'Dental Works',
+        conceptID: 0,
+        prod: '',
         staging: '',
         neighborly: false,
         active_client: true
