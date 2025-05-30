@@ -8,7 +8,7 @@ const brands = [
         staging: 'https://dig-www-nei-asv2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.aireserv.com/jacksonville',
-        staging_local_homepage:'https://dig-www-nei-asv-stage.nblytest.com/jacksonville',
+        staging_local_homepage:'https://dig-www-nei-asv2-stage.nblytest.com/jacksonville',
         active_client: true
     },
     {
@@ -38,10 +38,10 @@ const brands = [
         brand: 'MDG',
         conceptID: 5,
         prod: 'https://www.glassdoctor.com/',
-        staging: 'https://develop-dwyr-mdg.pantheonsite.io/',
+        staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
-        staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/tacoma-wa/',
+        staging_local_homepage:'https://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
         active_client: false
     },
     {
@@ -107,7 +107,7 @@ const brands = [
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.mrrooter.com/austin',
-        staging_local_homepage:'https://dig-www-nei-mrr-stage.nblytest.com/austin',
+        staging_local_homepage:'https://dig-www-nei-mrr2-stage.nblytest.com/austin',
         active_client: true
     },
     {
