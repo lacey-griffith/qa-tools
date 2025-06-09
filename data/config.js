@@ -41,7 +41,7 @@ const brands = [
         staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
-        staging_local_homepage:'hhttps://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
+        staging_local_homepage:'https://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
         active_client: false
     },
     {
