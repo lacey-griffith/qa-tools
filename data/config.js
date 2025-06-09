@@ -38,10 +38,10 @@ const brands = [
         brand: 'MDG',
         conceptID: 5,
         prod: 'https://www.glassdoctor.com/',
-        staging: 'https://develop-dwyr-mdg.pantheonsite.io/',
+        staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
-        staging_local_homepage:'https://develop-dwyr-mdg.pantheonsite.io/tacoma-wa/',
+        staging_local_homepage:'hhttps://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
         active_client: false
     },
     {
@@ -71,10 +71,10 @@ const brands = [
         brand: 'MRA',
         conceptID: 8,
         prod: 'https://www.mrappliance.com/',
-        staging: 'https://dig-www-nei-mra-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-mra2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.mrappliance.com/indianapolis/',
-        staging_local_homepage:'https://dig-www-nei-mra-stage.nblytest.com/indianapolis/',
+        staging_local_homepage:'https://dig-www-nei-mra2-stage.nblytest.com/indianapolis/',
         active_client: true
     },
     {
@@ -107,7 +107,7 @@ const brands = [
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.mrrooter.com/austin',
-        staging_local_homepage:'https://dig-www-nei-mrr-stage.nblytest.com/austin',
+        staging_local_homepage:'https://dig-www-nei-mrr2-stage.nblytest.com/austin',
         active_client: true
     },
     {
@@ -119,7 +119,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
-        active_client: false
+        active_client: true
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
@@ -175,7 +175,7 @@ const brands = [
         prod: 'https://www.lancerskincare.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'lexie-hearing',
