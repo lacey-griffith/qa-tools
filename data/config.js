@@ -71,10 +71,10 @@ const brands = [
         brand: 'MRA',
         conceptID: 8,
         prod: 'https://www.mrappliance.com/',
-        staging: 'https://dig-www-nei-mra-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-mra2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.mrappliance.com/indianapolis/',
-        staging_local_homepage:'https://dig-www-nei-mra-stage.nblytest.com/indianapolis/',
+        staging_local_homepage:'https://dig-www-nei-mra2-stage.nblytest.com/indianapolis/',
         active_client: true
     },
     {
@@ -119,7 +119,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
-        active_client: false
+        active_client: true
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
@@ -175,7 +175,7 @@ const brands = [
         prod: 'https://www.lancerskincare.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'lexie-hearing',
