@@ -111,6 +111,16 @@ const brands = [
         active_client: true
     },
     {
+        brand_handle: 'ca-mr-rooter',
+        brand: 'CA MRR',
+        conceptID: 10,
+        prod: 'https://www.mrrooter.ca/',
+        staging: '',
+        neighborly: true,
+        prod_local_homepage:'https://www.mrrooter.ca/calgary/',
+        active_client: true
+    },
+    {
         brand_handle: 'window-genie',
         brand: 'WDG',
         conceptID: 16,
