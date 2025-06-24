@@ -82,11 +82,10 @@ const brands = [
         brand: 'MRE',
         conceptID: 9,
         prod: 'https://mrelectric.com/',
-        staging: 'https://dig-www-nei-mre2.nblyprod.com/',
+        staging: 'https://dig-www-nei-mre2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://mrelectric.com/san-antonio',
-        staging_local_homepage:'https://dig-www-nei-mre2.nblyprod.com/san-antonio',
-        active_client: true
+        staging_local_homepage:'https://dig-www-nei-mre2-stage.nblytest.com/san-antonio'
     },
     {
         brand_handle: 'mr-handyman',
