@@ -85,7 +85,8 @@ const brands = [
         staging: 'https://dig-www-nei-mre2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://mrelectric.com/san-antonio',
-        staging_local_homepage:'https://dig-www-nei-mre2-stage.nblytest.com/san-antonio'
+        staging_local_homepage:'https://dig-www-nei-mre2-stage.nblytest.com/san-antonio',
+        active_client: true
     },
     {
         brand_handle: 'mr-handyman',
