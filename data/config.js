@@ -16,11 +16,11 @@ const brands = [
         brand: 'FSP',
         conceptID: 4,
         prod: 'https://www.fivestarpainting.com/',
-        staging: 'https://dig-www-nei-fsp-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-fsp2-stage.nblytest.com/',
         neighborly: true,
         prod_local_homepage:'https://www.fivestarpainting.com/lagrange/',
-        staging_local_homepage:'https://dig-www-nei-fsp-stage.nblytest.com/lagrange',
-        active_client: true
+        staging_local_homepage:'https://dig-www-nei-fsp2-stage.nblytest.com/lagrange',
+        active_client: false
     },
     {
         brand_handle: 'grounds-guys',
@@ -97,7 +97,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.mrhandyman.com/south-essex-county/',
         staging_local_homepage:'https://dig-www-nei-mrh-stage.nblytest.com/south-essex-county/',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'mr-rooter',
@@ -119,7 +119,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
-        active_client: true
+        active_client: false
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
@@ -129,7 +129,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'',
         staging_local_homepage:'',
-        active_client: true
+        active_client: false
     },
     /* NON NBLY */
     {
@@ -166,7 +166,7 @@ const brands = [
         prod: 'https://www.thelightsfest.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'lancer-skincare',
