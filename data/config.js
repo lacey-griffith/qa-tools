@@ -111,6 +111,17 @@ const brands = [
         active_client: true
     },
     {
+        brand_handle: 'mr-rooter-canada',
+        brand: 'CA MRR',
+        conceptID: 10,
+        prod: 'https://www.mrrooter.ca/',
+        staging: 'https://dig-www-nei-mrr2-ca-stage.nblytest.com/',
+        neighborly: true,
+        prod_local_homepage:'https://www.mrrooter.ca/chilliwack/',
+        staging_local_homepage:'https://dig-www-nei-mrr2-ca-stage.nblytest.com/chilliwack/',
+        active_client: true
+    },
+    {
         brand_handle: 'window-genie',
         brand: 'WDG',
         conceptID: 16,
