@@ -20,7 +20,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.fivestarpainting.com/lagrange/',
         staging_local_homepage:'https://dig-www-nei-fsp2-stage.nblytest.com/lagrange',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'grounds-guys',
@@ -42,7 +42,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
         staging_local_homepage:'https://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'molly-maid',
@@ -97,7 +97,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.mrhandyman.com/south-essex-county/',
         staging_local_homepage:'https://dig-www-nei-mrh-stage.nblytest.com/south-essex-county/',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'mr-rooter',
@@ -130,7 +130,7 @@ const brands = [
         neighborly: true,
         prod_local_homepage:'https://www.windowgenie.com/west-austin',
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
-        active_client: false
+        active_client: true
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
