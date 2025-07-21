@@ -132,6 +132,16 @@ const brands = [
         staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
         active_client: true
     },{
+        brand_handle: 'shelf-genie',
+        brand: 'SHG',
+        conceptID: 26,
+        prod: 'https://www.shelfgenie.com/',
+        staging: 'https://dig-www-nei-shg2-stage.nblytest.com/',
+        neighborly: true,
+        prod_local_homepage:'https://www.shelfgenie.com/locations/treasure-valley/',
+        staging_local_homepage:'https://dig-www-nei-shg2-stage.nblytest.com/locations/treasure-valley/',
+        active_client: true
+    },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
         conceptID: 27,
