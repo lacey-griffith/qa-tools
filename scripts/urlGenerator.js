@@ -297,12 +297,12 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
       if (!variationLink) {
         // Handle empty variation links for both National and Local
         if (nationalChecked) {
-          previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-          qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+          previewNationalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
+          qaNationalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
         }
         if (localChecked) {
-          previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-          qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+          previewLocalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
+          qaLocalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
         }
         return;
       }
@@ -313,16 +313,16 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
       if (!params) {
         selectedAreas.forEach(({ label }) => {
           if (label === "National") {
-            previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+            previewNationalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
+            qaNationalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
           }
           if (label === "Local") {
-            previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+            previewLocalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
+            qaLocalMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
           }
           if (label === "Lead Flow") {
-            previewLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
+            previewLeadFlowMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
+            qaLeadFlowMarkup += `<h3>${variationNumber} </h3><p class="error-message">Variation link is empty.</p>`;
           }
         });
       }
