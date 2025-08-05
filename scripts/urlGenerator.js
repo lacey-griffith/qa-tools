@@ -1,6 +1,13 @@
 import { brands, nblyForm, regForm, ADMForm } from "../data/config.js";
 import { testBtnHandler } from "../data/testing.js";
-import { copyText, clear, extractConvertParams, updateVariationNames, addNewVariationNameInputs, trolling } from "./helpers.js";
+import {
+  copyText,
+  clear,
+  extractConvertParams,
+  updateVariationNames,
+  addNewVariationNameInputs,
+  trolling,
+} from "./helpers.js";
 
 let enableTesting = true; // set to true to reveal the "fill-in values test" button;
 let varCount = 2;
@@ -58,10 +65,11 @@ let allLinksValue;
     let markUp = ``;
 
     //determine form markup based on brand
-    if (activeBrand.neighborly) { //if neighborly
+    if (activeBrand.neighborly) {
+      //if neighborly
       markUp = nblyForm(enableTesting);
-
-    } else if (activeBrand.brand === "ADM") { //if ADM
+    } else if (activeBrand.brand === "ADM") {
+      //if ADM
       markUp = ADMForm;
     } else {
       if (handle === "fresh-pressed-olive-oil") {
@@ -73,7 +81,7 @@ let allLinksValue;
     }
 
     //prep the form
-    let formSection =  $("section#url-generator");
+    let formSection = $("section#url-generator");
     formSection.removeClass("no-form").addClass("form-present");
 
     //add form to page and show it
@@ -81,7 +89,6 @@ let allLinksValue;
 
     if (activeBrand.brand === "ADM") {
       trolling();
-
     } else if (activeBrand.brand === "PDS") {
       $("input#local-pages").attr("disabled", true);
     }
@@ -94,16 +101,18 @@ let allLinksValue;
     $("#form #staging-url").val(activeBrand.staging);
 
     //include neighborly local pages
-    console.log(activeBrand)
-    
-    if (activeBrand.neighborly && activeBrand.local_homepage) {
-    const baseProd = activeBrand.prod.replace(/\/$/, "");
-    const baseStaging = activeBrand.staging?.replace(/\/$/, "") || "";
+if (activeBrand.neighborly && activeBrand.local_homepage) {
+  const localPath = Array.isArray(activeBrand.local_homepage)
+    ? activeBrand.local_homepage[0]
+    : activeBrand.local_homepage;
 
-    $("#form #prod-local-url").val(`${baseProd}${activeBrand.local_homepage}`);
-    $("#form #staging-local-url").val(`${baseStaging}${activeBrand.local_homepage}`);
+  const baseProd = activeBrand.prod.replace(/\/$/, "");
+  const baseStaging = activeBrand.staging?.replace(/\/$/, "") || "";
 
-    }
+  $("#form #prod-local-url").val(`${baseProd}${localPath}`);
+  $("#form #staging-local-url").val(`${baseStaging}${localPath}`);
+}
+
 
     //add event listener for adding a variaton btn (+)
     $("button.btn.add-var").on("click", function () {
@@ -125,7 +134,7 @@ let allLinksValue;
 
     //add event listener to generate urls
     $("#generate-btn").on("click", function () {
-        activeBrand.neighborly ? generateNblyUrls() : generateUrls();
+      activeBrand.neighborly ? generateNblyUrls() : generateUrls();
     });
 
     // add event listener for pasting into All Links
@@ -209,8 +218,7 @@ let allLinksValue;
   const generateNblyUrls = () => {
     console.log("generating neighborly urls...");
     const activeBrandHandle = $("#stepOne button.active").data("handle");
-    const brand = brands.find(b => b.brand_handle === activeBrandHandle);
-
+    const brand = brands.find((b) => b.brand_handle === activeBrandHandle);
 
     const prodUrl = $("#form #prod-url").val().trim();
     const stagingUrl = $("#form #staging-url").val().trim();
@@ -225,13 +233,6 @@ let allLinksValue;
 
     const nationalChecked = $("#national-pages").is(":checked");
     const localChecked = $("#local-pages").is(":checked");
-
-    //check that at least one is selected
-    // if (!localChecked && !nationalChecked) {
-    //     $('.nbly-form .checkbox-outer .error-msg')?.addClass('show');
-    //     return;
-    // }
-    // $('.nbly-form .checkbox-outer .error-msg')?.removeClass('show');
 
     const selectedAreas = siteAreas.filter((area) =>
       $(`#${area.key}`).is(":checked")
@@ -273,13 +274,12 @@ let allLinksValue;
     /* === Preview Links === */
     let previewNationalMarkup = "";
     let previewLocalMarkup = "";
-    let previewLeadFlowMarkup = '';
+    let previewLeadFlowMarkup = "";
 
     /* === Live QA Links === */
     let qaNationalMarkup = "";
     let qaLocalMarkup = "";
-    let qaLeadFlowMarkup = '';
-
+    let qaLeadFlowMarkup = "";
 
     /**
      * Process variation inputs and generate both preview and QA links
@@ -311,21 +311,20 @@ let allLinksValue;
 
       const params = extractConvertParams(variationLink);
       if (!params) {
-selectedAreas.forEach(({ label }) => {
-  if (label === "National") {
-    previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-    qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-  }
-  if (label === "Local") {
-    previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-    qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-  }
-  if (label === "Lead Flow") {
-    previewLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
-    qaLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
-  }
-});
-
+        selectedAreas.forEach(({ label }) => {
+          if (label === "National") {
+            previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+            qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
+          }
+          if (label === "Local") {
+            previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+            qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
+          }
+          if (label === "Lead Flow") {
+            previewLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
+            qaLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
+          }
+        });
       }
 
       const { eParam, vParam } = params;
@@ -341,10 +340,13 @@ selectedAreas.forEach(({ label }) => {
         const baseStaging = brand.staging?.replace(/\/$/, "");
 
         const prodUrl = path ? `${baseProd}${path}` : `${baseProd}/`;
-        const stagingUrl = path && baseStaging ? `${baseStaging}${path}` : baseStaging || "";
+        const stagingUrl =
+          path && baseStaging ? `${baseStaging}${path}` : baseStaging || "";
 
         const previewProdUrl = `${prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
-        const previewStagingUrl = stagingUrl ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}` : "";
+        const previewStagingUrl = stagingUrl
+          ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+          : "";
 
         const qaProdUrl = `${prodUrl}${liveQaQuery}`;
         const qaStagingUrl = stagingUrl ? `${stagingUrl}${liveQaQuery}` : "";
@@ -352,10 +354,18 @@ selectedAreas.forEach(({ label }) => {
         const markupTitle = `${variationNumber}${variationName} (${label})`;
 
         const previewMarkup = `<span>\n</span><h3>${markupTitle}:</h3><p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p> 
-        ${previewStagingUrl ? `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>` : "" }`;
+        ${
+          previewStagingUrl
+            ? `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`
+            : ""
+        }`;
 
         const qaMarkup = `<span>\n</span><h3>${markupTitle}:</h3><p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>
-        ${qaStagingUrl ? `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>` : "" }`;
+        ${
+          qaStagingUrl
+            ? `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`
+            : ""
+        }`;
 
         switch (label) {
           case "National":
@@ -431,14 +441,14 @@ selectedAreas.forEach(({ label }) => {
       }
 
       // If no URLs were generated, show a message
-if (
-  !previewNationalMarkup &&
-  !previewLocalMarkup &&
-  !previewLeadFlowMarkup &&
-  !qaNationalMarkup &&
-  !qaLocalMarkup &&
-  !qaLeadFlowMarkup
-) {
+      if (
+        !previewNationalMarkup &&
+        !previewLocalMarkup &&
+        !previewLeadFlowMarkup &&
+        !qaNationalMarkup &&
+        !qaLocalMarkup &&
+        !qaLeadFlowMarkup
+      ) {
         outputDiv
           .removeClass("urls-generated")
           .html("<p>No URLs were generated. Please check your inputs.</p>");
