@@ -353,7 +353,7 @@ const nblyForm = (enableTesting) => {
         <!-- = = = = = = = = = = = = = -->
 
         <div class="checkbox-outer">
-        <p>Select Site Area.</p>
+        <p>Select Site Area</p>
             <!-- Local -->
             <div class="form-group checkbox-container">
                 <input type="checkbox" id="local-pages" name="local-pages">
@@ -371,7 +371,7 @@ const nblyForm = (enableTesting) => {
                 <label for="lead-flow">Lead Flow</label>
             </div>
 
-            <div class="error-msg">Select Site Area!</div>
+            <div class="error-msg">Site Area selection is required!</div>
         </div>
 
         <!-- = = = = = = = = = = = = = -->
