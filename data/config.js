@@ -7,8 +7,8 @@ const brands = [
         prod: 'https://www.aireserv.com/',
         staging: 'https://dig-www-nei-asv2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/jacksonville','/branson','/permian-basin'],
+        lead_flow :'/schedule-service',
         active_client: true
     },
     {
@@ -18,8 +18,8 @@ const brands = [
         prod: 'https://www.fivestarpainting.com/',
         staging: 'https://dig-www-nei-fsp2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/wilmington-de','/marietta','/raleigh'],
+        lead_flow :'/schedule-estimate',
         active_client: true
     },
     {
@@ -29,8 +29,8 @@ const brands = [
         prod: 'https://www.groundsguys.com/',
         staging: 'https://dig-www-nei-guy2.nblyprod.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/mt-lebanon','/greater-little-rock','/palm-beach-fl'],
+        lead_flow :'/request-job-estimate',
         active_client: false
     },
     {
@@ -40,8 +40,8 @@ const brands = [
         prod: 'https://www.glassdoctor.com/',
         staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/tacoma-wa','/denton','/albion'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -51,8 +51,8 @@ const brands = [
         prod: 'https://www.mollymaid.com/',
         staging: 'https://dig-www-nei-mly2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/north-county-san-diego','/la-verne','/santa-barbara'],
+        lead_flow :'/request-a-free-estimate',
         active_client: true
     },
     {
@@ -62,8 +62,8 @@ const brands = [
         prod: 'https://mosquitojoe.com/',
         staging: 'https://dig-www-nei-moj2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/northern-delaware','/noco','/south-bend'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -73,8 +73,8 @@ const brands = [
         prod: 'https://www.mrappliance.com/',
         staging: 'https://dig-www-nei-mra2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/austin','/northern-colorado','/lafayette','/south-charlotte'],
+        lead_flow :'/schedule-service',
         active_client: true
     },
     {
@@ -84,8 +84,8 @@ const brands = [
         prod: 'https://mrelectric.com/',
         staging: 'https://dig-www-nei-mre2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/central-michigan','/chattanooga','/huntsville','/san-antonio'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -95,8 +95,8 @@ const brands = [
         prod: 'https://www.mrhandyman.com/',
         staging: 'https://dig-www-nei-mrh-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/oklahoma-city-edmond','/wichita-metro-area','/bentonville-rogers-springdale'],
+        lead_flow :'/request-service',
         active_client: true
     },
     {
@@ -106,8 +106,8 @@ const brands = [
         prod: 'https://www.mrrooter.com/',
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/memphis','/virginia-beach','/winston-salem'],
+        lead_flow :'/request-job-estimate',
         active_client: true
     },
     {
@@ -117,8 +117,8 @@ const brands = [
         prod: 'https://www.mrrooter.ca/',
         staging: 'https://dig-www-nei-mrr2-ca-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/fort-mcmurray','/kamloops','/chilliwack'],
+        lead_flow :'/request-job-estimate',
         active_client: true
     },
     {
@@ -128,8 +128,8 @@ const brands = [
         prod: 'https://www.windowgenie.com/',
         staging: 'https://dig-www-nei-wdg2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/atlanta-metro','/memphis','/east-austin-pflugerville'],
+        lead_flow :'/quote',
         active_client: true
     },{
         brand_handle: 'shelf-genie',
@@ -138,8 +138,8 @@ const brands = [
         prod: 'https://www.shelfgenie.com/',
         staging: 'https://dig-www-nei-shg2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/locations/treasure-valley','/locations/louisville','/locations/boulder-north-denver'],
+        lead_flow :'/bookonline',
         active_client: true
     },{
         brand_handle: 'precision-garage-door',
@@ -148,8 +148,8 @@ const brands = [
         prod: 'https://www.precisiondoor.net/',
         staging: 'https://dig-www-nei-pds2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage:'',
-        lead_flow :'',
+        local_homepage: ['/locations/texas/dallas','/locations/mississippi/jackson','/locations/louisiana/baton-rouge'],
+        lead_flow :'/request-appointment',
         active_client: false
     },
     /* NON NBLY */
