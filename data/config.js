@@ -7,8 +7,8 @@ const brands = [
         prod: 'https://www.aireserv.com/',
         staging: 'https://dig-www-nei-asv2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.aireserv.com/jacksonville',
-        staging_local_homepage:'https://dig-www-nei-asv2-stage.nblytest.com/jacksonville',
+        local_homepage: ['/jacksonville','/branson','/permian-basin'],
+        lead_flow :'/schedule-service',
         active_client: true
     },
     {
@@ -18,8 +18,8 @@ const brands = [
         prod: 'https://www.fivestarpainting.com/',
         staging: 'https://dig-www-nei-fsp2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.fivestarpainting.com/lagrange/',
-        staging_local_homepage:'https://dig-www-nei-fsp2-stage.nblytest.com/lagrange',
+        local_homepage: ['/wilmington-de','/marietta','/raleigh'],
+        lead_flow :'/schedule-estimate',
         active_client: true
     },
     {
@@ -29,8 +29,8 @@ const brands = [
         prod: 'https://www.groundsguys.com/',
         staging: 'https://dig-www-nei-guy2.nblyprod.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.groundsguys.com/sparksnv/',
-        staging_local_homepage:'https://dig-www-nei-guy2.nblyprod.com/sparksnv',
+        local_homepage: ['/mt-lebanon','/greater-little-rock','/palm-beach-fl'],
+        lead_flow :'/request-job-estimate',
         active_client: false
     },
     {
@@ -40,8 +40,8 @@ const brands = [
         prod: 'https://www.glassdoctor.com/',
         staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.glassdoctor.com/tacoma-wa',
-        staging_local_homepage:'https://dig-www-nei-mdg2-stage.nblytest.com/tacoma-wa/',
+        local_homepage: ['/tacoma-wa','/denton','/albion'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -51,8 +51,8 @@ const brands = [
         prod: 'https://www.mollymaid.com/',
         staging: 'https://dig-www-nei-mly2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.mollymaid.com/chelmsford/',
-        staging_local_homepage:'https://dig-www-nei-mly2-stage.nblytest.com/chelmsford/',
+        local_homepage: ['/north-county-san-diego','/la-verne','/santa-barbara'],
+        lead_flow :'/request-a-free-estimate',
         active_client: true
     },
     {
@@ -62,8 +62,8 @@ const brands = [
         prod: 'https://mosquitojoe.com/',
         staging: 'https://dig-www-nei-moj2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://mosquitojoe.com/locations/northern-delaware/',
-        staging_local_homepage:'https://dig-www-nei-moj2-stage.nblytest.com/locations/northern-delaware/',
+        local_homepage: ['/northern-delaware','/noco','/south-bend'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -73,8 +73,8 @@ const brands = [
         prod: 'https://www.mrappliance.com/',
         staging: 'https://dig-www-nei-mra2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.mrappliance.com/indianapolis/',
-        staging_local_homepage:'https://dig-www-nei-mra2-stage.nblytest.com/indianapolis/',
+        local_homepage: ['/austin','/northern-colorado','/lafayette','/south-charlotte'],
+        lead_flow :'/schedule-service',
         active_client: true
     },
     {
@@ -84,8 +84,8 @@ const brands = [
         prod: 'https://mrelectric.com/',
         staging: 'https://dig-www-nei-mre2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://mrelectric.com/san-antonio',
-        staging_local_homepage:'https://dig-www-nei-mre2-stage.nblytest.com/san-antonio',
+        local_homepage: ['/central-michigan','/chattanooga','/huntsville','/san-antonio'],
+        lead_flow :'/schedule-appointment',
         active_client: true
     },
     {
@@ -95,8 +95,8 @@ const brands = [
         prod: 'https://www.mrhandyman.com/',
         staging: 'https://dig-www-nei-mrh-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.mrhandyman.com/south-essex-county/',
-        staging_local_homepage:'https://dig-www-nei-mrh-stage.nblytest.com/south-essex-county/',
+        local_homepage: ['/oklahoma-city-edmond','/wichita-metro-area','/bentonville-rogers-springdale'],
+        lead_flow :'/request-service',
         active_client: true
     },
     {
@@ -106,8 +106,8 @@ const brands = [
         prod: 'https://www.mrrooter.com/',
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.mrrooter.com/austin',
-        staging_local_homepage:'https://dig-www-nei-mrr2-stage.nblytest.com/austin',
+        local_homepage: ['/memphis','/virginia-beach','/winston-salem'],
+        lead_flow :'/request-job-estimate',
         active_client: true
     },
     {
@@ -117,8 +117,8 @@ const brands = [
         prod: 'https://www.mrrooter.ca/',
         staging: 'https://dig-www-nei-mrr2-ca-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.mrrooter.ca/chilliwack/',
-        staging_local_homepage:'https://dig-www-nei-mrr2-ca-stage.nblytest.com/chilliwack/',
+        local_homepage: ['/fort-mcmurray','/kamloops','/chilliwack'],
+        lead_flow :'/request-job-estimate',
         active_client: true
     },
     {
@@ -128,8 +128,8 @@ const brands = [
         prod: 'https://www.windowgenie.com/',
         staging: 'https://dig-www-nei-wdg2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.windowgenie.com/west-austin',
-        staging_local_homepage:'https://dig-www-nei-wdg2-stage.nblytest.com/west-austin',
+        local_homepage: ['/atlanta-metro','/memphis','/east-austin-pflugerville'],
+        lead_flow :'/quote',
         active_client: true
     },{
         brand_handle: 'shelf-genie',
@@ -138,8 +138,8 @@ const brands = [
         prod: 'https://www.shelfgenie.com/',
         staging: 'https://dig-www-nei-shg2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'https://www.shelfgenie.com/locations/treasure-valley/',
-        staging_local_homepage:'https://dig-www-nei-shg2-stage.nblytest.com/locations/treasure-valley/',
+        local_homepage: ['/locations/treasure-valley','/locations/louisville','/locations/boulder-north-denver'],
+        lead_flow :'/bookonline',
         active_client: true
     },{
         brand_handle: 'precision-garage-door',
@@ -148,8 +148,8 @@ const brands = [
         prod: 'https://www.precisiondoor.net/',
         staging: 'https://dig-www-nei-pds2-stage.nblytest.com/',
         neighborly: true,
-        prod_local_homepage:'',
-        staging_local_homepage:'',
+        local_homepage: ['/locations/texas/dallas','/locations/mississippi/jackson','/locations/louisiana/baton-rouge'],
+        lead_flow :'/request-appointment',
         active_client: false
     },
     /* NON NBLY */
@@ -169,7 +169,7 @@ const brands = [
         prod: 'https://www.sunhomesaunas.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'yoga-works',
@@ -348,17 +348,35 @@ const nblyForm = (enableTesting) => {
             </div>
         </div>
 
+        <!-- = = = = = = = = = = = = = -->
+        <!-- Start Site Area CheckBoxes -->
+        <!-- = = = = = = = = = = = = = -->
+
         <div class="checkbox-outer">
+        <p>Select Site Area</p>
+            <!-- Local -->
             <div class="form-group checkbox-container">
                 <input type="checkbox" id="local-pages" name="local-pages">
-                <label for="local-pages">Local Pages</label>
+                <label for="local-pages">Local Homepages</label>
             </div>
+            <!-- National -->
             <div class="form-group checkbox-container">
                 <input type="checkbox" id="national-pages" name="national-pages" checked>
-                <label for="national-pages">National Pages</label>
+                <label for="national-pages">National Homepage</label>
             </div>
-            <div class="error-msg">Select Local or National.</div>
+
+            <!-- Lead Flow -->
+            <div class="form-group checkbox-container">
+                <input type="checkbox" id="lead-flow" name="lead-flow">
+                <label for="lead-flow">Lead Flow</label>
+            </div>
+
+            <div class="error-msg">Site Area selection is required!</div>
         </div>
+
+        <!-- = = = = = = = = = = = = = -->
+        <!-- End Site Area CheckBoxes -->
+        <!-- = = = = = = = = = = = = = -->
 
         <button class="btn" id="clear-button">Clear</button>
         <button class="btn" type="button" id="generate-btn">Generate</button>

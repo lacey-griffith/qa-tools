@@ -173,8 +173,16 @@ p.error-message {
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
-    max-width: 300px;
-    column-gap: 14px;
+    max-width: 100%;
+    column-gap: 5px;
+}
+
+.checkbox-outer p {
+    width: 100%;
+}
+
+.checkbox-outer .checkbox-container label {
+    margin-left: -6px;
 }
 
 .checkbox-container {
