@@ -106,7 +106,7 @@ const brands = [
         prod: 'https://www.mrrooter.com/',
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/memphis','/virginia-beach','/winston-salem'],
+        local_homepage: ['/memphis','/virginia-beach','/winston-salem','/why-us-'],
         lead_flow :'/request-job-estimate',
         active_client: true
     },
