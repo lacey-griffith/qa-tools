@@ -82,6 +82,22 @@ section.tool h4 {
     margin: 0 0 20px 0;
 }
 
+/* header for links ex "Local - Virginia Beach" */
+section.tool .link-container h4 {
+    font-size: 16px;
+    text-align: left;
+    margin: 0 0 20px 0;
+    text-decoration: underline;
+}
+
+/* dividing line between variations */
+section.tool .link-container h3 {
+    border-top: 1px solid black;
+    margin: auto;
+    padding: 30px 0 10px 0;
+    font-size: 25px;
+}
+
 p.error-message {
     color: var(--error);
     font-size: 14px;
