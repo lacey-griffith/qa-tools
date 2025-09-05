@@ -33,6 +33,13 @@ const normalizeSlugList = (arr) => Array.from(new Set(toArray(arr).map(normSlug)
 const visibleOptions = ($sel) =>
   Array.from($sel.find("option")).filter((o) => !o.disabled && $(o).is(":visible"));
 
+// --- feature flag for new site-area dropdowns ---
+const USE_SITEAREA_DROPDOWNS = true;
+
+// tiny show/hide helpers
+const showEl = (el) => el && (el.style.display = "");
+const hideEl = (el) => el && (el.style.display = "none");
+
 (function () {
   function addSteps() {
     //target parent container
@@ -115,13 +122,35 @@ const visibleOptions = ($sel) =>
     $("#form #prod-url").val(activeBrand.prod);
     $("#form #staging-url").val(activeBrand.staging);
 
-// Local paths UI — CHECKBOX DROPDOWN (search + select all + apply/cancel)
-if (activeBrand.neighborly) {
+    // Hide & disable legacy local URL inputs if we're using dropdowns
+    if (USE_SITEAREA_DROPDOWNS) {
+      const legacyProdLocal = document.querySelector("#prod-local-url");
+      const legacyStageLocal = document.querySelector("#staging-local-url");
+      [legacyProdLocal, legacyStageLocal].forEach((el) => {
+        if (!el) return;
+        hideEl(el);
+        el.value = "";
+        el.disabled = true;
+      });
+    }
+
+
+// Local paths UI - CHECKBOX DROPDOWN (search + select all + apply/cancel)
+if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
   const normalizedLocals = normalizeSlugList(activeBrand.local_homepage || []);
 
   // hide the original <select>
   const $select = $("#local-paths");
   $select.hide();
+
+  // A dedicated wrapper so we can show/hide the entire Local control as a block
+  let $localWrap = $("#dd-local-homepages-wrap");
+  if (!$localWrap.length) {
+    $localWrap = $(`<div id="dd-local-homepages-wrap" class="sitearea-wrap"></div>`)
+      .insertAfter($select); // sits where the <select> used to be
+  }
+  $localWrap.empty(); // rebuild fresh per brand
+
 
   // === Dropdown scaffold (created once, reused) ===
   let $host = $("#local-paths-dropdown");
@@ -166,7 +195,7 @@ if (activeBrand.neighborly) {
           </div>
         </div>
       </div>
-    `).insertAfter($select);
+    `).appendTo($localWrap);
 
     // error holder (once)
     $('<div id="local-select-error" class="error-msg" style="display:none;">Select at least one location.</div>')
