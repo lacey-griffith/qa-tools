@@ -62,7 +62,7 @@ const brands = [
         prod: 'https://mosquitojoe.com/',
         staging: 'https://dig-www-nei-moj2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/northern-delaware','/noco','/south-bend'],
+        local_homepage: ['/locations/northern-delaware','/locations/noco','/locations/south-bend'],
         lead_flow :'/schedule-appointment',
         active_client: true
     },
