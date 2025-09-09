@@ -193,7 +193,7 @@ p.error-message {
     column-gap: 5px;
 }
 
-.checkbox-outer p {
+.checkbox-outer label {
     width: 100%;
 }
 

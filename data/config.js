@@ -303,12 +303,12 @@ const nblyForm = (enableTesting) => {
             <input type="text" id="staging-url" name="staging-url" placeholder="Enter Staging URL">
         </div>
 
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="prod-local-url">Prod Local URL:</label>
             <input type="text" id="prod-local-url" name="local-url" placeholder="Enter Prod Local URL">
         </div>
 
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="staging-local-url">Staging Local URL:</label>
             <input type="text" id="staging-local-url" name="staging-local-url" placeholder="Enter Staging Local URL">
         </div>
@@ -362,7 +362,7 @@ const nblyForm = (enableTesting) => {
         <!-- = = = = = = = = = = = = = -->
 
         <div class="checkbox-outer">
-        <p>Select Site Area</p>
+        <label>Select Site Area</label>
             <!-- Local -->
             <div class="form-group checkbox-container">
                 <input type="checkbox" id="local-pages" name="local-pages">
