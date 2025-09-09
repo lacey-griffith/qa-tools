@@ -106,7 +106,7 @@ const brands = [
         prod: 'https://www.mrrooter.com/',
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/memphis','/virginia-beach','/winston-salem'],
+        local_homepage: ['/memphis','/virginia-beach','/winston-salem','/why-us-'],
         lead_flow :'/request-job-estimate',
         active_client: true
     },
@@ -311,6 +311,15 @@ const nblyForm = (enableTesting) => {
         <div class="form-group">
             <label for="staging-local-url">Staging Local URL:</label>
             <input type="text" id="staging-local-url" name="staging-local-url" placeholder="Enter Staging Local URL">
+        </div>
+
+        <div class="form-group" id="local-paths-dropdown-group">
+            <label for="local-paths">Select Local Page(s):</label>
+            <select id="local-paths" name="local-paths" multiple size="5"></select>
+            <div class="checkbox-container">
+                <input type="checkbox" id="select-all-locals" />
+                <label for="select-all-locals">Select All</label>
+            </div>
         </div>
 
         <div class="form-group">

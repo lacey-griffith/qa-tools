@@ -13,6 +13,33 @@ let enableTesting = true; // set to true to reveal the "fill-in values test" but
 let varCount = 2;
 let allLinksValue;
 
+// slug + url helpers
+const stripSlashes = (s = "") => s.replace(/^\/+|\/+$/g, "");
+const ensureTrailingSlash = (s = "") => (s.endsWith("/") ? s : s + "/");
+const toArray = (v) => (Array.isArray(v) ? v : v ? [v] : []);
+
+// join base + path safely; accept full URLs in `path` if they sneak in
+const joinUrl = (base, path) => {
+  if (!path) return ensureTrailingSlash(base.replace(/\/$/, ""));
+  if (/^https?:\/\//i.test(path)) return ensureTrailingSlash(path);
+  const cleanBase = base.replace(/\/$/, "");
+  const cleanPath = stripSlashes(path);
+  return ensureTrailingSlash(`${cleanBase}/${cleanPath}`);
+};
+
+// local slug normalization + utilities
+const normSlug = (s = "") => "/" + stripSlashes(String(s).trim().toLowerCase());
+const normalizeSlugList = (arr) => Array.from(new Set(toArray(arr).map(normSlug)));
+const visibleOptions = ($sel) =>
+  Array.from($sel.find("option")).filter((o) => !o.disabled && $(o).is(":visible"));
+
+// --- feature flag for new site-area dropdowns ---
+const USE_SITEAREA_DROPDOWNS = true;
+
+// tiny show/hide helpers
+const showEl = (el) => el && (el.style.display = "");
+const hideEl = (el) => el && (el.style.display = "none");
+
 (function () {
   function addSteps() {
     //target parent container
@@ -33,11 +60,8 @@ let allLinksValue;
         <div id="output" class="output" ></div>`);
 
     //build button for each active brand
-    brands.forEach(function (item, i) {
-      //skip inactive clients
-      if (!item.active_client) {
-        return;
-      }
+    brands.forEach(function (item) {
+      if (!item.active_client) return; //skip inactive clients
       let btn = `<button data-handle="${item.brand_handle}" data-neighborly=${item.neighborly}>${item.brand}</button>`;
       $("#stepOne .brand-btn-container").append(btn);
     });
@@ -66,10 +90,8 @@ let allLinksValue;
 
     //determine form markup based on brand
     if (activeBrand.neighborly) {
-      //if neighborly
       markUp = nblyForm(enableTesting);
     } else if (activeBrand.brand === "ADM") {
-      //if ADM
       markUp = ADMForm;
     } else {
       if (handle === "fresh-pressed-olive-oil") {
@@ -100,31 +122,202 @@ let allLinksValue;
     $("#form #prod-url").val(activeBrand.prod);
     $("#form #staging-url").val(activeBrand.staging);
 
-    //include neighborly local pages
-if (activeBrand.neighborly && activeBrand.local_homepage) {
-  const localPath = Array.isArray(activeBrand.local_homepage)
-    ? activeBrand.local_homepage[0]
-    : activeBrand.local_homepage;
+    // Hide & disable legacy local URL inputs if we're using dropdowns
+    if (USE_SITEAREA_DROPDOWNS) {
+      const legacyProdLocal = document.querySelector("#prod-local-url");
+      const legacyStageLocal = document.querySelector("#staging-local-url");
+      [legacyProdLocal, legacyStageLocal].forEach((el) => {
+        if (!el) return;
+        hideEl(el);
+        el.value = "";
+        el.disabled = true;
+      });
+    }
 
-  const baseProd = activeBrand.prod.replace(/\/$/, "");
-  const baseStaging = activeBrand.staging?.replace(/\/$/, "") || "";
 
-  $("#form #prod-local-url").val(`${baseProd}${localPath}`);
-  $("#form #staging-local-url").val(`${baseStaging}${localPath}`);
+// Local paths UI - CHECKBOX DROPDOWN (search + select all + apply/cancel)
+if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
+  const normalizedLocals = normalizeSlugList(activeBrand.local_homepage || []);
+
+  // hide the original <select>
+  const $select = $("#local-paths");
+  $select.hide();
+
+  // A dedicated wrapper so we can show/hide the entire Local control as a block
+  let $localWrap = $("#dd-local-homepages-wrap");
+  if (!$localWrap.length) {
+    $localWrap = $(`<div id="dd-local-homepages-wrap" class="sitearea-wrap"></div>`)
+      .insertAfter($select); // sits where the <select> used to be
+  }
+  $localWrap.empty(); // rebuild fresh per brand
+
+
+  // === Dropdown scaffold (created once, reused) ===
+  let $host = $("#local-paths-dropdown");
+  if (!$host.length) {
+    $host = $(`
+      <div id="local-paths-dropdown" class="ms-host">
+        <label id="local-multiselect-label" class="ms-label">Locations</label>
+        <button
+          id="local-multiselect-trigger"
+          class="ms-trigger"
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-labelledby="local-multiselect-label local-multiselect-trigger"
+        >
+          Choose locations
+          <span class="ms-count" aria-hidden="true"></span>
+        </button>
+
+        <div
+          id="local-multiselect-panel"
+          class="ms-panel"
+          role="listbox"
+          aria-multiselectable="true"
+          aria-labelledby="local-multiselect-label"
+          hidden
+        >
+          <div class="ms-toolbar">
+            <input id="local-multiselect-search" class="ms-search" type="search" placeholder="Filter locations…" autocomplete="off" />
+            <div class="ms-actions">
+              <button type="button" id="ms-select-all" class="ms-action">Select all</button>
+              <button type="button" id="ms-clear-all" class="ms-action">Clear</button>
+            </div>
+          </div>
+
+          <!-- Keep the same ID so downstream code keeps working -->
+          <div id="local-paths-boxes" class="ms-list" tabindex="-1" aria-label="Locations list"></div>
+
+          <div class="ms-footer">
+            <button type="button" id="ms-apply" class="ms-primary">Apply</button>
+            <button type="button" id="ms-cancel" class="ms-secondary">Cancel</button>
+          </div>
+        </div>
+      </div>
+    `).appendTo($localWrap);
+
+    // error holder (once)
+    $('<div id="local-select-error" class="error-msg" style="display:none;">Select at least one location.</div>')
+      .insertAfter($host);
+  }
+
+  const $panel      = $("#local-multiselect-panel");
+  const $trigger    = $("#local-multiselect-trigger");
+  const $countEl    = $("#local-paths-dropdown .ms-count");
+  const $search     = $("#local-multiselect-search");
+  const $boxes      = $("#local-paths-boxes");
+  const $btnAll     = $("#ms-select-all");
+  const $btnClear   = $("#ms-clear-all");
+  const $btnApply   = $("#ms-apply");
+  const $btnCancel  = $("#ms-cancel");
+
+  // Utility for safe IDs
+  const safeId = (slug) => `loc-${slug.replace(/[^a-z0-9]+/gi, "-")}`;
+
+  // Build the checkbox rows (idempotent)
+  $boxes.empty();
+  normalizedLocals.forEach((slug) => {
+    const id = safeId(slug);
+    $boxes.append(
+      `<label class="local-opt-row">
+         <input class="local-opt" type="checkbox" id="${id}" value="${slug}" />
+         <span class="local-opt-text">${slug}</span>
+       </label>`
+    );
+  });
+
+  // Count helper
+  const updateCount = () => {
+    const n = $boxes.find("input.local-opt:checked").length;
+    $countEl.text(n ? `${n} selected` : "");
+    $trigger.attr("aria-expanded", String(!$panel.prop("hidden")));
+  };
+
+  // Open/close
+  function openPanel() {
+    $panel.prop("hidden", false);
+    updateCount();
+    // focus search next tick
+    setTimeout(() => $search.trigger("focus"), 0);
+    $(document).on("pointerdown.ms", (e) => {
+      if (!$.contains($panel[0], e.target) && e.target !== $trigger[0]) closePanel();
+    });
+    $(document).on("keydown.ms", (e) => { if (e.key === "Escape") closePanel(); });
+  }
+  function closePanel() {
+    $panel.prop("hidden", true);
+    updateCount();
+    $trigger.trigger("focus");
+    $(document).off("pointerdown.ms keydown.ms");
+  }
+
+  $trigger.off("click.ms").on("click.ms", () => {
+    $panel.prop("hidden") ? openPanel() : closePanel();
+  });
+
+  // Live filter (case/diacritics insensitive)
+  const normalize = (s) =>
+    (s || "").toString().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+  $search.off("input.ms").on("input.ms", function () {
+    const f = normalize(this.value);
+    if (!f) {
+      $boxes.find(".local-opt-row").show();
+    } else {
+      $boxes.find(".local-opt-row").each(function () {
+        const txt = normalize($(this).find(".local-opt-text").text());
+        $(this).toggle(txt.includes(f));
+      });
+    }
+  });
+
+  // Select all / Clear (respects current filter)
+  $btnAll.off("click.ms").on("click.ms", () => {
+    $boxes.find(".local-opt-row:visible input.local-opt").prop("checked", true);
+    updateCount();
+  });
+  $btnClear.off("click.ms").on("click.ms", () => {
+    $boxes.find("input.local-opt").prop("checked", false);
+    updateCount();
+  });
+
+  // Row toggles update count
+  $boxes.off("change.ms").on("change.ms", "input.local-opt", updateCount);
+
+  // Apply = persist basic selection UI state + close; Cancel = revert visual changes
+  // (We keep it simple: Cancel just closes. If you want hard revert, ping me and I’ll wire a saved snapshot.)
+  $btnApply.off("click.ms").on("click.ms", () => {
+    updateCount();
+    closePanel();
+  });
+  $btnCancel.off("click.ms").on("click.ms", () => {
+    closePanel();
+  });
+
+  // Prefill single URL fields with first location
+  if (normalizedLocals.length) {
+    const firstLocal = normalizedLocals[0];
+    const baseProd = activeBrand.prod.replace(/\/$/, "");
+    const baseStaging = activeBrand.staging?.replace(/\/$/, "") || "";
+    $("#form #prod-local-url").val(`${baseProd}${firstLocal}`);
+    $("#form #staging-local-url").val(`${baseStaging}${firstLocal}`);
+  }
+
+  // Initial count
+  updateCount();
 }
 
 
-    //add event listener for adding a variaton btn (+)
+    //add event listener for adding a variation btn (+)
     $("button.btn.add-var").on("click", function () {
       addVariationInput();
     });
 
     //make variation labels editable
-    $("section#url-generator #variation-group-container .variation-group").each(
-      (i, eL) => {
-        labelEditor($(eL).find("label"));
-      }
-    );
+    $("section#url-generator #variation-group-container .variation-group").each((i, eL) => {
+      labelEditor($(eL).find("label"));
+    });
 
     //add event listener to clear form
     $("#clear-button").on("click", function () {
@@ -154,12 +347,8 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
     let varContainer = $("#variation-group-container");
 
     let newVar = `<div class="variation-group">
-            <label contendeditable="true" for="variation-${varCount - 1}">V${
-      varCount - 1
-    }:</label>
-            <input type="text" id="variation-${
-              varCount - 1
-            }" name="variation-live-qa[]" placeholder="Enter Preview Link">
+            <label contendeditable="true" for="variation-${varCount - 1}">V${varCount - 1}:</label>
+            <input type="text" id="variation-${varCount - 1}" name="variation-live-qa[]" placeholder="Enter Preview Link">
         </div>`;
 
     //add new label to page and make it editable
@@ -186,15 +375,11 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
   function labelEditorEvents(OgText) {
     $("input.editing-label").on("blur keydown", function (e) {
       //only trigger for enter key
-      if (e.type === "keydown" && e.keyCode !== 13) {
-        return;
-      }
+      if (e.type === "keydown" && e.keyCode !== 13) return;
 
       e.preventDefault();
       let text = $(this).val();
-      if (text === "") {
-        text = OgText;
-      }
+      if (text === "") text = OgText;
 
       let labelFor = $(this).next("input").attr("id");
       $(this).replaceWith(`<label for=${labelFor}>${text}</label>`);
@@ -209,11 +394,11 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
     const prodUrl = $("#form #prod-url").val().trim();
     const stagingUrl = $("#form #staging-url").val().trim();
     const qaParam = $("#form #qa-param").val().trim();
+    // non-neighborly path generation would go here (left as-is)
   };
 
   /**
-   * description of function
-   * @returns String (string of a particular url, for example)
+   * Neighborly link generation (Variation-first; includes National, Local, Lead Flow, Service Pages)
    */
   const generateNblyUrls = () => {
     console.log("generating neighborly urls...");
@@ -229,20 +414,21 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
       { key: "national-pages", pathKey: "", label: "National" },
       { key: "local-pages", pathKey: "local_homepage", label: "Local" },
       { key: "lead-flow", pathKey: "lead_flow", label: "Lead Flow" },
+      { key: "service-pages", pathKey: "service_pages", label: "Service Pages" }, // NEW
     ];
 
-    const nationalChecked = $("#national-pages").is(":checked");
-    const localChecked = $("#local-pages").is(":checked");
-
-    const selectedAreas = siteAreas.filter((area) =>
-      $(`#${area.key}`).is(":checked")
-    );
+    const selectedAreas = siteAreas.filter((area) => $(`#${area.key}`).is(":checked"));
 
     if (selectedAreas.length === 0) {
       $(".nbly-form .checkbox-outer .error-msg")?.addClass("show");
       return;
     }
     $(".nbly-form .checkbox-outer .error-msg")?.removeClass("show");
+
+    // hide local selection error if Local isn't in play
+    if (!$("#local-pages").is(":checked")) {
+      $("#local-select-error").hide();
+    }
 
     //check if main url is present
     if (!prodUrl) {
@@ -255,9 +441,7 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
     let variationInputs;
     const allLinks = $("#all-links").val().trim();
     if (allLinks.length) {
-      variationInputs = allLinks
-        .split(/[\n\t\s]/)
-        .filter((x) => x.includes("http"));
+      variationInputs = allLinks.split(/[\n\t\s]/).filter((x) => x.includes("http"));
     } else {
       variationInputs = Array.from(
         $('input[name^="variation-"]')
@@ -271,18 +455,19 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
       $("#variation-group-container .error-msg")?.removeClass("show");
     }
 
-    /* === Preview Links === */
-    let previewNationalMarkup = "";
-    let previewLocalMarkup = "";
-    let previewLeadFlowMarkup = "";
+    // === New: variation-first containers ===
+    let previewByVariation = "";
+    let qaByVariation = "";
 
-    /* === Live QA Links === */
-    let qaNationalMarkup = "";
-    let qaLocalMarkup = "";
-    let qaLeadFlowMarkup = "";
+    // helper to emit a small block (title + prod/staging lines)
+    const block = (title, prod, staging) => {
+      return `<h4>${title}</h4><p><strong>Prod:</strong> <a href="${prod}" target="_blank">${prod}</a></p>${
+        staging ? `<p><strong>Staging:</strong> <a href="${staging}" target="_blank">${staging}</a></p>` : ""
+      }`;
+    };
 
     /**
-     * Process variation inputs and generate both preview and QA links
+     * Process variation inputs and generate both Preview and QA in variation-first order
      */
     variationInputs.forEach((value, index) => {
       const variationLink = value;
@@ -294,181 +479,122 @@ if (activeBrand.neighborly && activeBrand.local_homepage) {
         variationName.length ? (variationName = ` (${variationName})`) : "";
       }
 
-      if (!variationLink) {
-        // Handle empty variation links for both National and Local
-        if (nationalChecked) {
-          previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-          qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-        }
-        if (localChecked) {
-          previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-          qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-        }
-        return;
-      }
-
-      console.log(variationLink);
+      if (!variationLink) return;
 
       const params = extractConvertParams(variationLink);
-      if (!params) {
-        selectedAreas.forEach(({ label }) => {
-          if (label === "National") {
-            previewNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaNationalMarkup += `<h3>${variationNumber} (National)</h3><p class="error-message">Variation link is empty.</p>`;
-          }
-          if (label === "Local") {
-            previewLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaLocalMarkup += `<h3>${variationNumber} (Local)</h3><p class="error-message">Variation link is empty.</p>`;
-          }
-          if (label === "Lead Flow") {
-            previewLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
-            qaLeadFlowMarkup += `<h3>${variationNumber} (Lead Flow)</h3><p class="error-message">Variation link is empty.</p>`;
-          }
-        });
-      }
+      if (!params) return;
 
       const { eParam, vParam } = params;
-      //set up urls if QA param is present for live qa or as preview links
+
+      //set up live QA query
       let liveQaQuery = `?_conv_eforce=${eParam}.${vParam}`;
       if (qaParam) {
         liveQaQuery = `?utm_medium=${qaParam}&_conv_eforce=${eParam}.${vParam}`;
       }
 
-      selectedAreas.forEach(({ pathKey, label }) => {
-        const path = pathKey ? brand[pathKey] : "";
-        const baseProd = brand.prod.replace(/\/$/, "");
-        const baseStaging = brand.staging?.replace(/\/$/, "");
+      // gather all area-path pairs in the desired order per variation:
+      // National → Local (checked) → Lead Flow → Service Pages
+      const areaOrder = ["National", "Local", "Lead Flow", "Service Pages"];
+      let rows = []; // each row: {title, previewProd, previewStaging, qaProd, qaStaging}
 
-        const prodUrl = path ? `${baseProd}${path}` : `${baseProd}/`;
-        const stagingUrl =
-          path && baseStaging ? `${baseStaging}${path}` : baseStaging || "";
+      areaOrder.forEach((label) => {
+        const area = selectedAreas.find((a) => a.label === label);
+        if (!area) return;
 
-        const previewProdUrl = `${prodUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
-        const previewStagingUrl = stagingUrl
-          ? `${stagingUrl}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
-          : "";
-
-        const qaProdUrl = `${prodUrl}${liveQaQuery}`;
-        const qaStagingUrl = stagingUrl ? `${stagingUrl}${liveQaQuery}` : "";
-
-        const markupTitle = `${variationNumber}${variationName} (${label})`;
-
-        const previewMarkup = `<span>\n</span><h3>${markupTitle}:</h3><p><strong>Prod:</strong> <a href="${previewProdUrl}" target="_blank">${previewProdUrl}</a></p> 
-        ${
-          previewStagingUrl
-            ? `<p><strong>Staging:</strong> <a href="${previewStagingUrl}" target="_blank">${previewStagingUrl}</a></p>`
-            : ""
-        }`;
-
-        const qaMarkup = `<span>\n</span><h3>${markupTitle}:</h3><p><strong>Prod:</strong> <a href="${qaProdUrl}" target="_blank">${qaProdUrl}</a></p>
-        ${
-          qaStagingUrl
-            ? `<p><strong>Staging:</strong> <a href="${qaStagingUrl}" target="_blank">${qaStagingUrl}</a></p>`
-            : ""
-        }`;
-
-        switch (label) {
-          case "National":
-            previewNationalMarkup += previewMarkup;
-            qaNationalMarkup += qaMarkup;
-            break;
-          case "Local":
-            previewLocalMarkup += previewMarkup;
-            qaLocalMarkup += qaMarkup;
-            break;
-          case "Lead Flow":
-            previewLeadFlowMarkup =
-              (previewLeadFlowMarkup || "") + previewMarkup;
-            qaLeadFlowMarkup = (qaLeadFlowMarkup || "") + qaMarkup;
-            break;
+        let paths = [];
+        if (label === "Local") {
+          // read checked boxes from the sibling container
+          paths = Array.from($('#local-paths-boxes input.local-opt:checked')).map((el) => normSlug(el.value));
+          if (!paths.length) {
+            $("#local-select-error").show();
+            return;
+          }
+          $("#local-select-error").hide();
+        } else if (label === "National") {
+          paths = [""];
+        } else {
+          // Lead Flow or Service Pages; from config (string or array)
+          paths = toArray(brand[area.pathKey]);
+          if (!paths.length) return;
         }
+
+        const baseProd = brand.prod;
+        const baseStaging = brand.staging || "";
+
+        paths.forEach((p) => {
+          const prodBase = joinUrl(baseProd, p);
+          const stagingBase = baseStaging ? joinUrl(baseStaging, p) : "";
+
+          const previewProdUrl = `${prodBase}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`;
+          const previewStagingUrl = stagingBase
+            ? `${stagingBase}?convert_action=convert_vpreview&convert_e=${eParam}&convert_v=${vParam}`
+            : "";
+
+          const qaProdUrl = `${prodBase}${liveQaQuery}`;
+          const qaStagingUrl = stagingBase ? `${stagingBase}${liveQaQuery}` : "";
+
+          const slugSuffix =
+            label === "Local" || label === "Lead Flow" || label === "Service Pages"
+              ? ` – ${stripSlashes(p || "/")}`
+              : "";
+
+          const rowTitle = `${label}${slugSuffix}`;
+          rows.push({
+            title: rowTitle,
+            previewProd: previewProdUrl,
+            previewStaging: previewStagingUrl,
+            qaProd: qaProdUrl,
+            qaStaging: qaStagingUrl,
+          });
+        });
       });
 
-      // Output the generated links separately for National and Local
-      const outputDiv = $("#output");
-      // clear the current div first
-      outputDiv.html("");
+      // Emit this variation’s section for Preview and QA
+      if (rows.length) {
+        // Variation header
+        previewByVariation += `<span>\n</span><h3>${variationNumber}${variationName}</h3>`;
+        qaByVariation += `<span>\n</span><h3>${variationNumber}${variationName}</h3>`;
 
-      if (previewNationalMarkup) {
-        outputDiv.append(`<div id="national-preview">
-                        <div class="link-container"></div>
-                    </div>`);
-        $("#national-preview .link-container").html(
-          `<span>\n</span> <h2>National Preview Links</h2>${previewNationalMarkup}`
-        );
+        // Rows in order: National, then selected Local(s), then Lead Flow, then Service Pages
+        rows.forEach((r) => {
+          previewByVariation += block(r.title, r.previewProd, r.previewStaging);
+          qaByVariation += block(r.title, r.qaProd, r.qaStaging);
+        });
       }
-      if (previewLocalMarkup) {
-        outputDiv.append(`<div id="local-preview"> 
-                        <div class="link-container"></div>
-                    </div>`);
-        $("#local-preview .link-container").html(
-          `<span>\n</span> <h2>Local Preview Links</h2>${previewLocalMarkup}`
-        );
-      }
-      if (qaNationalMarkup) {
-        outputDiv.append(`<div id="national-qa">
-                        <div class="link-container"></div>
-                    </div>`);
-        $(`#national-qa .link-container`).html(
-          `<span>\n</span> <h2>National QA Links</h2>${qaNationalMarkup}`
-        );
-      }
-      if (qaLocalMarkup) {
-        outputDiv.append(`<div id="local-qa">
-                        <div class="link-container"></div>
-                    </div>`);
-        $("#local-qa .link-container").html(
-          `<span>\n</span> <h2>Local QA Links</h2>${qaLocalMarkup}`
-        );
-      }
+    });
 
-      if (previewLeadFlowMarkup) {
-        outputDiv.append(`<div id="leadflow-preview">
-                    <div class="link-container"></div>
-                </div>`);
-        $("#leadflow-preview .link-container").html(
-          `<span>\n</span> <h2>Lead Flow Preview Links</h2>${previewLeadFlowMarkup}`
-        );
-      }
+    // ==== Render output (two sections: Preview Links, Live QA Links) ====
+    const outputDiv = $("#output");
+    outputDiv.html(""); // clear current
 
-      if (qaLeadFlowMarkup) {
-        outputDiv.append(`<div id="leadflow-qa">
-                    <div class="link-container"></div>
-                </div>`);
-        $("#leadflow-qa .link-container").html(
-          `<span>\n</span> <h2>Lead Flow QA Links</h2>${qaLeadFlowMarkup}`
-        );
-      }
+    if (previewByVariation) {
+      outputDiv.append(`<div id="variant-preview"><div class="link-container"></div></div>`);
+      $("#variant-preview .link-container").html(`<h2>Preview Links</h2>${previewByVariation}`);
+    }
 
-      // If no URLs were generated, show a message
-      if (
-        !previewNationalMarkup &&
-        !previewLocalMarkup &&
-        !previewLeadFlowMarkup &&
-        !qaNationalMarkup &&
-        !qaLocalMarkup &&
-        !qaLeadFlowMarkup
-      ) {
-        outputDiv
-          .removeClass("urls-generated")
-          .html("<p>No URLs were generated. Please check your inputs.</p>");
-      } else {
-        outputDiv.addClass("urls-generated");
-      }
+    if (qaByVariation) {
+      outputDiv.append(`<div id="variant-qa"><div class="link-container"></div></div>`);
+      $("#variant-qa .link-container").html(`<h2>Live QA Links</h2>${qaByVariation}`);
+    }
 
-      outputDiv.append(`<div class="copy-container">
+    // If no URLs were generated, show a message
+    if (!previewByVariation && !qaByVariation) {
+      outputDiv.removeClass("urls-generated").html("<p>No URLs were generated. Please check your inputs.</p>");
+    } else {
+      outputDiv.addClass("urls-generated");
+    }
+
+    // copy button
+    outputDiv.append(`<div class="copy-container">
                     <button class="copy"> Copy
                         <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fill-rule="nonzero"/></svg>
                     </button>
                 </div>`);
 
-      $("button.copy").on("click", (e) => {
-        copyText(e.target);
-      });
+    $("button.copy").on("click", (e) => {
+      copyText(e.target);
     });
   };
 
-  $("DOMContentLoaded", function (e) {
-    addSteps();
-  });
+  document.addEventListener("DOMContentLoaded", addSteps);
 })();
