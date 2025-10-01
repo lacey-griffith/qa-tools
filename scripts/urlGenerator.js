@@ -53,9 +53,9 @@ const hideEl = (el) => el && (el.style.display = "none");
                 <div id="stepOne" class="">
                     <h2>Choose Client:</h2>
                     <div class="brand-btn-container initial">
-                      <div class='nbly'><span>NBLY</span></div>
-                      <div class='ad-hoc'><span>Ad Hoc</span></div>
-                      <div class='non-nbly'><span>CRO</span></div>
+                      <div class='nbly title'><span>NBLY</span></div>
+                      <div class='ad-hoc title'><span>Ad Hoc</span></div>
+                      <div class='non-nbly title'><span>CRO</span></div>
                     </div>
                 </div>
                 <div class="url-generator-inner tool-body transparent-background"></div>
