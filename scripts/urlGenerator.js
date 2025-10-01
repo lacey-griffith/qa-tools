@@ -53,9 +53,9 @@ const hideEl = (el) => el && (el.style.display = "none");
                 <div id="stepOne" class="">
                     <h2>Choose Client:</h2>
                     <div class="brand-btn-container initial">
-                      <div class='nbly title'><span>NBLY</span></div>
-                      <div class='ad-hoc title'><span>Ad Hoc</span></div>
-                      <div class='non-nbly title'><span>CRO</span></div>
+                      // <div class='nbly title'><span>NBLY</span></div>
+                      // <div class='ad-hoc title'><span>Ad Hoc</span></div>
+                      // <div class='non-nbly title'><span>CRO</span></div>
                     </div>
                 </div>
                 <div class="url-generator-inner tool-body transparent-background"></div>
@@ -68,15 +68,16 @@ const hideEl = (el) => el && (el.style.display = "none");
       if (!item.active_client) return; //skip inactive clients
       let btn = `<button data-handle="${item.brand_handle}" data-neighborly=${item.neighborly}>${item.brand}</button>`;
 
-      if(item.neighborly){
-        if(item.brand_handle === "mr-rooter-canada" || item.brand_handle === "window-genie" || item.brand_handle === "shelf-genie"){
-          $("#stepOne .brand-btn-container .ad-hoc").append(btn);
-      }
-      $("#stepOne .brand-btn-container .nbly").append(btn);
-    }
+    //   if(item.neighborly){
+    //     if(item.brand_handle === "mr-rooter-canada" || item.brand_handle === "window-genie" || item.brand_handle === "shelf-genie"){
+    //       $("#stepOne .brand-btn-container .ad-hoc").append(btn);
+    //   }
+    //   $("#stepOne .brand-btn-container .nbly").append(btn);
+    // }
 
 
-      $("#stepOne .brand-btn-container .non-nbly").append(btn);
+      // $("#stepOne .brand-btn-container .non-nbly").append(btn);
+      $("#stepOne .brand-btn-container").append(btn);
     });
 
     //send user to step 2 on button click
