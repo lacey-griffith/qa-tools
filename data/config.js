@@ -93,7 +93,7 @@ const brands = [
         brand: 'MRH',
         conceptID: 2,
         prod: 'https://www.mrhandyman.com/',
-        staging: 'https://dig-www-nei-mrh-stage.nblytest.com/',
+        staging: 'https://dig-www-nei-mrh2-stage.nblytest.com/',
         neighborly: true,
         local_homepage: ['/oklahoma-city-edmond','/wichita-metro-area','/bentonville-rogers-springdale'],
         lead_flow :'/request-service',
@@ -106,7 +106,7 @@ const brands = [
         prod: 'https://www.mrrooter.com/',
         staging: 'https://dig-www-nei-mrr2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/memphis','/virginia-beach','/winston-salem','/why-us-'],
+        local_homepage: ['/memphis','/virginia-beach','/winston-salem'],
         lead_flow :'/request-job-estimate',
         active_client: true
     },
@@ -150,7 +150,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/locations/texas/dallas','/locations/mississippi/jackson','/locations/louisiana/baton-rouge'],
         lead_flow :'/request-appointment',
-        active_client: false
+        active_client: true
     },
     /* NON NBLY */
     {
@@ -241,7 +241,7 @@ const brands = [
         prod: 'https://www.freshpressedoliveoil.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'moon-juice',
