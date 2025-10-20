@@ -588,9 +588,9 @@ button.copy svg {
 .ms-count { float:right; opacity:.7; }
 
 .ms-panel { position:relative; margin-top:6px; border:1px solid #ddd; border-radius:10px; padding:8px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.08); }
-.ms-toolbar { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.ms-toolbar { display:flex; gap:8px; flex-wrap: wrap; align-items:center; margin-bottom:8px; }
 .ms-search { flex:1; padding:8px 10px; border:1px solid #ccc; border-radius:8px; }
-.ms-actions { display:flex; gap:6px; }
+.ms-actions { display:flex; gap:6px; width: 100%; justify-content: start; }
 .ms-action { padding:6px 10px; border:1px solid #ddd; border-radius:8px; background:#f7f7f7; cursor:pointer; }
 
 .ms-list { max-height:280px; overflow:auto; border:1px solid #eee; border-radius:8px; padding:6px; }

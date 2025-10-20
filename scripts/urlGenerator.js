@@ -218,7 +218,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
           <div id="local-paths-boxes" class="ms-list" tabindex="-1" aria-label="Locations list"></div>
 
           <div class="ms-footer">
-            <button type="button" id="ms-apply" class="ms-primary">Apply</button>
+            <button type="button" id="ms-apply" class="ms-action">Apply</button>
             <button type="button" id="ms-cancel" class="ms-secondary">Cancel</button>
           </div>
         </div>
@@ -323,6 +323,8 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
   });
   $btnCancel.off("click.ms").on("click.ms", () => {
     closePanel();
+    $inline.remove();
+    showBtn();
   });
 
   // Prefill single URL fields with first location
@@ -626,55 +628,92 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
     });
   };
 
+  // Shows an "Add Location" button; clicking reveals inline add row at the bottom.
+// session-only save; blocks duplicates; supports keyboard + mouse.
+function initAddLocationFeature($boxes, storageKey, updateCount, placeholderSlug) {
+  // button row sits after the list so the add UI appears at the bottom
+  var $btnRow = $(
+    '<div class="add-location-btn-row">' +
+      '<button type="button" class="add-location-btn ms-action ms-primary">+ Add Location</button>' +
+    '</div>'
+  );
+  
+  $btnRow.insertAfter($boxes);
 
-  // call with: initAddLocationFeature($boxes, storageKey, updateCount);
-  function initAddLocationFeature($boxes, storageKey, updateCount, placeholderSlug) {
-    const $addRow = $(`
-      <div class="add-location-row">
-        <input class="add-loc-input" type="text" placeholder="${placeholderSlug}" aria-label="Add location" />
-        <button type="button" class="add-loc-save" title="Add">✓</button>
-        <button type="button" class="add-loc-cancel" title="Cancel">✕</button>
-        <span class="add-loc-msg" aria-live="polite"></span>
-      </div>
-    `).appendTo($boxes);
+  var $btn = $btnRow.find(".add-location-btn");
+  function hideBtn(){ $btn.prop("disabled", true).hide(); }
+  function showBtn(){ $btn.prop("disabled", false).show(); }
 
-    const $input = $addRow.find(".add-loc-input");
-    const $save  = $addRow.find(".add-loc-save");
-    const $cancel= $addRow.find(".add-loc-cancel");
-    const $msg   = $addRow.find(".add-loc-msg");
+  function ensureLeadingSlash(s) {
+    s = String(s || "").trim();
+    return s ? (s.charAt(0) === "/" ? s : "/" + s) : "";
+  }
 
-    const ensureLeadingSlash = (s="") => {
-      s = String(s).trim();
-      return s ? (s.startsWith("/") ? s : `/${s}`) : "";
-    };
-    const exists = (slug) => $boxes.find(`input.local-opt[value="${slug}"]`).length > 0;
-    const safeId = (slug) => `loc-${slug.replace(/[^a-z0-9]+/gi, "-")}`;
-    const showMsg = (t) => { $msg.text(t); if (t) setTimeout(() => $msg.text(""), 2000); };
+  function exists(slug) {
+    return $boxes.find('input.local-opt[value="' + slug + '"]').length > 0;
+  }
+
+  function safeId(slug) {
+    return "loc-" + slug.replace(/[^a-z0-9]+/gi, "-");
+  }
+
+  function openInline() {
+    // if already open, focus it
+    var $existing = $(".add-location-row");
+    if ($existing.length) {
+      $existing.find(".add-loc-input").focus();
+      return;
+    }
+
+    hideBtn();
+
+    var $inline = $(
+      '<div class="add-location-row">' +
+        '<input class="add-loc-input" type="text" placeholder="' + placeholderSlug + '" aria-label="Add location" />' +
+        '<button type="button" class="add-loc-save" title="Add">✓</button>' +
+        '<button type="button" class="add-loc-cancel" title="Cancel">✕</button>' +
+        '<span class="add-loc-msg" aria-live="polite"></span>' +
+      '</div>'
+    );
+
+    // place at end of the checkbox list, right before the button row
+    $inline.insertAfter($boxes.children().last().length ? $boxes.children().last() : $boxes);
+    $inline.find(".add-loc-input").trigger("focus");
+
+    var $input  = $inline.find(".add-loc-input");
+    var $save   = $inline.find(".add-loc-save");
+    var $cancel = $inline.find(".add-loc-cancel");
+    var $msg    = $inline.find(".add-loc-msg");
+
+    function showMsg(t) {
+      $msg.text(t);
+      if (t) setTimeout(function () { $msg.text(""); }, 2000);
+    }
 
     function commit() {
-      const raw  = $input.val();
-      const slug = ensureLeadingSlash(raw);
-
+      var slug = ensureLeadingSlash($input.val());
       if (!slug) { showMsg("enter a location"); $input.focus(); return; }
+
       if (exists(slug)) {
         showMsg("location already exists");
-        $boxes.find(`input.local-opt[value="${slug}"]`).prop("checked", true);
-        updateCount && updateCount();
-        $input.val(""); return;
+        $boxes.find('input.local-opt[value="' + slug + '"]').prop("checked", true);
+        if (updateCount) updateCount();
+        $input.val("");
+        return;
       }
 
-      const id = safeId(slug);
-      $(`
-        <label class="local-opt-row">
-          <input class="local-opt" type="checkbox" id="${id}" value="${slug}" checked />
-          <span class="local-opt-text">${slug}</span>
-        </label>
-      `).insertBefore($addRow);
+      var id = safeId(slug);
+      var newRow =
+        '<label class="local-opt-row">' +
+          '<input class="local-opt" type="checkbox" id="' + id + '" value="' + slug + '" checked />' +
+          '<span class="local-opt-text">' + slug + '</span>' +
+        '</label>';
+      $boxes.append(newRow);
 
-      // session save (brand-scoped)
+      // session save (brand scoped)
       try {
-        const current = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
-        if (!current.includes(slug)) {
+        var current = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
+        if (current.indexOf(slug) === -1) {
           current.push(slug);
           sessionStorage.setItem(storageKey, JSON.stringify(current));
         }
@@ -682,17 +721,27 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
         console.warn("Could not save to sessionStorage", err);
       }
 
-      updateCount && updateCount();
-      $input.val("").focus();
+      if (updateCount) updateCount();
+      //$input.val("").focus(); // keep inline open for rapid adds
+      $inline.remove();
+      showBtn();
     }
 
+    // events
     $save.on("click", commit);
-    $cancel.on("click", () => { $input.val("").focus(); });
-    $input.on("keydown", (e) => {
+    $cancel.on("click", function () {
+      $inline.remove();
+      showBtn();
+      //$(".add-location-btn").focus();
+    });
+    $input.on("keydown", function (e) {
       if (e.key === "Enter") { e.preventDefault(); commit(); }
-      if (e.key === "Escape") { e.preventDefault(); $input.val(""); }
+      if (e.key === "Escape") { e.preventDefault(); $inline.remove(); $(".add-location-btn").focus(); }
     });
   }
 
+  // open inline UI on click
+  $btnRow.on("click", ".add-location-btn", openInline);
+}
   document.addEventListener("DOMContentLoaded", addSteps);
 })();
