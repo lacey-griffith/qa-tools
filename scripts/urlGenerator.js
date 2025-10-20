@@ -8,6 +8,8 @@ import {
   addNewVariationNameInputs,
   trolling,
 } from "./helpers.js";
+import { validateLocalPath, normalizeLocalPath } from "./helpers.js";
+
 
 let enableTesting = true; // set to true to reveal the "fill-in values test" button;
 let varCount = 2;
@@ -154,6 +156,17 @@ const hideEl = (el) => el && (el.style.display = "none");
 if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
   const normalizedLocals = normalizeSlugList(activeBrand.local_homepage || []);
 
+    // pull any user-added locals from this session
+  const brandKey = activeBrand.brand_handle;
+  const storageKey = `userLocals:${brandKey}`;
+  const stored = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
+
+  // merge base and stored locals
+  const allLocals = normalizeSlugList([...normalizedLocals, ...stored]);
+
+  const examplePlaceholder =
+  (allLocals && allLocals.length ? allLocals[0] : "/miami"); // fallback if none
+
   // hide the original <select>
   const $select = $("#local-paths");
   $select.hide();
@@ -232,7 +245,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
 
   // Build the checkbox rows (idempotent)
   $boxes.empty();
-  normalizedLocals.forEach((slug) => {
+  allLocals.forEach((slug) => {
     const id = safeId(slug);
     $boxes.append(
       `<label class="local-opt-row">
@@ -248,6 +261,8 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
     $countEl.text(n ? `${n} selected` : "");
     $trigger.attr("aria-expanded", String(!$panel.prop("hidden")));
   };
+
+  initAddLocationFeature($boxes, storageKey, updateCount, examplePlaceholder);
 
   // Open/close
   function openPanel() {
@@ -610,6 +625,74 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
       copyText(e.target);
     });
   };
+
+
+  // call with: initAddLocationFeature($boxes, storageKey, updateCount);
+  function initAddLocationFeature($boxes, storageKey, updateCount, placeholderSlug) {
+    const $addRow = $(`
+      <div class="add-location-row">
+        <input class="add-loc-input" type="text" placeholder="${placeholderSlug}" aria-label="Add location" />
+        <button type="button" class="add-loc-save" title="Add">✓</button>
+        <button type="button" class="add-loc-cancel" title="Cancel">✕</button>
+        <span class="add-loc-msg" aria-live="polite"></span>
+      </div>
+    `).appendTo($boxes);
+
+    const $input = $addRow.find(".add-loc-input");
+    const $save  = $addRow.find(".add-loc-save");
+    const $cancel= $addRow.find(".add-loc-cancel");
+    const $msg   = $addRow.find(".add-loc-msg");
+
+    const ensureLeadingSlash = (s="") => {
+      s = String(s).trim();
+      return s ? (s.startsWith("/") ? s : `/${s}`) : "";
+    };
+    const exists = (slug) => $boxes.find(`input.local-opt[value="${slug}"]`).length > 0;
+    const safeId = (slug) => `loc-${slug.replace(/[^a-z0-9]+/gi, "-")}`;
+    const showMsg = (t) => { $msg.text(t); if (t) setTimeout(() => $msg.text(""), 2000); };
+
+    function commit() {
+      const raw  = $input.val();
+      const slug = ensureLeadingSlash(raw);
+
+      if (!slug) { showMsg("enter a location"); $input.focus(); return; }
+      if (exists(slug)) {
+        showMsg("location already exists");
+        $boxes.find(`input.local-opt[value="${slug}"]`).prop("checked", true);
+        updateCount && updateCount();
+        $input.val(""); return;
+      }
+
+      const id = safeId(slug);
+      $(`
+        <label class="local-opt-row">
+          <input class="local-opt" type="checkbox" id="${id}" value="${slug}" checked />
+          <span class="local-opt-text">${slug}</span>
+        </label>
+      `).insertBefore($addRow);
+
+      // session save (brand-scoped)
+      try {
+        const current = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
+        if (!current.includes(slug)) {
+          current.push(slug);
+          sessionStorage.setItem(storageKey, JSON.stringify(current));
+        }
+      } catch (err) {
+        console.warn("Could not save to sessionStorage", err);
+      }
+
+      updateCount && updateCount();
+      $input.val("").focus();
+    }
+
+    $save.on("click", commit);
+    $cancel.on("click", () => { $input.val("").focus(); });
+    $input.on("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); commit(); }
+      if (e.key === "Escape") { e.preventDefault(); $input.val(""); }
+    });
+  }
 
   document.addEventListener("DOMContentLoaded", addSteps);
 })();

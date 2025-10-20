@@ -602,6 +602,38 @@ button.copy svg {
 .ms-primary { padding:6px 12px; border:1px solid #3b7cff; background:#3b7cff; color:#fff; border-radius:8px; cursor:pointer; }
 .ms-secondary { padding:6px 12px; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer; }
 
+.local-add-row {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.local-add-inline {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.local-add-inline input {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.local-add-inline button {
+  padding: 3px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.local-opt-row.user-added .local-opt-text::after {
+  content: " (new)";
+  color: #666;
+  font-style: italic;
+  font-size: 12px;
+}
+
+
 /* * * * * * * * * * * * * */
 /* END LOCAL PAGE DROPDOWN */
 /* * * * * * * * * * * * * */

@@ -177,11 +177,17 @@ const trolling = () => {
   });
 };
 
+const validateLocalPath = (s) => s.startsWith("/");
+const normalizeLocalPath = (s) => s.trim().startsWith("/") ? s.trim() : "/" + s.trim();
+
+
 export {
   copyText,
   clear,
   extractConvertParams,
   updateVariationNames,
   addNewVariationNameInputs,
-  trolling
+  trolling,
+  validateLocalPath,
+  normalizeLocalPath
 };

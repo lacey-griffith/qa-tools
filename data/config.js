@@ -40,7 +40,7 @@ const brands = [
         prod: 'https://www.glassdoctor.com/',
         staging: 'https://dig-www-nei-mdg2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/tacoma-wa','/denton','/albion'],
+        local_homepage: ['/tacoma-wa','/denton','/albion','/wheat-ridge'],
         lead_flow :'/schedule-appointment',
         active_client: true
     },
@@ -51,7 +51,7 @@ const brands = [
         prod: 'https://www.mollymaid.com/',
         staging: 'https://dig-www-nei-mly2-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/north-county-san-diego','/la-verne','/santa-barbara'],
+        local_homepage: ['/locations/colorado/lakewood/','/locations/texas/austin/','/locations/florida/miami/','/locations/tennessee/memphis/'],
         lead_flow :'/request-a-free-estimate',
         active_client: true
     },
@@ -117,7 +117,7 @@ const brands = [
         prod: 'https://www.mrrooter.ca/',
         staging: 'https://dig-www-nei-mrr2-ca-stage.nblytest.com/',
         neighborly: true,
-        local_homepage: ['/fort-mcmurray','/kamloops','/chilliwack'],
+        local_homepage: ['/fort-mcmurray','/kamloops','/chilliwack','/halifax'],
         lead_flow :'/request-job-estimate',
         active_client: true
     },
@@ -316,10 +316,6 @@ const nblyForm = (enableTesting) => {
         <div class="form-group" id="local-paths-dropdown-group">
             <label for="local-paths">Select Local Page(s):</label>
             <select id="local-paths" name="local-paths" multiple size="5"></select>
-            <div class="checkbox-container">
-                <input type="checkbox" id="select-all-locals" />
-                <label for="select-all-locals">Select All</label>
-            </div>
         </div>
 
         <div class="form-group">
