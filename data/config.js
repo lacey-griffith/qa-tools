@@ -45,6 +45,17 @@ const brands = [
         active_client: true
     },
     {
+        brand_handle: 'junk-king',
+        brand: 'JUK',
+        conceptID: 30,
+        prod: 'https://www.junk-king.com/',
+        staging: 'https://dig-www-nei-juk2-stage.nblytest.com/',
+        neighborly: true,
+        local_homepage: ['/locations/delaware','/locations/maple-grove','/locations/riverside','/locations/st-george'],
+        lead_flow :'/schedule-appointment',
+        active_client: true
+    },
+    {
         brand_handle: 'molly-maid',
         brand: 'MLY',
         conceptID: 1,
@@ -265,7 +276,7 @@ const brands = [
         brand_handle: 'brident',
         brand: 'Brident',
         conceptID: 0,
-        prod: '',
+        prod: 'https://www.brident.com/en-us/',
         staging: '',
         neighborly: false,
         active_client: true
@@ -274,7 +285,7 @@ const brands = [
         brand_handle: 'smile-express',
         brand: 'Smile Express',
         conceptID: 0,
-        prod: '',
+        prod: 'https://smileexpress.com/',
         staging: '',
         neighborly: false,
         active_client: true
@@ -283,7 +294,15 @@ const brands = [
         brand_handle: 'dental-works',
         brand: 'Dental Works',
         conceptID: 0,
-        prod: '',
+        prod: 'https://www.dentalworks.com/',
+        staging: '',
+        neighborly: false,
+        active_client: true
+    },{
+        brand_handle: 'western-dental',
+        brand: 'Western Dental',
+        conceptID: 0,
+        prod: 'https://www.westerndental.com/en-us/',
         staging: '',
         neighborly: false,
         active_client: true
