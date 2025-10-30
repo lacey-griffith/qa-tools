@@ -128,9 +128,9 @@ const hideEl = (el) => el && (el.style.display = "none");
 
     if (activeBrand.brand === "ADM") {
       trolling();
-    } else if (activeBrand.brand === "PDS") {
-      $("input#local-pages").attr("disabled", true);
-    }
+     } //else if (activeBrand.brand === "PDS") {
+    //   $("input#local-pages").attr("disabled", true);
+    // }
 
     // add testing functionality if enabled
     if (enableTesting) testBtnHandler(activeBrand);
