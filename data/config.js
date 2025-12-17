@@ -20,7 +20,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/wilmington-de','/marietta','/raleigh'],
         lead_flow :'/schedule-estimate',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'grounds-guys',
@@ -75,7 +75,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/locations/northern-delaware','/locations/noco','/locations/south-bend'],
         lead_flow :'/schedule-appointment',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'mr-appliance',
