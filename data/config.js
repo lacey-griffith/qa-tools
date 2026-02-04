@@ -31,7 +31,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/mt-lebanon','/greater-little-rock','/palm-beach-fl'],
         lead_flow :'/request-job-estimate',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'glass-doctor',
@@ -75,7 +75,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/locations/northern-delaware','/locations/noco','/locations/south-bend'],
         lead_flow :'/schedule-appointment',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'mr-appliance',
@@ -279,7 +279,7 @@ const brands = [
         prod: 'https://www.brident.com/en-us/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'smile-express',
@@ -288,7 +288,7 @@ const brands = [
         prod: 'https://smileexpress.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'dental-works',
@@ -297,7 +297,7 @@ const brands = [
         prod: 'https://www.dentalworks.com/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     },{
         brand_handle: 'western-dental',
         brand: 'Western Dental',
@@ -305,7 +305,7 @@ const brands = [
         prod: 'https://www.westerndental.com/en-us/',
         staging: '',
         neighborly: false,
-        active_client: true
+        active_client: false
     }
 ];
 
