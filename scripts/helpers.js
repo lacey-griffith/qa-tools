@@ -78,7 +78,9 @@ const copyText = async (button) => {
 
 const addNewVariationNameInputs = (labelEditor, varCount) => {
   const varNameContainer = $('#variation-name-group-container');
-  if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
+ // if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
+  if ($(`#variation-name-${varCount - 1}`).length) return;
+
 
   const newVarName = `<div class="variation-name-group">
     <label contendeditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
@@ -92,17 +94,42 @@ const addNewVariationNameInputs = (labelEditor, varCount) => {
   labelEditor(varNameLabel);
 };
 
-const updateVariationNames = (labelEditor, value) => {
-  let matches = value.match(/(V)\w+/g) || [];
-  if (!matches.length) return;
-  let variationCount = Number(matches[matches.length - 1].slice(1)) + 1;
-  if (variationCount < 2) return;
 
-  // we have to start at 3 here because addNewVariationNameInputs subtracts one from varCount
-  for (let i = 3; i < variationCount + 1; i++) {
-    addNewVariationNameInputs(labelEditor, i);
+// helpers.js
+const updateVariationNames = (labelEditor, value) => {
+  if (!value) return;
+
+  // 1) find all variation numbers: V1, V2, V3...
+  const nums = [...value.matchAll(/V(\d+)/gi)].map(m => +m[1]);
+  if (!nums.length) return;
+
+  const maxVar = Math.max(...nums);
+  if (maxVar < 2) return; // nothing beyond control
+
+  // 2) make sure variation-name inputs exist for V2..Vmax
+  // note: addNewVariationNameInputs expects varCount, and uses (varCount - 1)
+  for (let v = 2; v <= maxVar; v++) {
+    const varCount = v + 1; // matches how addVariationInput calls it
+    addNewVariationNameInputs(labelEditor, varCount);
   }
+
+  // 3) parse names from lines like "V2 – Sticky Header", "V3: New CTA"
+  value.split(/\r?\n/).forEach(line => {
+    const match = line.match(/^\s*V(\d+)\s*[-–—:]\s*(.+)$/i);
+    if (!match) return;
+
+    const index = match[1];          // "2", "3", ...
+    const name  = match[2].trim();   // "Sticky Header"
+    const $input = $(`#variation-name-${index}`);
+
+    // only autofill if the field exists and the user hasn't typed anything
+    if ($input.length && !$input.val() && name) {
+      $input.val(name);
+    }
+  });
 };
+
+
 
 const clear = () => {
   // remove additional variations that may have been added

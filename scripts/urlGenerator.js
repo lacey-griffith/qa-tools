@@ -364,12 +364,15 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
 
     // add event listener for pasting into All Links
     // this will update the available variation name slot count
-    $("#all-links").on("change", (e) => {
-      if (allLinksValue !== e.target.value) {
-        allLinksValue = e.target.value;
-        updateVariationNames(labelEditor, e.target.value);
-      }
-    });
+    // urlGenerator.js, inside buildForm (after the form HTML exists)
+  $(document).on("input", "#all-links", (e) => {
+    const value = e.target.value;
+    if (allLinksValue === value) return;
+
+    allLinksValue = value;
+    updateVariationNames(labelEditor, value);
+  });
+
   }
 
   //Add more variations
@@ -394,6 +397,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
 
   // Variation Label editing
   const labelEditor = (label) => {
+    console.log("making label editable:", label);
     label.attr("contenteditable", "true");
 
     label.on("click", function () {
@@ -487,6 +491,15 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
       $("#variation-group-container .error-msg")?.removeClass("show");
     }
 
+    const varCountFromLinks = variationInputs.length - 1;
+
+  for (let v = 2; v <= varCountFromLinks; v++) {
+    const varCount = v + 1; // matches how addVariationInput calls it
+    if (!$(`#variation-name-${v}`).length) {
+      addNewVariationNameInputs(labelEditor, varCount);
+    }
+  }
+
     // === New: variation-first containers ===
     let previewByVariation = "";
     let qaByVariation = "";
@@ -507,8 +520,11 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
 
       let variationName = "";
       if (index > 0) {
+        console.log(index)
         variationName = $(`#variation-name-${index}`)?.val().trim();
+        console.log("raw variation name:", variationName);
         variationName.length ? (variationName = ` (${variationName})`) : "";
+        console.log("variation name:", variationName);
       }
 
       if (!variationLink) return;
@@ -723,20 +739,20 @@ function initAddLocationFeature($boxes, storageKey, updateCount, placeholderSlug
 
       if (updateCount) updateCount();
       //$input.val("").focus(); // keep inline open for rapid adds
-      $inline.remove();
+      //$inline.remove();
       showBtn();
     }
 
     // events
     $save.on("click", commit);
     $cancel.on("click", function () {
-      $inline.remove();
+      //$inline.remove();
       showBtn();
       //$(".add-location-btn").focus();
     });
     $input.on("keydown", function (e) {
       if (e.key === "Enter") { e.preventDefault(); commit(); }
-      if (e.key === "Escape") { e.preventDefault(); $inline.remove(); $(".add-location-btn").focus(); }
+      //if (e.key === "Escape") { e.preventDefault(); $inline.remove(); $(".add-location-btn").focus(); }
     });
   }
 
