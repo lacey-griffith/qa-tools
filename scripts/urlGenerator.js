@@ -71,14 +71,6 @@ const hideEl = (el) => el && (el.style.display = "none");
       if (!item.active_client) return; //skip inactive clients
       let btn = `<button data-handle="${item.brand_handle}" data-neighborly=${item.neighborly}>${item.brand}</button>`;
 
-    //   if(item.neighborly){
-    //     if(item.brand_handle === "mr-rooter-canada" || item.brand_handle === "window-genie" || item.brand_handle === "shelf-genie"){
-    //       $("#stepOne .brand-btn-container .ad-hoc").append(btn);
-    //   }
-    //   $("#stepOne .brand-btn-container .nbly").append(btn);
-    // }
-
-
       // $("#stepOne .brand-btn-container .non-nbly").append(btn);
       $("#stepOne .brand-btn-container").append(btn);
     });
@@ -128,9 +120,7 @@ const hideEl = (el) => el && (el.style.display = "none");
 
     if (activeBrand.brand === "ADM") {
       trolling();
-     } //else if (activeBrand.brand === "PDS") {
-    //   $("input#local-pages").attr("disabled", true);
-    // }
+     }
 
     // add testing functionality if enabled
     if (enableTesting) testBtnHandler(activeBrand);
@@ -438,7 +428,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
    * Neighborly link generation (Variation-first; includes National, Local, Lead Flow, Service Pages)
    */
   const generateNblyUrls = () => {
-    console.log("generating neighborly urls...");
+    //console.log("generating neighborly urls...");
     const activeBrandHandle = $("#stepOne button.active").data("handle");
     const brand = brands.find((b) => b.brand_handle === activeBrandHandle);
 
@@ -477,14 +467,14 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
     // Select all variation input elements
     let variationInputs;
     const allLinks = $("#all-links").val().trim();
-    console.log("allLinks value: ", allLinks);
+    //console.log("allLinks value: ", allLinks);
 
     if (allLinks.length) {
-      console.log('allLinks: ', allLinks);
+      //console.log('allLinks: ', allLinks);
 
       variationInputs = allLinks.split(/[\n\t\s]/).filter((x) => x.includes("http"));
     } else {
-      console.log('No value in allLinks, falling back to individual variation inputs.');
+      //console.log('No value in allLinks, falling back to individual variation inputs.');
       variationInputs = Array.from(
         $('input[name^="variation-"]')
           .not('input[name^="variation-name-"]')
@@ -512,7 +502,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
      * Process variation inputs and generate both Preview and QA in variation-first order
      */
     variationInputs.forEach((value, index) => {
-      console.log(`Processing variation input ${index}: ${value}`);
+      //console.log(`Processing variation input ${index}: ${value}`);
       const variationLink = value;
       const variationNumber = index == 0 ? "Control" : `V${index}`;
 

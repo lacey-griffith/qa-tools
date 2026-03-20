@@ -134,19 +134,6 @@ const addNewVariationNameInputs = (labelEditor, varCount) => {
   labelEditor(varNameLabel);
 };
 
-// const updateVariationNames = (labelEditor, value) => {
-//   console.log(value);
-
-//   let matches = value.match(/(V)\w+/g) || [];
-//   if (!matches.length) return;
-//   let variationCount = Number(matches[matches.length - 1].slice(1)) + 1;
-//   if (variationCount < 2) return;
-
-//   // we have to start at 3 here because addNewVariationNameInputs subtracts one from varCount
-//   for (let i = 3; i < variationCount + 1; i++) {
-//     addNewVariationNameInputs(labelEditor, i);
-//   }
-// };
 
 const updateVariationNames = (labelEditor, value) => {
   const parsedRows = parseAllLinks(value);
