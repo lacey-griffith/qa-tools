@@ -364,12 +364,17 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
 
     // add event listener for pasting into All Links
     // this will update the available variation name slot count
-    $("#all-links").on("change", (e) => {
-      if (allLinksValue !== e.target.value) {
-        allLinksValue = e.target.value;
-        updateVariationNames(labelEditor, e.target.value);
+    let allLinksValue = "";
+
+    $("#form").off("input change", "#all-links").on("input change", "#all-links", (e) => {
+      const newValue = e.target.value;
+
+      if (allLinksValue !== newValue) {
+        allLinksValue = newValue;
+        updateVariationNames(labelEditor, newValue);
       }
     });
+
   }
 
   //Add more variations
@@ -472,9 +477,14 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
     // Select all variation input elements
     let variationInputs;
     const allLinks = $("#all-links").val().trim();
+    console.log("allLinks value: ", allLinks);
+
     if (allLinks.length) {
+      console.log('allLinks: ', allLinks);
+
       variationInputs = allLinks.split(/[\n\t\s]/).filter((x) => x.includes("http"));
     } else {
+      console.log('No value in allLinks, falling back to individual variation inputs.');
       variationInputs = Array.from(
         $('input[name^="variation-"]')
           .not('input[name^="variation-name-"]')
@@ -502,6 +512,7 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
      * Process variation inputs and generate both Preview and QA in variation-first order
      */
     variationInputs.forEach((value, index) => {
+      console.log(`Processing variation input ${index}: ${value}`);
       const variationLink = value;
       const variationNumber = index == 0 ? "Control" : `V${index}`;
 

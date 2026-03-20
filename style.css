@@ -43,6 +43,12 @@ input[type="text"] {
     border: 1px solid var(--dark-purple);
 }
 
+textarea#all-links {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+}
+
 section.tool {
     background-color: var(--dark-purple);
     color:#fff;
@@ -182,6 +188,16 @@ p.error-message {
 #url-generator #variation-name-group-container {
     display: flex;
     padding: 20px 0 10px;
+}
+
+@media only screen and (max-width: 600px){
+    #url-generator #variation-name-group-container {
+        flex-wrap: wrap;
+        justify-content: start;
+    }
+    .variation-name-group {
+        width: 100%;
+    }
 }
 
 #url-generator #variation-name-group-container > div {

@@ -344,7 +344,7 @@ const nblyForm = (enableTesting) => {
 
         <div class="form-group">
             <label for="all-links">All Links:</label>
-            <input type="text" id="all-links" name="all-links" placeholder="All Links (Copied from QA Doc with Labels)">
+            <textarea id="all-links" name="all-links" placeholder="All Links (Copied from QA Doc with Labels)"></textarea>
         </div>
 
         <p>OR</p>

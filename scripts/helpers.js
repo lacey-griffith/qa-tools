@@ -76,12 +76,54 @@ const copyText = async (button) => {
   }
 };
 
+/* * -   -   -   -   -   -   -   -   -   - * */
+/* * BEGIN URL PARSING - ADDED 03/20/2026 * */
+/* * -   -   -   -   -   -   -   -   -   - * */
+
+const parseAllLinks = (value) => {
+  if (!value || !value.trim()) return [];
+
+  return value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split("\t").map((part) => part.trim());
+
+      // remove extra empty pieces at the end if they exist
+      while (parts.length && parts[parts.length - 1] === "") {
+        parts.pop();
+      }
+
+      const label = parts[0] || "";
+      const url = parts.find((part) => /^https?:\/\//i.test(part)) || "";
+      const name =
+        parts.length >= 3
+          ? parts[1] || ""
+          : parts.length === 2 && !/^https?:\/\//i.test(parts[1])
+          ? parts[1]
+          : "";
+
+      return {
+        label,
+        name,
+        url,
+      };
+    })
+    .filter((row) => row.label && row.url);
+};
+/* * -   -   -   -   -   -   -   -   -   - * */
+/* * END URL PARSING - ADDED 03/20/2026 * */
+/* * -   -   -   -   -   -   -   -   -   - * */
+
+
+
 const addNewVariationNameInputs = (labelEditor, varCount) => {
   const varNameContainer = $('#variation-name-group-container');
   if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
 
   const newVarName = `<div class="variation-name-group">
-    <label contendeditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
+    <label contenteditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
     <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
       placeholder="Enter Name of Variation">
   </div>`;
@@ -92,16 +134,42 @@ const addNewVariationNameInputs = (labelEditor, varCount) => {
   labelEditor(varNameLabel);
 };
 
-const updateVariationNames = (labelEditor, value) => {
-  let matches = value.match(/(V)\w+/g) || [];
-  if (!matches.length) return;
-  let variationCount = Number(matches[matches.length - 1].slice(1)) + 1;
-  if (variationCount < 2) return;
+// const updateVariationNames = (labelEditor, value) => {
+//   console.log(value);
 
-  // we have to start at 3 here because addNewVariationNameInputs subtracts one from varCount
-  for (let i = 3; i < variationCount + 1; i++) {
+//   let matches = value.match(/(V)\w+/g) || [];
+//   if (!matches.length) return;
+//   let variationCount = Number(matches[matches.length - 1].slice(1)) + 1;
+//   if (variationCount < 2) return;
+
+//   // we have to start at 3 here because addNewVariationNameInputs subtracts one from varCount
+//   for (let i = 3; i < variationCount + 1; i++) {
+//     addNewVariationNameInputs(labelEditor, i);
+//   }
+// };
+
+const updateVariationNames = (labelEditor, value) => {
+  const parsedRows = parseAllLinks(value);
+  if (!parsedRows.length) return;
+
+  const variationRows = parsedRows.filter(row => /^V\d+$/i.test(row.label));
+  if (!variationRows.length) return;
+
+  const variationNumbers = variationRows.map(row => Number(row.label.slice(1)));
+  const highestVariation = Math.max(...variationNumbers);
+
+  for (let i = 3; i <= highestVariation + 1; i++) {
     addNewVariationNameInputs(labelEditor, i);
   }
+
+  variationRows.forEach((row) => {
+    const variationNumber = Number(row.label.slice(1));
+    const $input = $(`#variation-name-${variationNumber}`);
+
+    if ($input.length && row.name) {
+      $input.val(row.name);
+    }
+  });
 };
 
 const clear = () => {
