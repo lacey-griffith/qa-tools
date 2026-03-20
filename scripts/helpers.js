@@ -118,22 +118,43 @@ const parseAllLinks = (value) => {
 
 
 
-const addNewVariationNameInputs = (labelEditor, varCount) => {
+// const addNewVariationNameInputs = (labelEditor, varCount) => {
+//   const varNameContainer = $('#variation-name-group-container');
+//   if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
+
+//   const newVarName = `<div class="variation-name-group">
+//     <label contenteditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
+//     <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
+//       placeholder="Enter Name of Variation">
+//   </div>`;
+
+//   varNameContainer.append(newVarName);
+//   // must use jQuery to fit with labelEditor
+//   const varNameLabel = $(`.variation-name-group [for="variation-name-${varCount - 1}"]`);
+//   labelEditor(varNameLabel);
+// };
+
+/* * -   -   -   -   -   -   -   -   -   - * */
+/* * BEGIN ADD INPUT FIELDS FOR EACH VARIATION - Updated 03/20/2026 * */
+/* * -   -   -   -   -   -   -   -   -   - * */
+const addNewVariationNameInputs = (labelEditor, variationNumber) => {
   const varNameContainer = $('#variation-name-group-container');
-  if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
+  if (varNameContainer.find(`#variation-name-${variationNumber}`).length) return;
 
   const newVarName = `<div class="variation-name-group">
-    <label contenteditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
-    <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
+    <label contenteditable="true" for="variation-name-${variationNumber}">V${variationNumber} Name:</label>
+    <input type="text" id="variation-name-${variationNumber}" name="variation-name-${variationNumber}"
       placeholder="Enter Name of Variation">
   </div>`;
 
   varNameContainer.append(newVarName);
-  // must use jQuery to fit with labelEditor
-  const varNameLabel = $(`.variation-name-group [for="variation-name-${varCount - 1}"]`);
+
+  const varNameLabel = $(`.variation-name-group [for="variation-name-${variationNumber}"]`);
   labelEditor(varNameLabel);
 };
-
+/* * -   -   -   -   -   -   -   -   -   - * */
+/* * END URL PARSING - Updated 03/20/2026 * */
+/* * -   -   -   -   -   -   -   -   -   - * */
 
 const updateVariationNames = (labelEditor, value) => {
   const parsedRows = parseAllLinks(value);
