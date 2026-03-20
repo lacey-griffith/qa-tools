@@ -142,11 +142,11 @@ const updateVariationNames = (labelEditor, value) => {
 
   const parsedRows = parseAllLinks(value);
   if (!parsedRows.length) return;
-  console.log('Parsed rows:', parsedRows);
+  //console.log('Parsed rows:', parsedRows);
 
   const variationRows = parsedRows.filter(row => /^V\d+$/i.test(row.label));
   if (!variationRows.length) return;
-  console.log('Variation rows:', variationRows);
+  //console.log('Variation rows:', variationRows);
 
 
   const variationNumbers = variationRows.map(row => Number(row.label.slice(1)));
@@ -163,7 +163,7 @@ const updateVariationNames = (labelEditor, value) => {
     const $input = $(`#variation-name-${variationNumber}`);
 
     console.log('filling input:', `#variation-name-${variationNumber}`, $input.length, row.name);
-    
+
     if ($input.length && row.name) {
       $input.val(row.name);
     }
