@@ -152,7 +152,7 @@ const updateVariationNames = (labelEditor, value) => {
   const variationNumbers = variationRows.map(row => Number(row.label.slice(1)));
   const highestVariation = Math.max(...variationNumbers);
 
-  for (let i = 3; i <= highestVariation; i++) {
+  for (let i = 2; i <= highestVariation; i++) {
     addNewVariationNameInputs(labelEditor, i);
   }
 
@@ -162,6 +162,8 @@ const updateVariationNames = (labelEditor, value) => {
     const variationNumber = Number(row.label.slice(1));
     const $input = $(`#variation-name-${variationNumber}`);
 
+    console.log('filling input:', `#variation-name-${variationNumber}`, $input.length, row.name);
+    
     if ($input.length && row.name) {
       $input.val(row.name);
     }
