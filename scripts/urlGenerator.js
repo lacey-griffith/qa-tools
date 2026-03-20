@@ -506,11 +506,13 @@ if (activeBrand.neighborly && USE_SITEAREA_DROPDOWNS) {
       const variationLink = value;
       const variationNumber = index == 0 ? "Control" : `V${index}`;
 
-      let variationName = "";
-      if (index > 0) {
-        variationName = $(`#variation-name-${index}`)?.val().trim();
-        variationName.length ? (variationName = ` (${variationName})`) : "";
+    let variationName = "";
+    if (index > 0) {
+      variationName = $(`#variation-name-${index}`).val()?.trim() || "";
+      if (variationName.length) {
+        variationName = ` (${variationName})`;
       }
+    }
 
       if (!variationLink) return;
 

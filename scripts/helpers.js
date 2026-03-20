@@ -79,7 +79,6 @@ const copyText = async (button) => {
 /* * -   -   -   -   -   -   -   -   -   - * */
 /* * BEGIN URL PARSING - ADDED 03/20/2026 * */
 /* * -   -   -   -   -   -   -   -   -   - * */
-
 const parseAllLinks = (value) => {
   if (!value || !value.trim()) return [];
 
@@ -117,23 +116,6 @@ const parseAllLinks = (value) => {
 /* * -   -   -   -   -   -   -   -   -   - * */
 
 
-
-// const addNewVariationNameInputs = (labelEditor, varCount) => {
-//   const varNameContainer = $('#variation-name-group-container');
-//   if (varNameContainer.find(`#variation-name-${varCount - 1}`).length) return;
-
-//   const newVarName = `<div class="variation-name-group">
-//     <label contenteditable="true" for="variation-name-${varCount - 1}">V${varCount - 1} Name:</label>
-//     <input type="text" id="variation-name-${varCount - 1}" name="variation-name-${varCount - 1}"
-//       placeholder="Enter Name of Variation">
-//   </div>`;
-
-//   varNameContainer.append(newVarName);
-//   // must use jQuery to fit with labelEditor
-//   const varNameLabel = $(`.variation-name-group [for="variation-name-${varCount - 1}"]`);
-//   labelEditor(varNameLabel);
-// };
-
 /* * -   -   -   -   -   -   -   -   -   - * */
 /* * BEGIN ADD INPUT FIELDS FOR EACH VARIATION - Updated 03/20/2026 * */
 /* * -   -   -   -   -   -   -   -   -   - * */
@@ -166,9 +148,11 @@ const updateVariationNames = (labelEditor, value) => {
   const variationNumbers = variationRows.map(row => Number(row.label.slice(1)));
   const highestVariation = Math.max(...variationNumbers);
 
-  for (let i = 3; i <= highestVariation + 1; i++) {
+  for (let i = 3; i <= highestVariation; i++) {
     addNewVariationNameInputs(labelEditor, i);
   }
+
+  $('#variation-name-group-container input[id^="variation-name-"]').val('');
 
   variationRows.forEach((row) => {
     const variationNumber = Number(row.label.slice(1));
