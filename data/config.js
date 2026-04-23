@@ -162,6 +162,16 @@ const brands = [
         local_homepage: ['/locations/texas/dallas','/locations/mississippi/jackson','/locations/louisiana/baton-rouge'],
         lead_flow :'/request-appointment',
         active_client: true
+    },{
+        brand_handle: '',
+        brand: '',
+        conceptID: 11,
+        prod: 'https://rainbowrestores.com/',
+        staging: 'https://dig-www-nei-rbw2-stage.nblytest.com/',
+        neighborly: true,
+        local_homepage: ['/salem-ma','/savannah-hilton-head','/east-baton-rouge','/greater-austin','/san-jose'],
+        lead_flow :'/schedule-appointment',
+        active_client: true
     },
     /* NON NBLY */
     {
