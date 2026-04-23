@@ -163,8 +163,8 @@ const brands = [
         lead_flow :'/request-appointment',
         active_client: true
     },{
-        brand_handle: '',
-        brand: '',
+        brand_handle: 'rainbow-restoration',
+        brand: 'RBW',
         conceptID: 11,
         prod: 'https://rainbowrestores.com/',
         staging: 'https://dig-www-nei-rbw2-stage.nblytest.com/',
