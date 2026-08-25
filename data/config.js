@@ -20,7 +20,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/wilmington-de','/marietta','/raleigh'],
         lead_flow :'/schedule-estimate',
-        active_client: false
+        active_client: true
     },
     {
         brand_handle: 'grounds-guys',
@@ -130,7 +130,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/fort-mcmurray','/kamloops','/chilliwack','/halifax'],
         lead_flow :'/request-job-estimate',
-        active_client: true
+        active_client: false
     },
     {
         brand_handle: 'window-genie',
@@ -141,7 +141,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/atlanta-metro','/memphis','/east-austin-pflugerville'],
         lead_flow :'/quote',
-        active_client: true
+        active_client: false
     },{
         brand_handle: 'shelf-genie',
         brand: 'SHG',
@@ -151,7 +151,7 @@ const brands = [
         neighborly: true,
         local_homepage: ['/locations/treasure-valley','/locations/louisville','/locations/boulder-north-denver'],
         lead_flow :'/bookonline',
-        active_client: true
+        active_client: false
     },{
         brand_handle: 'precision-garage-door',
         brand: 'PDS',
